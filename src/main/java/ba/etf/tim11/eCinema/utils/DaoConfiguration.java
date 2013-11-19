@@ -5,12 +5,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
-public class DaoConfiguration
+public final class DaoConfiguration
 {
 	// Constants ----------------------------------------------------------------------
 	
 	public static final String CONFIGURATION_FILE = "dao.configuration";
+
 	private static final Properties configuration = new Properties();
+	private static DaoConfiguration instance = new DaoConfiguration();
 	
 	
 	static {
@@ -31,9 +33,13 @@ public class DaoConfiguration
 	}
 	
 	
-	public DaoConfiguration() throws Exception 
-	{
+	private DaoConfiguration() {
 		
+	}
+	
+	public DaoConfiguration getInstance() {
+		// NOTE(kklisura): Not thread safe!
+		return instance;
 	}
 
     public String getEntry(String key, boolean mandatory) throws Exception 
