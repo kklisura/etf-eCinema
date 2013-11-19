@@ -7,11 +7,8 @@ public class UserActionContent
 	UserAction userAction;
 	
 	
-	public UserActionContent(int id, Content content, UserAction userAction) 
-	{
-		this.id = id;
-		this.content = content;
-		this.userAction = userAction;
+	public UserActionContent() {
+		
 	}
 	
 	public int getId() {

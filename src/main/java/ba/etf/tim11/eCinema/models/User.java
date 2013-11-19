@@ -1,5 +1,3 @@
-// User model here
-
 package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
@@ -7,41 +5,21 @@ import java.util.Date;
 
 public class User
 {
-	
 	int id;
-	String lastName;
-	String firstName;
+	String lastName, firstName;
 	String email;
 	String phone;
 	String address;
-	String dateOfBirth;
+	Date dateOfBirth;
 	String placeOfBirth;
 	State state;
 	String password;
 	int salt;
-	Date updatedAt;
-	Date createdAt;
+	Date updatedAt, createdAt;
 	
 	
-	public User(int id, String lastName, String firstName, String email,
-			String phone, String address, String dateOfBirth,
-			String placeOfBirth, State state, String password, int salt,
-			Date updatedAt, Date createdAt)
-	{
-	
-		this.id = id;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.dateOfBirth = dateOfBirth;
-		this.placeOfBirth = placeOfBirth;
-		this.state = state;
-		this.password = password;
-		this.salt = salt;
-		this.updatedAt = updatedAt;
-		this.createdAt = createdAt;
+	public User() {
+		
 	}
 	
 	public int getId() {
@@ -92,11 +70,11 @@ public class User
 		this.address = address;
 	}
 	
-	public String getDateOfBirth() {
+	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 	
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	
@@ -148,8 +126,4 @@ public class User
 		this.createdAt = createdAt;
 	}
 	
-	
-		
-
-
 }

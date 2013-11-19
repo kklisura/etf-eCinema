@@ -8,18 +8,11 @@ public class UserActionComment
 	int id;
 	Comment comment;
 	UserAction userAction;
-	Date updatedAt;
-	Date createdAt;
+	Date updatedAt, createdAt;
 
 	
-	public UserActionComment(int id, Comment comment, UserAction userAction,
-							 Date updatedAt, Date createdAt) 
-	{
-		this.id = id;
-		this.comment = comment;
-		this.userAction = userAction;
-		this.updatedAt = updatedAt;
-		this.createdAt = createdAt;
+	public UserActionComment() {
+		
 	}
 	
 	public int getId() {

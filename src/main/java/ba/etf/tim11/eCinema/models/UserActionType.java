@@ -6,10 +6,8 @@ public class UserActionType
 	String type;
 
 	
-	public UserActionType(int id, String type) 
-	{
-		this.id = id;
-		this.type = type;
+	public UserActionType() {
+		
 	}
 	
 	public int getId() {

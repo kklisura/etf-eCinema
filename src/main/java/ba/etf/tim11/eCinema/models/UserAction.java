@@ -9,19 +9,11 @@ public class UserAction
 	User user;
 	UserActionType userActionType;
 	Date time;
-	Date updatedAt;
-	Date createdAt;
+	Date updatedAt, createdAt;
 	
 	
-	public UserAction(int id, User user, UserActionType userActionType, 
-					  Date time, Date updatedAt, Date createdAt)
-	{
-		this.id = id;
-		this.user = user;
-		this.userActionType = userActionType;
-		this.time = time;
-		this.updatedAt = updatedAt;
-		this.createdAt = createdAt;
+	public UserAction() {
+		
 	}
 	
 	public int getId() {
