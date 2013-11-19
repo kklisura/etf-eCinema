@@ -10,7 +10,7 @@ public class User
 	
 	int id;
 	String lastName;
-	String frstName;
+	String firstName;
 	String email;
 	String phone;
 	String address;
@@ -23,7 +23,7 @@ public class User
 	Date createdAt;
 	
 	
-	public User(int id, String lastName, String frstName, String email,
+	public User(int id, String lastName, String firstName, String email,
 			String phone, String address, String dateOfBirth,
 			String placeOfBirth, State state, String password, int salt,
 			Date updatedAt, Date createdAt)
@@ -31,7 +31,7 @@ public class User
 	
 		this.id = id;
 		this.lastName = lastName;
-		this.frstName = frstName;
+		this.firstName = firstName;
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
@@ -60,12 +60,12 @@ public class User
 		this.lastName = lastName;
 	}
 	
-	public String getFrstName() {
-		return frstName;
+	public String getFirstName() {
+		return firstName;
 	}
 	
-	public void setFrstName(String frstName) {
-		this.frstName = frstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
 	public String getEmail() {
