@@ -7,7 +7,8 @@ import ba.etf.tim11.eCinema.models.User;
 
 public interface UserDao
 {
-	// NOTE(kklisura): Use custom exception (!?)
+	
+	//NOTE(kklisura): Use custom exception (!?)
 	
 	public List<User> findAll();
 	
@@ -19,3 +20,4 @@ public interface UserDao
 	
 	public User findByEmail(String email);
 }
+
