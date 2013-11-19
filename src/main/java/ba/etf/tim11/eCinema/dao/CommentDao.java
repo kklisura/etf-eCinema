@@ -15,7 +15,4 @@ public List<Comment> findAll();
 	
 	public boolean update(Comment comment);
 	
-	
-	
-
 }
