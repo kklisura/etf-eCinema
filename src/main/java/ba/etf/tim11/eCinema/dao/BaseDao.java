@@ -1,9 +1,10 @@
 package ba.etf.tim11.eCinema.dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 
 
-public class BaseDao 
+public abstract class BaseDao 
 {
 	private Connection connection;
 	
@@ -16,4 +17,7 @@ public class BaseDao
 		this.connection = connection;
 	}
 	
+	
+	// NOTE(kklisura): Throws exception
+	protected abstract Object map(ResultSet rs);
 }
