@@ -17,6 +17,7 @@ import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.UserActionCommentDao;
 import ba.etf.tim11.eCinema.dao.UserActionContentDao;
 import ba.etf.tim11.eCinema.dao.UserActionDao;
+import ba.etf.tim11.eCinema.dao.UserActionTypeDao;
 import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.UserDaoImpl;
 import ba.etf.tim11.eCinema.utils.DaoConfiguration;
@@ -120,6 +121,11 @@ public class JDBCDaoFactory implements DaoFactory
 	@Override
 	public UserActionDao getUserActionDao() {
 		return new UserActionDaoImpl(this);
+	}
+	
+	@Override
+	public UserActionTypeDao getUserActionTypeDao() {
+		return new UserActionTypeDaoImpl(this);
 	}
 
 	@Override

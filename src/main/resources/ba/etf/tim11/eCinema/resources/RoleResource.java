@@ -11,47 +11,48 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
-import ba.etf.tim11.eCinema.dao.StateDao;
+import ba.etf.tim11.eCinema.dao.RoleDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
-import ba.etf.tim11.eCinema.models.State;
+import ba.etf.tim11.eCinema.models.Role;
 
 
-@Path("states")
+@Path("roles")
 @Produces(MediaType.APPLICATION_JSON)
-public class StateResource
+public class RoleResource
 {
 	private DaoFactory daoFactory;
-	private StateDao stateDao;
+	private RoleDao roleDao;
 	
 	
-	public StateResource()
+	public RoleResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
-		this.stateDao = daoFactory.getStateDao();
+		this.roleDao = daoFactory.getRoleDao();
 	}
 	
+	
 	@GET
-	public List<State> getAllStates() 
+	public List<Role> getAllRoles() 
 	{
-		return stateDao.findAll();
+		return roleDao.findAll();
 	}
 	
 	@GET
 	@Path("{id}")
-	public State getState(@PathParam("id") int id) 
+	public Role getRole(@PathParam("id") int id) 
 	{
-		return stateDao.find(id);
+		return roleDao.find(id);
 	}
 	
 	@POST
-	public void createNewState() 
+	public void createNewRole() 
 	{
 		
 	}
 	
 	@DELETE
 	@Path("{id}")
-	public void deleteState(@PathParam("id") int id) 
+	public void deleteRole(@PathParam("id") int id) 
 	{
 		
 	}
