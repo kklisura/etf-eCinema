@@ -55,13 +55,14 @@ public class CommentDaoImpl implements CommentDao
 		
 		try 
 		{
-			String query = "INSERT INTO Comments (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Comments (title, text, contents_id, users_id) VALUES (?, ?, ?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  comment.getComment());
-			// ..
-			// ..
+			preparedStatement.setString(1,  comment.getTitle());
+			preparedStatement.setString(2, comment.getText());
+			preparedStatement.setInt(3, comment.getContent().getId());
+			preparedStatement.setInt(4, comment.getUser().getId());	
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -70,8 +71,9 @@ public class CommentDaoImpl implements CommentDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            //comment.setId(generatedKeys.getLong(1));
+	        
+	            comment.setId(generatedKeys.getInt(1));
+	       
 	        } else {
 	            throw new SQLException("Creating comment failed, no generated key obtained.");
 	        }

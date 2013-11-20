@@ -52,7 +52,7 @@ public class ResourceDaoImpl implements ResourceDao
 	}
 	
 	@Override
-	public boolean insert(Resource user) throws DaoException 
+	public boolean insert(Resource resource) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
@@ -61,13 +61,12 @@ public class ResourceDaoImpl implements ResourceDao
 		
 		try 
 		{
-			String query = "INSERT INTO Resource (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Resource (name, description) VALUES (?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setString(1, resource.getName());
+			preparedStatement.setString(2, resource.getDescription());
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -76,8 +75,8 @@ public class ResourceDaoImpl implements ResourceDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	
+	            resource.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating content failed, no generated key obtained.");
 	        }
