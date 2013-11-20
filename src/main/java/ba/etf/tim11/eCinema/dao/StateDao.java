@@ -7,16 +7,15 @@ import ba.etf.tim11.eCinema.models.State;
 
 public interface StateDao 
 {
-	public List<State> findAll();
+	public List<State> findAll() throws DaoException;
 	
-	public State find(int id);
+	public State find(int id) throws DaoException;
 	
-	public boolean insert(State state);
+	public State findByName(String name) throws DaoException;
 	
-	public boolean update(State state);
+	public State findByShortName(String shortName) throws DaoException;
 	
-	public State findByName(String name);
+	public boolean insert(State state) throws DaoException;
 	
-	public State findByShortName(String shortName);
-
+	public boolean update(State state) throws DaoException;
 }

@@ -5,18 +5,13 @@ import java.util.List;
 import ba.etf.tim11.eCinema.models.UserActionComment;
 
 
-
-
-public interface UserActionCommentDao {
+public interface UserActionCommentDao 
+{	
+	public List<UserActionComment> findAll() throws DaoException;
 	
-	public List<UserActionComment> findAll();
+	public UserActionComment find(int id) throws DaoException;
 	
-	public UserActionComment find(int id);
+	public boolean insert(UserActionComment userActionComment) throws DaoException;
 	
-	public boolean insert(UserActionComment userActionComment);
-	
-	public boolean update(UserActionComment userActionComment);
-	
-	
-	
+	public boolean update(UserActionComment userActionComment) throws DaoException;	
 }

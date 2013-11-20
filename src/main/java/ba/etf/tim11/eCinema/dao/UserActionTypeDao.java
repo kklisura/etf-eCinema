@@ -7,13 +7,11 @@ import ba.etf.tim11.eCinema.models.UserActionType;
 
 public interface UserActionTypeDao
 {
+	public List<UserActionType> findAll() throws DaoException;
 	
-	public List<UserActionType> findAll();
+	public UserActionType find(int id) throws DaoException;
 	
-	public UserActionType find(int id);
+	public boolean insert(UserActionType userActionType) throws DaoException;
 	
-	public boolean insert(UserActionType userActionType);
-	
-	public boolean update(UserActionType userActionType);
-	
+	public boolean update(UserActionType userActionType) throws DaoException;
 }

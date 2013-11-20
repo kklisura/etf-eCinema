@@ -7,12 +7,11 @@ import ba.etf.tim11.eCinema.models.Comment;
 
 public interface CommentDao
 {
-public List<Comment> findAll();
+	public List<Comment> findAll() throws DaoException;
 	
-	public Comment find(int id);
+	public Comment find(int id) throws DaoException;
 	
-	public boolean insert(Comment comment);
+	public boolean insert(Comment comment) throws DaoException;
 	
-	public boolean update(Comment comment);
-	
+	public boolean update(Comment comment) throws DaoException;
 }

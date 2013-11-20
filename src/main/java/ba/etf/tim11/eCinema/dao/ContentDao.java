@@ -7,13 +7,11 @@ import ba.etf.tim11.eCinema.models.Content;
 
 public interface ContentDao 
 {
-	    public List<Content> findAll();
-		
-		public Content find(int id);
-		
-		public boolean insert(Content content);
-		
-		public boolean update(Content content);
-		
-		
+	public List<Content> findAll() throws DaoException;
+	
+	public Content find(int id) throws DaoException;
+	
+	public boolean insert(Content content) throws DaoException;
+	
+	public boolean update(Content content) throws DaoException;
 }

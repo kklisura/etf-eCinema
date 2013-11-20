@@ -7,14 +7,13 @@ import ba.etf.tim11.eCinema.models.PrivilegeType;
 
 public interface PrivilegeTypeDao 
 {
-	public List<PrivilegeType> findAll();
+	public List<PrivilegeType> findAll() throws DaoException;
 
-	public PrivilegeType find(int id);
-
-	public boolean insert(PrivilegeType privilegeType);
-
-	public boolean update(PrivilegeType privilegeType);
+	public PrivilegeType find(int id) throws DaoException;
 	
-	public PrivilegeType findByName(String name);
+	public PrivilegeType findByName(String name) throws DaoException;
 
+	public boolean insert(PrivilegeType privilegeType) throws DaoException;
+
+	public boolean update(PrivilegeType privilegeType) throws DaoException;
 }

@@ -7,14 +7,13 @@ import ba.etf.tim11.eCinema.models.Group;
 
 public interface GroupDao 
 {
-	public List<Group> findAll();
+	public List<Group> findAll() throws DaoException;
 	
-	public Group find(int id);
+	public Group find(int id) throws DaoException;
 	
-	public boolean insert(Group group);
+	public Group findByName(String name) throws DaoException;
 	
-	public boolean update(Group group);
+	public boolean insert(Group group) throws DaoException;
 	
-	public Group findByName(String name);
-
+	public boolean update(Group group) throws DaoException;
 }
