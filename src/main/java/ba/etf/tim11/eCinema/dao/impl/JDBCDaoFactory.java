@@ -29,25 +29,34 @@ public class JDBCDaoFactory implements DaoFactory
 	private static Connection connection = null;
 	
 	
-	private JDBCDaoFactory() throws Exception
+	private JDBCDaoFactory()
 	{
 		DaoConfiguration cfg = DaoConfiguration.getInstance();
 		
-		String url = cfg.getEntry("db.url", true);
-        String user = cfg.getEntry("db.username", true);
-        String password = cfg.getEntry("db.password", true);
+		String url = null, 
+			   user = null, 
+			   password = null;
+		
+		try 
+		{
+			url = cfg.getEntry("db.url", true);
+	        user = cfg.getEntry("db.username", true);
+	        password = cfg.getEntry("db.password", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
         try {
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {
         	throw new DaoException("JDBCDaoFactory failed " + ex.getMessage());
-        }	
+        }
 	}
 	
 	public static DaoFactory getInstance() {
-		if (instance != null) {
-			return instance;
-		}       
+		if (instance == null) {
+			instance = new JDBCDaoFactory();
+		}
 		return instance;
 	}
 	
