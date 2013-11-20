@@ -8,25 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.BaseDao;
-import ba.etf.tim11.eCinema.dao.UserActionContentDao;
-import ba.etf.tim11.eCinema.models.UserActionContent;
+import ba.etf.tim11.eCinema.dao.StateDao;
+import ba.etf.tim11.eCinema.models.State;
 
-public class UserActionContentDaoImpl extends BaseDao implements UserActionContentDao
+public class StateDaoImpl extends BaseDao implements StateDao
 {
+
 	@Override
-	public List<UserActionContent> findAll() {
+	public List<State> findAll() {
 		
-		List<UserActionContent> userActionContents = new ArrayList<UserActionContent>();
+		List<State> states = new ArrayList<State>();
 		Connection connection = getConnection();
 		
 		try
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionContents");
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM States");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while(resultSet.next())
 			{
-				userActionContents.add((UserActionContent) map(resultSet));
+				states.add((State) map(resultSet));
 			}
 		} catch (SQLException e)
 		{
@@ -35,23 +36,23 @@ public class UserActionContentDaoImpl extends BaseDao implements UserActionConte
 		{
 			// TODO(nhuseinovic): Something goes here.
 		}
-		return userActionContents;
+		return states;
 	}
 
 	@Override
-	public UserActionContent find(int id) {
-		UserActionContent userActionContent = null;
+	public State find(int id) {
+		
+		State state = null;
 		Connection connection = getConnection();
 		
 		try
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionContents WHERE id=?");
-			ResultSet
-			resultSet = preparedStatement.executeQuery();
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM States WHERE id=?");
+			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			if(resultSet.next())
 			{
-				userActionContent= (UserActionContent) map(resultSet);
+				state= (State) map(resultSet);
 			}
 		} catch (SQLException e)
 		{
@@ -61,25 +62,40 @@ public class UserActionContentDaoImpl extends BaseDao implements UserActionConte
 			// TODO(nhuseinovic): Something goes here.
 		}
 		
-	
-		return userActionContent;
+		return state;
 	}
 
 	@Override
-	public boolean insert(UserActionContent userActionContent) {
+	public boolean insert(State state) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean update(UserActionContent userActionContent) {
+	public boolean update(State state) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	// ------------------Helperi
-	protected final Object map(ResultSet rs) {
-		// TODO(nhuseinovic): Something goes here.
+	@Override
+	public State findByName(String name) {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public State findByShortName(String shortName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+// ------------------- Helper
+	
+	protected final Object map(ResultSet rs) {
+		
+		// TODO(nhuseinovic): Something goes here.
+		
+		return null;
+	}
+
 }

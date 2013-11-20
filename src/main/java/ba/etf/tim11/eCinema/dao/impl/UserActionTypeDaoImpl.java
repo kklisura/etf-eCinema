@@ -1,6 +1,10 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.BaseDao;
@@ -12,14 +16,55 @@ public class UserActionTypeDaoImpl extends BaseDao implements UserActionTypeDao
 {
 	@Override
 	public List<UserActionType> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<UserActionType> userActionTypes = new ArrayList<UserActionType>();
+		Connection connection = getConnection();
+		
+		try
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionTypes");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next())
+			{
+				userActionTypes.add((UserActionType) map(resultSet));
+			}
+		
+		} catch (SQLException e)
+		{
+			// TODO(nhuseinovic): Something goes here.
+		} finally
+		{
+			// TODO(nhuseinovic): Something goes here.
+		}
+		return userActionTypes;
 	}
 
 	@Override
 	public UserActionType find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		UserActionType userActionType = null;
+		Connection connection = getConnection();
+		
+		try
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionTypes WHERE id=?");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			if(resultSet.next())
+			{
+				userActionType = (UserActionType) map(resultSet);
+			}
+		} catch (SQLException e)
+		{
+			// TODO(nhuseinovic): Something goes here.
+		} finally
+		{
+			// TODO(nhuseinovic): Something goes here.
+		}
+		
+		
+		return userActionType;
 	}
 
 	@Override
@@ -34,9 +79,11 @@ public class UserActionTypeDaoImpl extends BaseDao implements UserActionTypeDao
 		return false;
 	}
 
-	@Override
-	protected Object map(ResultSet rs) {
-		// TODO Auto-generated method stub
+//-------------------- Helperi
+	protected final Object map(ResultSet rs) {
+		
+		// TODO(nhuseinovic): Something goes here.
+		
 		return null;
 	}
 

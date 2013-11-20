@@ -1,6 +1,10 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.BaseDao;
@@ -12,15 +16,53 @@ public class UserActionCommentDaoImpl extends BaseDao implements UserActionComme
 {
 	
 	@Override
-	public List<UserActionComment> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserActionComment> findAll()
+	{
+		List<UserActionComment> userActionComments = new ArrayList<UserActionComment>();
+		Connection connection = getConnection();
+		
+		try
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionComments");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next())
+			{
+				userActionComments.add((UserActionComment) map(resultSet));
+			}	
+		} catch (SQLException e)
+		{
+			// TODO(nhuseinovic): Something goes here.
+		} finally
+		{
+			// TODO(nhuseinovic): Something goes here.
+		}
+		
+		return userActionComments;
 	}
 
 	@Override
 	public UserActionComment find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		UserActionComment userActionComment=null;
+		Connection connection = getConnection();
+		
+		try
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionComments WHERE id=?");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			if(resultSet.next())
+			{
+				userActionComment = (UserActionComment) map(resultSet);
+			}
+		} catch (SQLException e)
+		{
+			// TODO(nhuseinovic): Something goes here.
+		} finally
+		{
+			// TODO(nhuseinovic): Something goes here.
+		}
+		return userActionComment;
 	}
 
 	@Override
@@ -35,9 +77,12 @@ public class UserActionCommentDaoImpl extends BaseDao implements UserActionComme
 		return false;
 	}
 
-	@Override
-	protected Object map(ResultSet rs) {
-		// TODO Auto-generated method stub
+	// -----------------Helper
+	
+	protected final Object map(ResultSet rs) {
+		
+		// TODO(nhuseinovic): Something goes here.
+		
 		return null;
 	}
 
