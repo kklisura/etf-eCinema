@@ -65,6 +65,7 @@ public class JDBCDaoFactory implements DaoFactory
 	public Connection getConnection() {
 		return connection;
 	}
+	
 
 	@Override
 	public CommentDao getCommentDao() {

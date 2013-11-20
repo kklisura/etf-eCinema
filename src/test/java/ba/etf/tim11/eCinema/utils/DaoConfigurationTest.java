@@ -1,4 +1,4 @@
-package ba.etf.tim11.eCinema.dao;
+package ba.etf.tim11.eCinema.utils;
 
 public class DaoConfigurationTest
 {
