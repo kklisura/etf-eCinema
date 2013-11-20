@@ -30,5 +30,7 @@ public interface DaoFactory
     
     public abstract UserActionDao getUserActionDao();
     
+    public abstract UserActionTypeDao getUserActionTypeDao();
+    
     public abstract UserDao getUserDao();
 }

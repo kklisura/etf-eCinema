@@ -11,47 +11,47 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
-import ba.etf.tim11.eCinema.dao.StateDao;
+import ba.etf.tim11.eCinema.dao.UserActionDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
-import ba.etf.tim11.eCinema.models.State;
+import ba.etf.tim11.eCinema.models.UserAction;
 
 
-@Path("states")
+@Path("useractions")
 @Produces(MediaType.APPLICATION_JSON)
-public class StateResource
+public class UserActionResource
 {
 	private DaoFactory daoFactory;
-	private StateDao stateDao;
+	private UserActionDao userActionDao;
 	
 	
-	public StateResource()
+	public UserActionResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
-		this.stateDao = daoFactory.getStateDao();
+		this.userActionDao = daoFactory.getUserActionDao();
 	}
 	
 	@GET
-	public List<State> getAllStates() 
+	public List<UserAction> getAllUserActions() 
 	{
-		return stateDao.findAll();
+		return userActionDao.findAll();
 	}
 	
 	@GET
 	@Path("{id}")
-	public State getState(@PathParam("id") int id) 
+	public UserAction getUserAction(@PathParam("id") int id) 
 	{
-		return stateDao.find(id);
+		return userActionDao.find(id);
 	}
 	
 	@POST
-	public void createNewState() 
+	public void createNewUserAction() 
 	{
 		
 	}
 	
 	@DELETE
 	@Path("{id}")
-	public void deleteState(@PathParam("id") int id) 
+	public void deleteUserAction(@PathParam("id") int id) 
 	{
 		
 	}
