@@ -12,7 +12,9 @@ public class PrivilegeTypeRowMapper implements RowMapper {
 	{
 		PrivilegeType privilegeType = new PrivilegeType();
 		
+
 		privilegeType.setId(rs.getInt(1));		
+
 		privilegeType.setName(rs.getString(2));
 		
 		return privilegeType;

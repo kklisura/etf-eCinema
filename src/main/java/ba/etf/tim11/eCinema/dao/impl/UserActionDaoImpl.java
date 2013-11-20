@@ -43,7 +43,7 @@ public class UserActionDaoImpl implements UserActionDao
 		
 		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
 	}
-
+	
 	@Override
 	public boolean insert(UserAction userAction) 
 	{
