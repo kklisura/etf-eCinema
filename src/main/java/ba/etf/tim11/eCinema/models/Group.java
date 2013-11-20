@@ -6,20 +6,12 @@ import java.util.Date;
 public class Group 
 {
 	int id;
-	String name;
-	String desctription;
-	Date updatedAt;
-	Date createdAt;
+	String name, description;
+	Date updatedAt, createdAt;
 	
 	
-	public Group(int id, String name, String desctription,
-				 Date updatedAt, Date createdAt) 
-	{	
-		this.id = id;
-		this.name = name;
-		this.desctription = desctription;
-		this.updatedAt = updatedAt;
-		this.createdAt = createdAt;
+	public Group()  {
+		
 	}
 	
 	public int getId() {
@@ -38,12 +30,12 @@ public class Group
 		this.name = name;
 	}
 	
-	public String getDesctription() {
-		return desctription;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setDesctription(String desctription) {
-		this.desctription = desctription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	public Date getUpdatedAt() {

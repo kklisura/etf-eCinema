@@ -3,15 +3,11 @@ package ba.etf.tim11.eCinema.models;
 public class Resource
 {
 	int id;
-	String name;
-	String description;
+	String name, description;
 
 	
-	public Resource(int id, String name, String description) 
-	{
-		this.id = id;
-		this.name = name;
-		this.description = description;
+	public Resource() {
+		
 	}
 	
 	public int getId() {

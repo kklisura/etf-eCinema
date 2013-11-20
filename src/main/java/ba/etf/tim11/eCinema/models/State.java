@@ -5,20 +5,14 @@ import java.util.Date;
 public class State 
 {
 	int id;
-	String name;
-	String shortName;
-	Date updatedAt;
-	Date createdAt;
+	String name, shortName;
+	Date updatedAt, createdAt;
 	
 	
-	public State(int id, String name, String shortName, Date updatedAt,
-				Date createdAt) {
-		this.id = id;
-		this.name = name;
-		this.shortName = shortName;
-		this.updatedAt = updatedAt;
-		this.createdAt = createdAt;
+	public State() {
+		
 	}
+	
 	public int getId() {
 		return id;
 	}

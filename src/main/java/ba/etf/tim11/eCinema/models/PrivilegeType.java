@@ -6,10 +6,8 @@ public class PrivilegeType
 	String name;
 	
 	
-	public PrivilegeType(int id, String name) 
-	{	
-		this.id = id;
-		this.name = name;
+	public PrivilegeType() {
+		
 	}
 
 	public int getId() {

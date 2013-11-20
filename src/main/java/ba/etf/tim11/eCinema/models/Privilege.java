@@ -3,20 +3,14 @@ package ba.etf.tim11.eCinema.models;
 public class Privilege 
 {
 	int id;
-	boolean allow;
+	boolean allowed;
 	Resource resource;
 	Role role;
 	PrivilegeType privilegeType;
 	
 	
-	public Privilege(int id, boolean allow, Resource resource, Role role,
-					 PrivilegeType privilegeType) 
-	{	
-		this.id = id;
-		this.allow = allow;
-		this.resource = resource;
-		this.role = role;
-		this.privilegeType = privilegeType;
+	public Privilege() {
+		
 	}
 
 	public int getId() {
@@ -27,12 +21,12 @@ public class Privilege
 		this.id = id;
 	}
 	
-	public Boolean getAllow() {
-		return allow;
+	public boolean isAllowed() {
+		return allowed;
 	}
 	
-	public void setAllow(Boolean allow) {
-		this.allow = allow;
+	public void setIsAllowed(boolean allowed) {
+		this.allowed = allowed;
 	}
 	
 	public Resource getResource() {
