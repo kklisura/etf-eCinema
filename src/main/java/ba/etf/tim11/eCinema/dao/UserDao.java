@@ -7,17 +7,12 @@ import ba.etf.tim11.eCinema.models.User;
 
 public interface UserDao
 {
+	public List<User> findAll() throws DaoException;
 	
-	//NOTE(kklisura): Use custom exception (!?)
+	public User find(int id) throws DaoException;
 	
-	public List<User> findAll();
+	public boolean insert(User user) throws DaoException;
 	
-	public User find(int id);
-	
-	public boolean insert(User user);
-	
-	public boolean update(User user);
-	
-	public User findByEmail(String email);
+	public boolean update(User user) throws DaoException;
 }
 

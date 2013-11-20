@@ -1,6 +1,6 @@
 package ba.etf.tim11.eCinema.dao;
 
-public abstract class DaoFactory 
+public interface DaoFactory 
 {	
 	public abstract UserDao getUserDao();
 	
