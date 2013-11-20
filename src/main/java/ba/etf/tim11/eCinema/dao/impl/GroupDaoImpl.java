@@ -60,13 +60,14 @@ public class GroupDaoImpl  implements GroupDao
 		
 		try 
 		{
-			String query = "INSERT INTO Groups (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Groups (name, description) VALUES (?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			
+			preparedStatement.setString(1, group.getName());
+			preparedStatement.setString(2, group.getDescription());
+			
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -75,8 +76,8 @@ public class GroupDaoImpl  implements GroupDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // group.setId(generatedKeys.getLong(1));
+	        	
+	            group.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating group failed, no generated key obtained.");
 	        }

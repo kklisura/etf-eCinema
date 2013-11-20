@@ -46,7 +46,7 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 	}
 
 	@Override
-	public boolean insert(Privilege user) throws DaoException 
+	public boolean insert(Privilege privilege) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
@@ -55,13 +55,15 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 		
 		try 
 		{
-			String query = "INSERT INTO Privileges (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Privileges (allow, resources_id, roles_id, privilegetypes_id) VALUES (?, ?, ?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setBoolean(1, privilege.isAllowed());
+			preparedStatement.setInt(2,privilege.getResource().getId());
+			preparedStatement.setInt(3, privilege.getRole().getId());
+			preparedStatement.setInt(4, privilege.getPrivilegeType().getId());
+
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -70,8 +72,8 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	
+	        	privilege.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating privilege failed, no generated key obtained.");
 	        }
