@@ -67,30 +67,28 @@ public class StateDaoImpl implements StateDao
 		
 		try 
 		{
-			String query = "INSERT INTO States (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO States (name, shortName) VALUES (?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setString(1, state.getName());
+			preparedStatement.setString(2, state.getShortName());
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
-	            throw new SQLException("Creating privilegetype failed, no rows affected.");
+	            throw new SQLException("Creating State failed, no rows affected.");
 	        }
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	            state.setId(generatedKeys.getInt(1));
 	        } else {
-	            throw new SQLException("Creating content failed, no generated key obtained.");
+	            throw new SQLException("Creating State failed, no generated key obtained.");
 	        }
 	        
 		} catch (SQLException e) 
 		{
-			throw new DaoException("insert failed. " + e.getMessage());
+			throw new DaoException("Insert failed. " + e.getMessage());
 		} finally
 		{
 			try 
