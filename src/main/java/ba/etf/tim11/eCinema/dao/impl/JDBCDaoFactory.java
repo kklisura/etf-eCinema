@@ -1,9 +1,12 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.dao.CommentDao;
 import ba.etf.tim11.eCinema.dao.ContentDao;
+import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.GroupDao;
 import ba.etf.tim11.eCinema.dao.PrivilegeDao;
@@ -16,14 +19,42 @@ import ba.etf.tim11.eCinema.dao.UserActionContentDao;
 import ba.etf.tim11.eCinema.dao.UserActionDao;
 import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.UserDaoImpl;
+import ba.etf.tim11.eCinema.utils.DaoConfiguration;
 
 
 public class JDBCDaoFactory implements DaoFactory
 {
+	private static JDBCDaoFactory instance = null;
+	
+	private static Connection connection = null;
+	
+	
+	private JDBCDaoFactory() throws Exception
+	{
+		DaoConfiguration cfg = DaoConfiguration.getInstance();
+		
+		String url = cfg.getEntry("db.url", true);
+        String user = cfg.getEntry("db.username", true);
+        String password = cfg.getEntry("db.password", true);
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException ex) {
+        	throw new DaoException("JDBCDaoFactory failed " + ex.getMessage());
+        }	
+	}
+	
+	public static DaoFactory getInstance() {
+		if (instance != null) {
+			return instance;
+		}       
+		return instance;
+	}
+	
+
 	@Override
 	public Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		return connection;
 	}
 
 	@Override

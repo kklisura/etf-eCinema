@@ -4,17 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.List;
 
+import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.UserActionCommentDao;
+import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.UserActionCommentRowMapper;
 import ba.etf.tim11.eCinema.models.UserActionComment;
+import ba.etf.tim11.eCinema.utils.DaoUtil;
 
 
 public class UserActionCommentDaoImpl implements UserActionCommentDao
 {
 	private DaoFactory daoFactory;
+	private static RowMapper rowMapper = new UserActionCommentRowMapper();
+	
 	
 	public UserActionCommentDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -24,72 +30,116 @@ public class UserActionCommentDaoImpl implements UserActionCommentDao
 	@Override
 	public List<UserActionComment> findAll()
 	{
-		List<UserActionComment> userActionComments = new ArrayList<UserActionComment>();
 		Connection connection = daoFactory.getConnection();
 		
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionComments");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next())
-			{
-				userActionComments.add((UserActionComment) map(resultSet));
-			}	
-		} catch (SQLException e)
-		{
-			// TODO(nhuseinovic): Something goes here.
-		} finally
-		{
-			// TODO(nhuseinovic): Something goes here.
-		}
-		
-		return userActionComments;
+		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM UserActionComments", rowMapper);
 	}
 
 	@Override
-	public UserActionComment find(int id) {
-		UserActionComment userActionComment=null;
+	public UserActionComment find(int id) 
+	{
+		Connection connection = daoFactory.getConnection();
+
+		String query = "SELECT * FROM UserActionComments WHERE id = ?";
+		
+		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
+	}
+
+	@Override
+	public boolean insert(UserActionComment userActionComment) 
+	{
 		Connection connection = daoFactory.getConnection();
 		
-		try
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		
+		try 
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM UserActionComments WHERE id=?");
-			ResultSet resultSet = preparedStatement.executeQuery();
+			String query = "INSERT INTO UserActionComment (..) VALUES (?, ?, ?, ?)";
 			
-			if(resultSet.next())
+			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			// preparedStatement.setInt(1,  content.get..());
+			// ..
+			// ..
+			
+			int affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating useractioncomment failed, no rows affected.");
+	        }
+
+	        generatedKeys = preparedStatement.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	        	// TODO(kklisura): Fill comment id here.
+	            // content.setId(generatedKeys.getLong(1));
+	        } else {
+	            throw new SQLException("Creating useractioncomment failed, no generated key obtained.");
+	        }
+	        
+		} catch (SQLException e) 
+		{
+			throw new DaoException("insert failed. " + e.getMessage());
+		} finally
+		{
+			try 
 			{
-				userActionComment = (UserActionComment) map(resultSet);
+				if (preparedStatement != null)
+					preparedStatement.close();
+				
+				if (generatedKeys != null)
+					generatedKeys.close();
+			} catch (SQLException e) 
+			{
+				// TOOD(kklisura): Better handling of this error.
+				e.printStackTrace();
+				throw new DaoException("Something went wrong " + e.getMessage());
 			}
-		} catch (SQLException e)
-		{
-			// TODO(nhuseinovic): Something goes here.
-		} finally
-		{
-			// TODO(nhuseinovic): Something goes here.
 		}
-		return userActionComment;
+		
+		return true;
 	}
 
 	@Override
-	public boolean insert(UserActionComment userActionComment) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(UserActionComment userActionComment) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	// -----------------Helper
-	
-	protected final Object map(ResultSet rs) {
+	public boolean update(UserActionComment userActionComment) 
+	{
+		Connection connection = daoFactory.getConnection();
 		
-		// TODO(nhuseinovic): Something goes here.
+		PreparedStatement preparedStatement = null;
 		
-		return null;
+		try
+		{
+			String query = "UPDATE Comment SET comment = ?, nesto = ? WHERE id = ?";
+			
+			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			// preparedStatement.setInt(1,  comment.getComment());
+			// ..
+			// ..
+			// ..
+			// preparedStatement.setInt(10,  comment.getId());
+			
+			int affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating comment failed, no rows affected.");
+	        }
+	        
+		} catch (SQLException e) {
+			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
+		} finally 
+		{
+			try 
+			{
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) 
+			{
+				// TOOD(kklisura): Better handling of this error.
+				e.printStackTrace();
+				throw new DaoException("Something went wrong " + e.getMessage());
+			}
+		}
+		
+		return true;
 	}
 
 }

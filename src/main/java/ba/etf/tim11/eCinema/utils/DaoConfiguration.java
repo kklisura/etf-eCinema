@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import ba.etf.tim11.eCinema.dao.DaoException;
+
 
 public final class DaoConfiguration
 {
@@ -18,17 +20,15 @@ public final class DaoConfiguration
 	static {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream configurationFile = classLoader.getResourceAsStream(CONFIGURATION_FILE);
-
+        
         if (configurationFile == null) {
-        	// TODO(kklisura): Create new exception type
-            //throw new Exception("Configuration file '" + CONFIGURATION_FILE + "' is missing in classpath.");
+            throw new DaoException("Configuration file '" + CONFIGURATION_FILE + "' is missing in classpath.");
         }
 
         try {
         	configuration.load(configurationFile);
         } catch (IOException e) {
-        	// TODO(kklisura): 
-            //throw new Exception("Cannot load properties file '" + CONFIGURATION_FILE + "'.", e);
+            throw new DaoException("Cannot load properties file '" + CONFIGURATION_FILE + "'." + e);
         }
 	}
 	
@@ -37,7 +37,7 @@ public final class DaoConfiguration
 		
 	}
 	
-	public DaoConfiguration getInstance() {
+	public static DaoConfiguration getInstance() {
 		// NOTE(kklisura): Not thread safe!
 		return instance;
 	}
