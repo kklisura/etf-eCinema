@@ -61,13 +61,12 @@ public class RoleDaoImpl implements RoleDao
 		
 		try 
 		{
-			String query = "INSERT INTO Roles (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Roles (name, description) VALUES (?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setString(1, role.getName());
+			preparedStatement.setString(2, role.getDescription());
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -76,8 +75,8 @@ public class RoleDaoImpl implements RoleDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	
+	            role.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating content failed, no generated key obtained.");
 	        }

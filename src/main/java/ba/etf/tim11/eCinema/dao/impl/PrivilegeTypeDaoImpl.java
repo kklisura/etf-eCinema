@@ -61,14 +61,12 @@ public class PrivilegeTypeDaoImpl implements PrivilegeTypeDao
 		
 		try 
 		{
-			String query = "INSERT INTO PrivilegeTypes (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO PrivilegeTypes (name) VALUES (?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
-			
+			preparedStatement.setString(1,  privilegeType.getName());
+
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
 	            throw new SQLException("Creating privilegetype failed, no rows affected.");
@@ -76,8 +74,8 @@ public class PrivilegeTypeDaoImpl implements PrivilegeTypeDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // privilegeType.setId(generatedKeys.getLong(1));
+	        	
+	            privilegeType.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating content failed, no generated key obtained.");
 	        }

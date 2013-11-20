@@ -54,13 +54,13 @@ public class UserActionContentDaoImpl implements UserActionContentDao
 		
 		try 
 		{
-			String query = "INSERT INTO UserActionContents (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO UserActionContents (contents_id, useractions_id) VALUES (?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setInt(1, userActionContent.getContent().getId());
+			preparedStatement.setInt(2, userActionContent.getUserAction().getId());
+
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -69,8 +69,8 @@ public class UserActionContentDaoImpl implements UserActionContentDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	
+	        	userActionContent.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating UserActionContent failed, no generated key obtained.");
 	        }

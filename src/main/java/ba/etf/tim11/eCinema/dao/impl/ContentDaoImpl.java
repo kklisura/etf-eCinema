@@ -55,13 +55,21 @@ public class ContentDaoImpl implements ContentDao
 		
 		try 
 		{
-			String query = "INSERT INTO Content (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Content (title, actors, director, year, length, types_id, fileId) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setString(1,  content.getTitle());
+			preparedStatement.setString(2, content.getActors());
+			preparedStatement.setString(3, content.getDirector());
+			preparedStatement.setInt(4, content.getYear());
+			preparedStatement.setInt(5, content.getLength());
+			
+			// preparedStatement.setInt(6, content.getTypes().getId());
+			
+			preparedStatement.setString(7, content.getFile());
+			
+
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -70,8 +78,7 @@ public class ContentDaoImpl implements ContentDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	content.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating content failed, no generated key obtained.");
 	        }

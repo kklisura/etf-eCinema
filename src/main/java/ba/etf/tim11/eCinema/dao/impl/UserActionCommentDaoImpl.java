@@ -55,13 +55,14 @@ public class UserActionCommentDaoImpl implements UserActionCommentDao
 		
 		try 
 		{
-			String query = "INSERT INTO UserActionComment (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO UserActionComment (comments_id, useractions_id) VALUES (?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setInt(1, userActionComment.getComment().getId());
+			preparedStatement.setInt(2, userActionComment.getUserAction().getId());
+			// 2 more atributes ?? ERD
+			
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -70,8 +71,8 @@ public class UserActionCommentDaoImpl implements UserActionCommentDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	
+	            userActionComment.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating useractioncomment failed, no generated key obtained.");
 	        }
