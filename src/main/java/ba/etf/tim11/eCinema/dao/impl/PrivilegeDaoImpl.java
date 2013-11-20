@@ -1,94 +1,56 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
+import ba.etf.tim11.eCinema.dao.DaoException;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.PrivilegeDao;
+import ba.etf.tim11.eCinema.dao.mapper.PrivilegeRowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Privilege;
+import ba.etf.tim11.eCinema.utils.DaoUtil;
 
-public class PrivilegeDaoImpl extends BaseDao implements PrivilegeDao
+
+public class PrivilegeDaoImpl implements PrivilegeDao
 {
+	private DaoFactory daoFactory;
+	private static RowMapper rowMapper = new PrivilegeRowMapper();
+	
+	
+	public PrivilegeDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
 
 	@Override
-	public List<Privilege> findAll() 
+	public List<Privilege> findAll() throws DaoException 
 	{
-		List<Privilege> privileges= new ArrayList<Privilege>();
-		Connection connection=getConnection();
+		Connection connection = daoFactory.getConnection();
 		
-		try
-		{
-			PreparedStatement preparedStatement=connection.prepareStatement("SELECT * FROM Privileges");
-			ResultSet resultSet=preparedStatement.executeQuery();
-			
-			while(resultSet.next())
-			{
-				privileges.add((Privilege) map(resultSet));
-				
-			}
-		} catch(SQLException e)
-		{
-			//TODO(nhuseinovic): Something goes here.
-		} finally 
-		{
-			//TODO(nhuseinovic): Something goes here.
-		}
-		
-		return privileges;
-		
+		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM Privileges", rowMapper);
 	}
 
 	@Override
-	public Privilege find(int id) {
+	public Privilege find(int id) throws DaoException 
+	{		
+		Connection connection = daoFactory.getConnection();
 		
-		Privilege privilege = null;
-		Connection connection = getConnection();
+		String query = "SELECT * FROM Privileges WHERE id = ?";
 		
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Pivileges WHERE id=?");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			if(resultSet.next())
-			{
-				privilege=(Privilege) map(resultSet);
-			}
-		} catch (SQLException e)
-		{
-			//TODO(nhuseinovic): Something goes here.
-		} finally 
-		{
-			//TODO(nhuseinovic): Something goes here.
-		}
-		
-		return privilege;	
-		
+		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);	
 	}
 
 	@Override
-	public boolean insert(Privilege user) {
+	public boolean insert(Privilege user) throws DaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean update(Privilege user) {
+	public boolean update(Privilege user) throws DaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	
-	//----------------Helper
-	
-	protected final Object map(ResultSet rs) {
-		//TODO(nhuseinovic): Something goes here.
-		
-		return null;
-	}
-	
 
 }

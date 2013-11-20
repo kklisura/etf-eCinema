@@ -1,93 +1,61 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
+import ba.etf.tim11.eCinema.dao.DaoException;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ResourceDao;
+import ba.etf.tim11.eCinema.dao.mapper.ResourceRowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Resource;
+import ba.etf.tim11.eCinema.utils.DaoUtil;
 
-public class ResourceDaoImpl extends BaseDao implements ResourceDao
+
+public class ResourceDaoImpl implements ResourceDao
 {
-
-	@Override
-	public List<Resource> findAll() {
-		List<Resource> resources = new ArrayList<Resource>();
-		Connection connection = getConnection();
-		
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Resources");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next())
-			{
-				resources.add((Resource) map(resultSet));
-			}
-		} catch (SQLException e)
-		{
-			// TODO(nhuseinovic): Something goes here.
-		} finally 
-		{
-			// TODO(nhuseinovic): Something goes here.
-		}
-		
-		return resources;
-	}
-
-	@Override
-	public Resource find(int id) {
-		
-		Resource resource = null;
-		Connection connection = getConnection();
-		
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Resources WHERE id=?");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			if(resultSet.next())
-			{
-				resource = (Resource) map(resultSet);
-			}
-		} catch (SQLException e)
-		{
-			// TODO(nhuseinovic): Something goes here.
-		} finally 
-		{
-			// TODO(nhuseinovic); Something goes here.
-		}
-		
-		return resource;
-	}
-
-	@Override
-	public boolean insert(Resource user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(Resource user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Resource findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	private DaoFactory daoFactory;
+	private static RowMapper rowMapper = new ResourceRowMapper();
 	
-	// --------------- Helper
-	protected final Object map(ResultSet rs) {
-		// TODO(nhuseinovic): Something goes here.
+	
+	public ResourceDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
+
+	@Override
+	public List<Resource> findAll() throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
 		
+		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM Resources", rowMapper);
+	}
+
+	@Override
+	public Resource find(int id) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		String query = "SELECT * FROM Resources WHERE id = ?";
+		
+		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
+	}
+
+	@Override
+	public boolean insert(Resource user) throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(Resource user) throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Resource findByName(String name) throws DaoException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

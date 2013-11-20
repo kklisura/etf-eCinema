@@ -1,102 +1,56 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
 import ba.etf.tim11.eCinema.dao.ContentDao;
+import ba.etf.tim11.eCinema.dao.DaoException;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
+import ba.etf.tim11.eCinema.dao.mapper.ContentRowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Content;
+import ba.etf.tim11.eCinema.utils.DaoUtil;
 
 
-public class ContentDaoImpl extends BaseDao implements ContentDao
+public class ContentDaoImpl implements ContentDao
 {
+	private DaoFactory daoFactory;
+	private static RowMapper rowMapper = new ContentRowMapper();
+	
+	
+	public ContentDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
+	
+	@Override
+	public List<Content> findAll() throws DaoException
+	{		
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM Contents", rowMapper);
+	}
 
 	@Override
-	public List<Content> findAll()
+	public Content find(int id) throws DaoException
 	{
-		List<Content> contents = new ArrayList<Content>();
+		Connection connection = daoFactory.getConnection();
 		
-		Connection connection = getConnection();
+		String query = "SELECT * FROM Contents WHERE id = ?";
 		
-		try
-		{
-			PreparedStatement preparedStatement=connection.prepareStatement("SELECT * FROM Contents");
-			ResultSet resultSet=preparedStatement.executeQuery();
-			
-			while(resultSet.next())
-			{
-				contents.add((Content) map(resultSet));
-			}
-		} catch(SQLException e)
-		{
-			// TODO(nhuseinovic) NOTE(): Something goes here.
-		
-		} finally {
-			// TODO(nhuseinovic) NOTE(): Something goes here.
-		}
-		
-		return contents;
+		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
 	}
 
 	@Override
-	public Content find(int id) {
-		Content content= null;
-		Connection connection=getConnection();
-		
-		try
-		{
-			PreparedStatement preparedStatement=connection.prepareStatement("SELECT * FROM Contents WHERE id=?");
-			
-			preparedStatement.setInt(1, id);
-			
-			ResultSet resultSet=preparedStatement.executeQuery();
-			
-			if(resultSet.next())
-			{
-				content=(Content) map(resultSet);
-			}
-		} catch(SQLException e)
-		{
-			// TODO(nhuseinovic) NOTE(): Something goes here.
-		} finally 
-		{
-			// TODO(nhuseinovic) NOTE(): Something goes here.
-		}
-		
-		return content;
-	}
-
-	@Override
-	public boolean insert(Content content) {
+	public boolean insert(Content content) throws DaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean update(Content content) {
+	public boolean update(Content content) throws DaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
-	// Helper ---------------------------------------------------------------
-	
-		protected final Object map(ResultSet rs)
-		{
-			// TODO(nhuseinovic): Need to implement this.
-			//
-			// User user = new User();
-			// user.setId(rs.getInt(1));
-			// user.setFirstName(rs.getString(2));
-			// ...
-			// return user;
-			// 
-			return null;
-		}
-	
 
 }

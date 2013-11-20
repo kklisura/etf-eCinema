@@ -7,19 +7,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.UserActionCommentDao;
 import ba.etf.tim11.eCinema.models.UserActionComment;
 
 
-public class UserActionCommentDaoImpl extends BaseDao implements UserActionCommentDao
+public class UserActionCommentDaoImpl implements UserActionCommentDao
 {
+	private DaoFactory daoFactory;
+	
+	public UserActionCommentDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
 	
 	@Override
 	public List<UserActionComment> findAll()
 	{
 		List<UserActionComment> userActionComments = new ArrayList<UserActionComment>();
-		Connection connection = getConnection();
+		Connection connection = daoFactory.getConnection();
 		
 		try
 		{
@@ -44,7 +50,7 @@ public class UserActionCommentDaoImpl extends BaseDao implements UserActionComme
 	@Override
 	public UserActionComment find(int id) {
 		UserActionComment userActionComment=null;
-		Connection connection = getConnection();
+		Connection connection = daoFactory.getConnection();
 		
 		try
 		{

@@ -7,18 +7,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.UserActionTypeDao;
 import ba.etf.tim11.eCinema.models.UserActionType;
 
 
-public class UserActionTypeDaoImpl extends BaseDao implements UserActionTypeDao 
+public class UserActionTypeDaoImpl implements UserActionTypeDao 
 {
+	private DaoFactory daoFactory;
+	
+	public UserActionTypeDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
+	
 	@Override
 	public List<UserActionType> findAll() {
 		
 		List<UserActionType> userActionTypes = new ArrayList<UserActionType>();
-		Connection connection = getConnection();
+		Connection connection = daoFactory.getConnection();
 		
 		try
 		{
@@ -44,7 +51,7 @@ public class UserActionTypeDaoImpl extends BaseDao implements UserActionTypeDao
 	public UserActionType find(int id) {
 		
 		UserActionType userActionType = null;
-		Connection connection = getConnection();
+		Connection connection = daoFactory.getConnection();
 		
 		try
 		{

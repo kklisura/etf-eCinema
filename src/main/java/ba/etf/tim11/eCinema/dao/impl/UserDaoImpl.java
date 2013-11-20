@@ -1,111 +1,56 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
+import ba.etf.tim11.eCinema.dao.DaoException;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.UserDao;
+import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
 import ba.etf.tim11.eCinema.models.User;
+import ba.etf.tim11.eCinema.utils.DaoUtil;
 
 
-public class UserDaoImpl extends BaseDao implements UserDao 
-{	
+public class UserDaoImpl implements UserDao
+{
+	private DaoFactory daoFactory;
+	private static RowMapper rowMapper = new UserRowMapper();
+	
+	
+	public UserDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
+	
 	@Override
-	public List<User> findAll() 
+	public List<User> findAll() throws DaoException
 	{
-		List<User> users = new ArrayList<User>();
+		Connection connection = daoFactory.getConnection();
 		
-		Connection connection = getConnection();
+		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM Users", rowMapper);
+	}	
+
+	@Override
+	public User find(int id) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
 		
-	    try 
-	    {
-	        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users");
-	        ResultSet resultSet = preparedStatement.executeQuery();
-	        
-            while(resultSet.next()) {
-                users.add((User) map(resultSet));
-            }
-
-	    } catch (SQLException e ) 
-	    {
-	    	// NOTE(): Something goes here.
-
-	    } finally {
-	    	// NOTE(): Something gors here.
-
-	    }
-	    
-		return users;
+		String query = "SELECT * FROM Users WHERE id = ?";
+		
+		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
 	}
 
 	@Override
-	public User find(int id) 
-	{
-		User user = null;
-		
-		Connection connection = getConnection();
-		
-	    try 
-	    {
-	        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users WHERE id = ?");
-	        
-	        preparedStatement.setInt(1, id);
-	        
-	        ResultSet resultSet = preparedStatement.executeQuery();
-	        
-            if (resultSet.next()) {
-                user = (User) map(resultSet);
-            }
-
-	    } catch (SQLException e ) 
-	    {
-	    	// NOTE(): Something goes here.
-
-	    } finally {
-	    	// NOTE(): Something gors here.
-
-	    }
-	    
-		return user;
-	}
-
-	@Override
-	public boolean insert(User user) {
+	public boolean insert(User user) throws DaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean update(User user) {
+	public boolean update(User user) throws DaoException {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public User findByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
-	// Helper ---------------------------------------------------------------
-	
-	protected final Object map(ResultSet rs)
-	{
-		// TODO(kklisura): Need to implement this.
-		//
-		// User user = new User();
-		// user.setId(rs.getInt(1));
-		// user.setFirstName(rs.getString(2));
-		// ...
-		// return user;
-		// 
-		return null;
 	}
 
 }

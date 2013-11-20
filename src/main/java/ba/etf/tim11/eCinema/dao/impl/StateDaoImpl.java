@@ -1,101 +1,68 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import ba.etf.tim11.eCinema.dao.BaseDao;
+import ba.etf.tim11.eCinema.dao.DaoException;
+import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.StateDao;
+import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.StateRowMapper;
 import ba.etf.tim11.eCinema.models.State;
+import ba.etf.tim11.eCinema.utils.DaoUtil;
 
-public class StateDaoImpl extends BaseDao implements StateDao
+
+public class StateDaoImpl implements StateDao
 {
-
-	@Override
-	public List<State> findAll() {
-		
-		List<State> states = new ArrayList<State>();
-		Connection connection = getConnection();
-		
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM States");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next())
-			{
-				states.add((State) map(resultSet));
-			}
-		} catch (SQLException e)
-		{
-			// TODO(nhuseinovic): Something goes here.
-		} finally 
-		{
-			// TODO(nhuseinovic): Something goes here.
-		}
-		return states;
-	}
-
-	@Override
-	public State find(int id) {
-		
-		State state = null;
-		Connection connection = getConnection();
-		
-		try
-		{
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM States WHERE id=?");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			if(resultSet.next())
-			{
-				state= (State) map(resultSet);
-			}
-		} catch (SQLException e)
-		{
-			// TODO(nhuseinovic): Something goes here.
-		} finally
-		{
-			// TODO(nhuseinovic): Something goes here.
-		}
-		
-		return state;
-	}
-
-	@Override
-	public boolean insert(State state) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(State state) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public State findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public State findByShortName(String shortName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-// ------------------- Helper
+	private DaoFactory daoFactory;
+	private static RowMapper rowMapper = new StateRowMapper();
 	
-	protected final Object map(ResultSet rs) {
+	
+	public StateDaoImpl(DaoFactory daoFactory) {
+		this.daoFactory = daoFactory;
+	}
+	
+	
+	@Override
+	public List<State> findAll() throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
 		
-		// TODO(nhuseinovic): Something goes here.
+		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM States", rowMapper);
+	}
+
+	@Override
+	public State find(int id) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
 		
+		String query = "SELECT * FROM States WHERE id = ?";
+		
+		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
+	}
+
+	@Override
+	public boolean insert(State state) throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(State state) throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public State findByName(String name) throws DaoException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public State findByShortName(String shortName) throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
