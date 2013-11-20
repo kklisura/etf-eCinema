@@ -19,7 +19,7 @@ public class GroupRowMapper implements RowMapper {
 		group.setUpdatedAt(rs.getDate(4));		
 		group.setCreatedAt(rs.getDate(5));
 		
-		return null;
+		return group;
 	}
 
 }
