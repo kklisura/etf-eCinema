@@ -46,7 +46,7 @@ public class UserActionTypeDaoImpl implements UserActionTypeDao
 	}
 
 	@Override
-	public boolean insert(UserActionType userUserActionType) 
+	public boolean insert(UserActionType userActionType) 
 	{
 		Connection connection = daoFactory.getConnection();
 		
@@ -55,13 +55,11 @@ public class UserActionTypeDaoImpl implements UserActionTypeDao
 		
 		try 
 		{
-			String query = "INSERT INTO UserActions (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO UserActionsType (type) VALUES (?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			 preparedStatement.setString(1, userActionType.getType());
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -70,8 +68,7 @@ public class UserActionTypeDaoImpl implements UserActionTypeDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	userActionType.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating UserActionType failed, no generated key obtained.");
 	        }

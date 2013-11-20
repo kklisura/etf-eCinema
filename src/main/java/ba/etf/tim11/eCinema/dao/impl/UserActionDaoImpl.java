@@ -1,6 +1,7 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,13 +55,13 @@ public class UserActionDaoImpl implements UserActionDao
 		
 		try 
 		{
-			String query = "INSERT INTO UserActions (..) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO UserActions (users_id, useractiontypes_id, time) VALUES (?, ?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			// preparedStatement.setInt(1,  content.get..());
-			// ..
-			// ..
+			preparedStatement.setInt(1, userAction.getUser().getId());
+			preparedStatement.setInt(2, userAction.getUserActionType().getId());
+			preparedStatement.setDate(3, (Date) userAction.getTime());
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
@@ -69,8 +70,7 @@ public class UserActionDaoImpl implements UserActionDao
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	// TODO(kklisura): Fill comment id here.
-	            // content.setId(generatedKeys.getLong(1));
+	        	userAction.setId(generatedKeys.getInt(1));
 	        } else {
 	            throw new SQLException("Creating UserAction failed, no generated key obtained.");
 	        }
