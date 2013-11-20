@@ -1,5 +1,6 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.BaseDao;
@@ -31,6 +32,12 @@ public class UserActionTypeDaoImpl extends BaseDao implements UserActionTypeDao
 	public boolean update(UserActionType user) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	protected Object map(ResultSet rs) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
