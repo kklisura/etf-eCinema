@@ -16,7 +16,7 @@ import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.UserActionType;
 
 
-@Path(" useractiontypes")
+@Path("useractiontypes")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserActionTypeResource
 {

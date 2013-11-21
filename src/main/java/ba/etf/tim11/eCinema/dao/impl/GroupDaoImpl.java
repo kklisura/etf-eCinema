@@ -51,7 +51,7 @@ public class GroupDaoImpl  implements GroupDao
 	}
 
 	@Override
-	public boolean insert(Group group) throws DaoException 
+	public Group insert(Group group) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
@@ -64,22 +64,19 @@ public class GroupDaoImpl  implements GroupDao
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
-			
 			preparedStatement.setString(1, group.getName());
 			preparedStatement.setString(2, group.getDescription());
 			
-			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
-	            throw new SQLException("Creating group failed, no rows affected.");
+	            throw new SQLException("Creating Group failed, no rows affected.");
 	        }
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
-	        	
 	            group.setId(generatedKeys.getInt(1));
 	        } else {
-	            throw new SQLException("Creating group failed, no generated key obtained.");
+	            throw new SQLException("Creating Group failed, no generated key obtained.");
 	        }
 	        
 		} catch (SQLException e) 
@@ -102,7 +99,7 @@ public class GroupDaoImpl  implements GroupDao
 			}
 		}
 		
-		return true;
+		return group;
 	}
 
 	@Override
@@ -114,19 +111,18 @@ public class GroupDaoImpl  implements GroupDao
 		
 		try
 		{
-			String query = "UPDATE Group SET comment = ?, nesto = ? WHERE id = ?";
+			String query = "UPDATE Group SET name = ?, description = ? WHERE id = ?";
 			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(query);
 			
-			// preparedStatement.setInt(1,  comment.getComment());
-			// ..
-			// ..
-			// ..
-			// preparedStatement.setInt(10,  comment.getId());
+			preparedStatement.setString(1, group.getName());
+			preparedStatement.setString(2, group.getDescription());
+			
+			preparedStatement.setInt(3, group.getId());
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
-	            throw new SQLException("Creating Group failed, no rows affected.");
+	            throw new SQLException("Updating Group failed, no rows affected.");
 	        }
 	        
 		} catch (SQLException e) {
@@ -147,5 +143,45 @@ public class GroupDaoImpl  implements GroupDao
 		
 		return true;
 	}
+
+
+	@Override
+	public boolean delete(Group group) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		PreparedStatement preparedStatement = null;
+		
+		try 
+		{		
+			preparedStatement = connection.prepareStatement("DELETE FROM Groups WHERE id = ?");
+			
+			preparedStatement.setInt(1, group.getId());	
+			
+			int affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Deleting Group failed, no rows affected.");
+	        }
+	        
+		} catch (SQLException e) {
+			throw new DaoException("Delete failed. " + e.getMessage());
+		}finally 
+		{
+			try 
+			{
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) 
+			{
+				// TOOD(kklisura): Better handling of this error.
+				e.printStackTrace();
+				throw new DaoException("Something went wrong " + e.getMessage());
+			}
+		}
+		
+		return true;
+	}
+	
+	
 
 }

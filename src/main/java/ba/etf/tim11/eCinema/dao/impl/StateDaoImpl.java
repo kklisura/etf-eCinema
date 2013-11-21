@@ -58,7 +58,7 @@ public class StateDaoImpl implements StateDao
 	}
 
 	@Override
-	public boolean insert(State state) throws DaoException 
+	public State insert(State state) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
@@ -106,7 +106,7 @@ public class StateDaoImpl implements StateDao
 			}
 		}
 		
-		return true;
+		return state;
 	}
 
 	@Override
@@ -116,26 +116,63 @@ public class StateDaoImpl implements StateDao
 		
 		PreparedStatement preparedStatement = null;
 		
-		try
-		{
-			String query = "UPDATE Comment SET comment = ?, nesto = ? WHERE id = ?";
+		try 
+		{	
+			String query = "UPDATE States SET name = ?, shortName = ? WHERE id = ?";
 			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(query);
 			
-			// preparedStatement.setInt(1,  comment.getComment());
-			// ..
-			// ..
-			// ..
-			// preparedStatement.setInt(10,  comment.getId());
+			preparedStatement.setString(1, state.getName());
+			preparedStatement.setString(2, state.getShortName());
+
+			preparedStatement.setInt(3, state.getId());	
 			
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
-	            throw new SQLException("Creating comment failed, no rows affected.");
+	            throw new SQLException("Updating State failed, no rows affected.");
+	        }
+		
+		} catch (SQLException e) {
+			throw new DaoException("Update failed. " + e.getMessage());
+		}finally 
+		{
+			try 
+			{
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) 
+			{
+				// TOOD(kklisura): Better handling of this error.
+				e.printStackTrace();
+				throw new DaoException("Something went wrong " + e.getMessage());
+			}
+		}
+		
+		return true;
+	}
+	
+	
+	@Override
+	public boolean delete(State state) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		PreparedStatement preparedStatement = null;
+		
+		try 
+		{		
+			preparedStatement = connection.prepareStatement("DELETE FROM States WHERE id = ?");
+			
+			preparedStatement.setInt(1, state.getId());			
+			
+			int affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Deleting State failed, no rows affected.");
 	        }
 	        
 		} catch (SQLException e) {
-			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
-		} finally 
+			throw new DaoException("Delete failed. " + e.getMessage());
+		}finally 
 		{
 			try 
 			{

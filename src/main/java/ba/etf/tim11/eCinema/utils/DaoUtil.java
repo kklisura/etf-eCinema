@@ -1,10 +1,17 @@
 package ba.etf.tim11.eCinema.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.DaoException;
@@ -59,6 +66,58 @@ public final class DaoUtil
 		}
 		
 		return result;
+	}
+	
+	
+	public static DateFormat dateFormat = null;
+	
+	public static java.util.Date string2Date(String date) throws ParseException
+	{
+		if (dateFormat == null) {
+			dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		}
+		
+		return dateFormat.parse(date);
+	}
+	
+	
+	public static java.sql.Date utilDate2SqlDatw(java.util.Date date) {
+		return new java.sql.Date(date.getTime());
+	}
+	
+	
+	// http://stackoverflow.com/questions/4895523/java-string-to-sha1
+	public static String encryptPassword(String password)
+	{
+	    String sha1 = "";
+	    try
+	    {
+	        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	        crypt.reset();
+	        crypt.update(password.getBytes("UTF-8"));
+	        sha1 = byteToHex(crypt.digest());
+	    }
+	    catch(NoSuchAlgorithmException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    catch(UnsupportedEncodingException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    return sha1;
+	}
+
+	private static String byteToHex(final byte[] hash)
+	{
+	    Formatter formatter = new Formatter();
+	    for (byte b : hash)
+	    {
+	        formatter.format("%02x", b);
+	    }
+	    String result = formatter.toString();
+	    formatter.close();
+	    return result;
 	}
 	
 }

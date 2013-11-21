@@ -45,50 +45,75 @@ public class UserDaoImpl implements UserDao
 		
 		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
 	}
+	
+	@Override
+	public User find(String username) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		User user = null;
+		
+		try 
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users WHERE username = ?");
+			
+			preparedStatement.setString(1, username);
+			
+		    ResultSet resultSet = preparedStatement.executeQuery();
+		        
+	        if (resultSet.next()) {
+	        	user = (User) rowMapper.map(resultSet);
+	        }
+	        
+		} catch (SQLException e) 
+		{
+			throw new DaoException("find(byUsername) failed. " + e.getMessage());
+		}
+		
+		return user;
+	}
+
 
 	@Override
-	public boolean insert(User user) throws DaoException 
+	public User insert(User user) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
 		PreparedStatement preparedStatement = null;
 		ResultSet generatedKeys = null;
 		
-		
-		try {
-			
-			String query = "INSERT INTO Users (lastName, firstName, email, phone, adress, dateOfBirth, placeOfBirth, states_id, password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try 
+		{	
+			String query = "INSERT INTO Users (lastName, firstName, username, email, phone, address, dateOfBirth, placeOfBirth, states_id, password, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			preparedStatement.setString(1, user.getLastName());
 			preparedStatement.setString(2, user.getFirstName());
-			preparedStatement.setString(3, user.getEmail());
-			preparedStatement.setString(4, user.getPhone());
-			preparedStatement.setString(5, user.getAddress());
-			preparedStatement.setDate(6, (Date) user.getDateOfBirth());
-			preparedStatement.setString(7, user.getPlaceOfBirth());
-			preparedStatement.setInt(8, user.getState().getId());
-			preparedStatement.setString(9, user.getPassword());
-			preparedStatement.setInt(10, user.getSalt());
-			// userpreferences
+			preparedStatement.setString(3, user.getUsername());
+			preparedStatement.setString(4, user.getEmail());
+			preparedStatement.setString(5, user.getPhone());
+			preparedStatement.setString(6, user.getAddress());
+			preparedStatement.setDate(7, (Date) user.getDateOfBirth());
+			preparedStatement.setString(8, user.getPlaceOfBirth());
+			preparedStatement.setInt(9, user.getState().getId());
+			preparedStatement.setString(10, user.getPassword());
+			preparedStatement.setInt(11, user.getSalt());			
 			
-			
-		
 			int affectedRows = preparedStatement.executeUpdate();
 	        if (affectedRows == 0) {
-	            throw new SQLException("Creating comment failed, no rows affected.");
+	            throw new SQLException("Creating User failed, no rows affected.");
 	        }
 
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
 	        	user.setId(generatedKeys.getInt(1));
 	        } else {
-	            throw new SQLException("Creating comment failed, no generated key obtained.");
+	            throw new SQLException("Creating User failed, no generated key obtained.");
 	        }
 		
 		} catch (SQLException e) {
-			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
+			throw new DaoException("Insert failed. " + e.getMessage());
 		}finally 
 		{
 			try 
@@ -105,13 +130,96 @@ public class UserDaoImpl implements UserDao
 				throw new DaoException("Something went wrong " + e.getMessage());
 			}
 		}
-		return true;
+		
+		return user;
 	}
 
 	@Override
-	public boolean update(User user) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(User user) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		PreparedStatement preparedStatement = null;
+		
+		try 
+		{	
+			String query = "UPDATE Users SET lastName = ?, firstName = ?, username = ?, email = ?, phone = ?, adress = ?, dateOfBirth = ?, placeOfBirth = ?, states_id = ?, password = ?, salt = ? WHERE id = ?";
+			
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, user.getLastName());
+			preparedStatement.setString(2, user.getFirstName());
+			preparedStatement.setString(3, user.getFirstName());
+			preparedStatement.setString(4, user.getEmail());
+			preparedStatement.setString(5, user.getPhone());
+			preparedStatement.setString(6, user.getAddress());
+			preparedStatement.setDate(7, (Date) user.getDateOfBirth());
+			preparedStatement.setString(8, user.getPlaceOfBirth());
+			preparedStatement.setInt(9, user.getState().getId());
+			preparedStatement.setString(10, user.getPassword());
+			preparedStatement.setInt(11, user.getSalt());			
+			
+			preparedStatement.setInt(12, user.getId());	
+			
+			int affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Updating User failed, no rows affected.");
+	        }
+		
+		} catch (SQLException e) {
+			throw new DaoException("Update failed. " + e.getMessage());
+		}finally 
+		{
+			try 
+			{
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) 
+			{
+				// TOOD(kklisura): Better handling of this error.
+				e.printStackTrace();
+				throw new DaoException("Something went wrong " + e.getMessage());
+			}
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public boolean delete(User user) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		PreparedStatement preparedStatement = null;
+		
+		try 
+		{		
+			preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE id = ?");
+			
+			preparedStatement.setInt(1, user.getId());			
+			
+			int affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating User failed, no rows affected.");
+	        }
+	        
+		} catch (SQLException e) {
+			throw new DaoException("Delete failed. " + e.getMessage());
+		}finally 
+		{
+			try 
+			{
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) 
+			{
+				// TOOD(kklisura): Better handling of this error.
+				e.printStackTrace();
+				throw new DaoException("Something went wrong " + e.getMessage());
+			}
+		}
+		
+		return true;
 	}
 
 }

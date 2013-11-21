@@ -7,14 +7,13 @@ public class User
 {
 	int id;
 	String lastName, firstName;
-	String email;
+	String username, email, password;
+	int salt;
 	String phone;
 	String address;
 	Date dateOfBirth;
 	String placeOfBirth;
 	State state;
-	String password;
-	int salt;
 	Date updatedAt, createdAt;
 	
 	
@@ -52,6 +51,14 @@ public class User
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public String getPhone() {

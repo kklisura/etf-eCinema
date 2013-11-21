@@ -15,7 +15,9 @@ public interface StateDao
 	
 	public State findByShortName(String shortName) throws DaoException;
 	
-	public boolean insert(State state) throws DaoException;
+	public State insert(State state) throws DaoException;
 	
 	public boolean update(State state) throws DaoException;
+	
+	public boolean delete(State state) throws DaoException;
 }
