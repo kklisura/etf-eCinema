@@ -16,7 +16,7 @@ public class ResourceRowMapper implements RowMapper {
 		resource.setName(rs.getString(2));
 		resource.setDescription(rs.getString(3));
 		
-		return null;
+		return resource;
 	}
 
 }
