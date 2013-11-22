@@ -2,51 +2,40 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
-public class Comment 
+
+public class AudioSynchronization
 {
 	int id;
-	String title, text;
 	Content content;
-	User user;
+	Language language;
+	String fileId;
 	Date updatedAt, createdAt;
 	
-	public Comment() {}
-	
+	public AudioSynchronization() {}
 	
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
 
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-
-	public String getTitle() {
-		return title;
+	
+	public int getId() {
+		return id;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Content getContent() {
@@ -57,24 +46,21 @@ public class Comment
 		this.content = content;
 	}
 
-	public User getUser() {
-		return user;
+	public Language getLanguage() {
+		return language;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setLanguage(Language language) {
+		this.language = language;
 	}
 
-	public int getId() {
-		return id;
+	public String getFileId() {
+		return fileId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
 	}
-	
-	
 
 	
-
 }
