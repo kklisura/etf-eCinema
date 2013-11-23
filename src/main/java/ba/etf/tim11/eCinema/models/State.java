@@ -10,9 +10,7 @@ public class State
 	Date updatedAt, createdAt;
 	
 	
-	public State() {
-		
-	}
+	public State() {}
 	
 	public int getId() {
 		return id;

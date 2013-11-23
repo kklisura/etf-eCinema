@@ -20,9 +20,7 @@ public final class User
 	Date updatedAt, createdAt;
 	
 	
-	public User() {
-		
-	}
+	public User() {}
 	
 	public int getId() {
 		return id;

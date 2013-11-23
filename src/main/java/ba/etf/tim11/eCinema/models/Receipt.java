@@ -11,19 +11,7 @@ public class Receipt
 	Date updatedAt;
 	Date cretedAt;
 	
-	public Receipt(int id, BigDecimal totalPrice, BigDecimal discount,
-			Date updatedAt, Date cretedAt)
-	{
-		this.id = id;
-		this.totalPrice = totalPrice;
-		this.discount = discount;
-		this.updatedAt = updatedAt;
-		this.cretedAt = cretedAt;
-	}
-	
-	public Receipt() {
-		// TODO Auto-generated constructor stub
-	}
+		public Receipt() {}
 
 	public int getId() {
 		return id;

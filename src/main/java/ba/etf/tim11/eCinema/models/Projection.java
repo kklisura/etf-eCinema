@@ -9,20 +9,20 @@ public class Projection
 	Date time;
 	BigDecimal pricePerSeat;
 	Content content;
-	CinemaHoll cinemaHoll;
+	CinemaHall cinemaHall;
 	ProjectionType projectionType;
 	Date updatedAt;
 	Date createdAt;
 	
 	public Projection(int id, Date time, BigDecimal pricePerSeat, Content content,
-			CinemaHoll cinemaHoll, ProjectionType projectionType,
+			CinemaHall cinemaHall, ProjectionType projectionType,
 			Date updatedAt, Date createdAt)
 	{
 		this.id = id;
 		this.time = time;
 		this.pricePerSeat = pricePerSeat;
 		this.content = content;
-		this.cinemaHoll = cinemaHoll;
+		this.cinemaHall = cinemaHall;
 		this.projectionType = projectionType;
 		this.updatedAt = updatedAt;
 		this.createdAt = createdAt;
@@ -64,12 +64,12 @@ public class Projection
 		this.content = content;
 	}
 	
-	public CinemaHoll getCinemaHoll() {
-		return cinemaHoll;
+	public CinemaHall getCinemaHall() {
+		return cinemaHall;
 	}
 	
-	public void setCinemaHoll(CinemaHoll cinemaHoll) {
-		this.cinemaHoll = cinemaHoll;
+	public void setCinemaHall(CinemaHall cinemaHall) {
+		this.cinemaHall = cinemaHall;
 	}
 	
 	public ProjectionType getProjectionType() {

@@ -3,7 +3,7 @@ package ba.etf.tim11.eCinema.dao.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ba.etf.tim11.eCinema.models.CinemaHoll;
+import ba.etf.tim11.eCinema.models.CinemaHall;
 import ba.etf.tim11.eCinema.models.Reservation;
 import ba.etf.tim11.eCinema.models.Seat;
 
@@ -14,7 +14,7 @@ public class SeatRowMapper implements RowMapper
 	public Object map(ResultSet rs) throws SQLException 
 	{
 		Seat seat = new Seat();
-		CinemaHoll cinemaHoll= new CinemaHoll();
+		CinemaHall cinemaHoll= new CinemaHall();
 		Reservation reservation = new Reservation();
 		
 		seat.setId(rs.getInt(1));

@@ -12,22 +12,7 @@ public class Reservation
 	Date createdAt;
 	Date updatedAt;
 	
-	public Reservation(int id, Projection projection, User user,
-			Receipt receipt, ReservationType reservationType, Date createdAt,
-			Date updatedAt) 
-	{
-		this.id = id;
-		this.projection = projection;
-		this.user = user;
-		this.receipt = receipt;
-		this.reservationType = reservationType;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
-	
-	public Reservation() {
-		// TODO Auto-generated constructor stub
-	}
+	public Reservation() {}
 
 	public int getId() {
 		return id;

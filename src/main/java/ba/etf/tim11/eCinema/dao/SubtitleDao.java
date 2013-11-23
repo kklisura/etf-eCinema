@@ -13,5 +13,8 @@ public interface SubtitleDao
 	public boolean insert (Subtitle subtitle) throws DaoException;
 	
 	public boolean update (Subtitle subtitle) throws DaoException;
+	
+	public boolean delete (Subtitle subtitle) throws DaoException;	
+	
 
 }
