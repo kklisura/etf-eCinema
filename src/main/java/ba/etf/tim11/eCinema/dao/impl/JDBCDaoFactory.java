@@ -145,20 +145,17 @@ public class JDBCDaoFactory implements DaoFactory
 
 	@Override
 	public LanguageDao getLanguageDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new LanguageDaoImpl(this);
 	}
 
 	@Override
 	public SubtitleDao getSubtitleDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SubtitleDaoImpl(this);
 	}
 
 	@Override
 	public TypeDao getTypeDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new TypeDaoImpl(this);
 	}
 	
 	
