@@ -70,5 +70,16 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 		
 		return true;
 	}
+
+
+	@Override
+	public boolean delete(AudioSynchronization audioSynchronization) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		DaoUtil.executeUpdate(connection, "DELETE FROM AudioSynchronization WHERE id = ?", audioSynchronization.getId());
+		
+		return true;	
+	}
 	
 }

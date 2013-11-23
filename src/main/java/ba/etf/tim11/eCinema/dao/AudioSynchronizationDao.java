@@ -14,5 +14,7 @@ public interface AudioSynchronizationDao
 	public boolean insert(AudioSynchronization audioSynchronization) throws DaoException;
 		
 	public boolean update(AudioSynchronization audioSynchronization) throws DaoException;
+	
+	public boolean delete(AudioSynchronization audioSynchronization) throws DaoException;
 
 }
