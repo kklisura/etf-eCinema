@@ -2,14 +2,20 @@ package ba.etf.tim11.eCinema.models;
 
 public class Content {
 	int id;
-	String title, actors, director, file;
+	String title, actors, director, fileId;
 	int year, length;
-	//Type type;
+	Type type;
 	
 	
 	
-	public Content() {
-	
+	public Content() {}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	public String getTitle() {
@@ -36,12 +42,12 @@ public class Content {
 		this.director = director;
 	}
 
-	public String getFile() {
-		return file;
+	public String getFileId() {
+		return fileId;
 	}
 
-	public void setFile(String file) {
-		this.file = file;
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
 	}
 
 	public int getYear() {

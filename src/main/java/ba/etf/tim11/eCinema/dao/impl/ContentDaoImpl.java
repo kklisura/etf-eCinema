@@ -67,7 +67,7 @@ public class ContentDaoImpl implements ContentDao
 			
 			// preparedStatement.setInt(6, content.getTypes().getId());
 			
-			preparedStatement.setString(7, content.getFile());
+			preparedStatement.setString(7, content.getFileId());
 			
 
 			
