@@ -33,7 +33,11 @@ public class Seat
 		return cinemaHall;
 	}
 	
+<<<<<<< HEAD
 	public void setCinemaHall(CinemaHall cinemaHall) {
+=======
+	public void setCinemaHoll(CinemaHall cinemaHall) {
+>>>>>>> 5c53434c019cbc885939f1fd20a53e4b0b0da982
 		this.cinemaHall = cinemaHall;
 	}
 	
