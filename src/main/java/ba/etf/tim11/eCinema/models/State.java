@@ -2,6 +2,7 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
+
 public class State 
 {
 	int id;

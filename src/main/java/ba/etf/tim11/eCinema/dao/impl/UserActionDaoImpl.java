@@ -1,11 +1,6 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.DaoException;
@@ -15,6 +10,7 @@ import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.UserActionRowMapper;
 import ba.etf.tim11.eCinema.models.UserAction;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
+
 
 public class UserActionDaoImpl implements UserActionDao
 {
@@ -32,7 +28,7 @@ public class UserActionDaoImpl implements UserActionDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM UserActions", rowMapper);
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM UserActions");
 	}
 
 	@Override
@@ -40,9 +36,7 @@ public class UserActionDaoImpl implements UserActionDao
 	{
 		Connection connection = daoFactory.getConnection();
 
-		String query = "SELECT * FROM UserActions WHERE id = ?";
-		
-		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM UserActions WHERE id = ?", id);
 	}
 	
 	@Override
@@ -50,50 +44,14 @@ public class UserActionDaoImpl implements UserActionDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		ResultSet generatedKeys = null;
+		int rowId = DaoUtil.executeUpdate(connection, 
+										  "INSERT INTO UserActions (users_id, useractiontypes_id, time) VALUES (?, ?, ?)",
+										  userAction.getUser().getId(),
+										  userAction.getUserActionType().getId(),
+										  // TODO(kklisura): Time!?
+										  userAction.getTime());
 		
-		try 
-		{
-			String query = "INSERT INTO UserActions (users_id, useractiontypes_id, time) VALUES (?, ?, ?)";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			preparedStatement.setInt(1, userAction.getUser().getId());
-			preparedStatement.setInt(2, userAction.getUserActionType().getId());
-			preparedStatement.setDate(3, (Date) userAction.getTime());
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating UserAction failed, no rows affected.");
-	        }
-
-	        generatedKeys = preparedStatement.getGeneratedKeys();
-	        if (generatedKeys.next()) {
-	        	userAction.setId(generatedKeys.getInt(1));
-	        } else {
-	            throw new SQLException("Creating UserAction failed, no generated key obtained.");
-	        }
-	        
-		} catch (SQLException e) 
-		{
-			throw new DaoException("insert failed. " + e.getMessage());
-		} finally
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-				
-				if (generatedKeys != null)
-					generatedKeys.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		userAction.setId(rowId);
 		
 		return true;
 	}
@@ -103,40 +61,23 @@ public class UserActionDaoImpl implements UserActionDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
+		DaoUtil.executeUpdate(connection, 
+							  "UPDATE UserActions SET users_id = ?, useractiontypes_id = ?, time = ? WHERE id = ?",
+							  userAction.getUser().getId(),
+							  userAction.getUserActionType().getId(),
+							  // TODO(kklisura): Time!?
+							  userAction.getTime(),
+							  userAction.getId());
 		
-		try
-		{
-			String query = "UPDATE Comment SET comment = ?, nesto = ? WHERE id = ?";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			// preparedStatement.setInt(1,  comment.getComment());
-			// ..
-			// ..
-			// ..
-			// preparedStatement.setInt(10,  comment.getId());
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating comment failed, no rows affected.");
-	        }
-	        
-		} catch (SQLException e) {
-			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
-		} finally 
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		return true;
+	}
+
+	@Override
+	public boolean delete(UserAction userAction) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		DaoUtil.executeUpdate(connection, "DELETE FROM UserActions WHERE id = ?", userAction.getId());
 		
 		return true;
 	}

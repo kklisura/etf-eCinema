@@ -11,9 +11,11 @@ public interface RoleDao
 	
 	public Role find(int id) throws DaoException;
 	
-	public Role findByName(String name) throws DaoException;
+	public Role find(String name) throws DaoException;
 	
 	public boolean insert(Role role) throws DaoException;
 	
 	public boolean update(Role role) throws DaoException;
+	
+	public boolean delete(Role role) throws DaoException;
 }

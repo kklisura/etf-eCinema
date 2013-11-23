@@ -13,6 +13,7 @@ import ba.etf.tim11.eCinema.dao.PrivilegeDao;
 import ba.etf.tim11.eCinema.dao.PrivilegeTypeDao;
 import ba.etf.tim11.eCinema.dao.ResourceDao;
 import ba.etf.tim11.eCinema.dao.RoleDao;
+import ba.etf.tim11.eCinema.dao.SessionDao;
 import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.UserActionCommentDao;
 import ba.etf.tim11.eCinema.dao.UserActionContentDao;
@@ -131,6 +132,11 @@ public class JDBCDaoFactory implements DaoFactory
 	@Override
 	public UserDao getUserDao() {
 		return new UserDaoImpl(this);
+	}
+	
+	@Override
+	public SessionDao getSessionDao() {
+		return new SessionDaoImpl(this);
 	}
 	
 }

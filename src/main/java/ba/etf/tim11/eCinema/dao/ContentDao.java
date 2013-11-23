@@ -14,4 +14,6 @@ public interface ContentDao
 	public boolean insert(Content content) throws DaoException;
 	
 	public boolean update(Content content) throws DaoException;
+	
+	public boolean delete(Content content) throws DaoException;
 }

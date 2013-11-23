@@ -1,10 +1,6 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.CommentDao;
@@ -32,7 +28,7 @@ public class CommentDaoImpl implements CommentDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM Comments", rowMapper);
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Comments");
 	}
 	
 	@Override
@@ -40,9 +36,10 @@ public class CommentDaoImpl implements CommentDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		String query = "SELECT * FROM Comments WHERE id = ?";
-		
-		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
+		return DaoUtil.executeQueryReturnOne(connection, 
+											 rowMapper, 
+											 "SELECT * FROM Comments WHERE id = ?", 
+											 id);
 	}
 	
 	@Override
@@ -50,53 +47,14 @@ public class CommentDaoImpl implements CommentDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		ResultSet generatedKeys = null;
-		
-		try 
-		{
-			String query = "INSERT INTO Comments (title, text, contents_id, users_id) VALUES (?, ?, ?, ?)";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			preparedStatement.setString(1,  comment.getTitle());
-			preparedStatement.setString(2, comment.getText());
-			preparedStatement.setInt(3, comment.getContent().getId());
-			preparedStatement.setInt(4, comment.getUser().getId());	
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating comment failed, no rows affected.");
-	        }
+		int rowId = DaoUtil.executeUpdate(connection, 
+										  "INSERT INTO Comments (title, text, contents_id, users_id) VALUES (?, ?, ?, ?)",
+										  comment.getTitle(),
+										  comment.getText(),
+										  comment.getContent().getId(),
+										  comment.getUser().getId());
 
-	        generatedKeys = preparedStatement.getGeneratedKeys();
-	        if (generatedKeys.next()) {
-	        
-	            comment.setId(generatedKeys.getInt(1));
-	       
-	        } else {
-	            throw new SQLException("Creating comment failed, no generated key obtained.");
-	        }
-	        
-		} catch (SQLException e) 
-		{
-			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
-		} finally 
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-				
-				if (generatedKeys != null)
-					generatedKeys.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		comment.setId(rowId);
 		
 		return true;
 	}
@@ -106,42 +64,26 @@ public class CommentDaoImpl implements CommentDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		
-		try
-		{
-			String query = "UPDATE Comment SET comment = ?, nesto = ? WHERE id = ?";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			// preparedStatement.setInt(1,  comment.getComment());
-			// ..
-			// ..
-			// ..
-			// preparedStatement.setInt(10,  comment.getId());
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating comment failed, no rows affected.");
-	        }
-	        
-		} catch (SQLException e) {
-			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
-		} finally 
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		DaoUtil.executeUpdate(connection, 
+							  "UPDATE Comments SET title = ?, text = ?, contents_id = ?, users_id = ? WHERE id = ?",
+							  comment.getTitle(),
+							  comment.getText(),
+							  comment.getContent().getId(),
+							  comment.getUser().getId(),
+							  comment.getId());
 		
 		return false;
+	}
+
+
+	@Override
+	public boolean delete(Comment comment) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		DaoUtil.executeUpdate(connection, "DELETE FROM Comments WHERE id = ?", comment.getId());
+		
+		return true;
 	}
 	
 }

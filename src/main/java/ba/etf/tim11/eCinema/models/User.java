@@ -2,8 +2,11 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-public class User
+
+@JsonIgnoreProperties({"salt", "password"})
+public final class User
 {
 	int id;
 	String lastName, firstName;

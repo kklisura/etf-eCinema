@@ -11,11 +11,11 @@ public interface StateDao
 	
 	public State find(int id) throws DaoException;
 	
-	public State findByName(String name) throws DaoException;
+	public State find(String name) throws DaoException;
 	
 	public State findByShortName(String shortName) throws DaoException;
 	
-	public State insert(State state) throws DaoException;
+	public boolean insert(State state) throws DaoException;
 	
 	public boolean update(State state) throws DaoException;
 	

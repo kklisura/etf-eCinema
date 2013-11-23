@@ -11,9 +11,9 @@ public interface GroupDao
 	
 	public Group find(int id) throws DaoException;
 	
-	public Group findByName(String name) throws DaoException;
+	public Group find(String name) throws DaoException;
 	
-	public Group insert(Group group) throws DaoException;
+	public boolean insert(Group group) throws DaoException;
 	
 	public boolean update(Group group) throws DaoException;
 	

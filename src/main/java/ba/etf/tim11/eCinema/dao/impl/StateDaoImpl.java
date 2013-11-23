@@ -1,10 +1,6 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.DaoException;
@@ -32,7 +28,7 @@ public class StateDaoImpl implements StateDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM States", rowMapper);
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM States");
 	}
 
 	@Override
@@ -40,73 +36,38 @@ public class StateDaoImpl implements StateDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		String query = "SELECT * FROM States WHERE id = ?";
-		
-		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM States WHERE id = ?", id);
 	}
 	
 	@Override
-	public State findByName(String name) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public State findByShortName(String shortName) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public State insert(State state) throws DaoException 
+	public State find(String name) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		ResultSet generatedKeys = null;
-		
-		try 
-		{
-			String query = "INSERT INTO States (name, shortName) VALUES (?, ?)";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			preparedStatement.setString(1, state.getName());
-			preparedStatement.setString(2, state.getShortName());
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating State failed, no rows affected.");
-	        }
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM States WHERE name = ?", name);
+	}
 
-	        generatedKeys = preparedStatement.getGeneratedKeys();
-	        if (generatedKeys.next()) {
-	            state.setId(generatedKeys.getInt(1));
-	        } else {
-	            throw new SQLException("Creating State failed, no generated key obtained.");
-	        }
-	        
-		} catch (SQLException e) 
-		{
-			throw new DaoException("Insert failed. " + e.getMessage());
-		} finally
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-				
-				if (generatedKeys != null)
-					generatedKeys.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+	@Override
+	public State findByShortName(String shortName) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
 		
-		return state;
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM States WHERE shortName = ?", shortName);
+	}
+
+	@Override
+	public boolean insert(State state) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		int rowId = DaoUtil.executeUpdate(connection, 
+										 "INSERT INTO States (name, shortName) VALUES (?, ?)",
+										 state.getName(),
+										 state.getShortName());
+		
+		state.setId(rowId);
+		
+		return true;
 	}
 
 	@Override
@@ -114,77 +75,21 @@ public class StateDaoImpl implements StateDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		
-		try 
-		{	
-			String query = "UPDATE States SET name = ?, shortName = ? WHERE id = ?";
-			
-			preparedStatement = connection.prepareStatement(query);
-			
-			preparedStatement.setString(1, state.getName());
-			preparedStatement.setString(2, state.getShortName());
-
-			preparedStatement.setInt(3, state.getId());	
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Updating State failed, no rows affected.");
-	        }
-		
-		} catch (SQLException e) {
-			throw new DaoException("Update failed. " + e.getMessage());
-		}finally 
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		DaoUtil.executeUpdate(connection, 
+							  "UPDATE States SET name = ?, shortName = ? WHERE id = ?",
+							  state.getName(),
+							  state.getShortName(),
+							  state.getId());
 		
 		return true;
 	}
-	
 	
 	@Override
 	public boolean delete(State state) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		
-		try 
-		{		
-			preparedStatement = connection.prepareStatement("DELETE FROM States WHERE id = ?");
-			
-			preparedStatement.setInt(1, state.getId());			
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Deleting State failed, no rows affected.");
-	        }
-	        
-		} catch (SQLException e) {
-			throw new DaoException("Delete failed. " + e.getMessage());
-		}finally 
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		DaoUtil.executeUpdate(connection, "DELETE FROM States WHERE id = ?", state.getId());
 		
 		return true;
 	}

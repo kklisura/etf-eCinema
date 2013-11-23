@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,9 +20,85 @@ import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 
 
 public final class DaoUtil 
-{
+{	
+	public static ResultSet executeQuery(Connection connection, String query, Object... arguments) throws DaoException
+	{
+		PreparedStatement preparedStatement;
+		ResultSet resultSet;
+		
+		try 
+		{
+			preparedStatement = connection.prepareStatement(query);
+			
+			for (int i = 0; i < arguments.length; i++) {
+		        preparedStatement.setObject(i + 1, arguments[i].toString());
+		    }
+			
+			resultSet = preparedStatement.executeQuery();
+
+		} catch (SQLException e) {
+			throw new DaoException("executeQuery failed. " + e.getMessage());
+		}
+		
+		return resultSet;
+	}
+	
+	
+	public static int executeUpdate(Connection connection, String query, Object... arguments) throws DaoException
+	{
+		boolean isInsert = query.startsWith("INSERT");
+		
+		int affectedRows = 0;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		
+		try 
+		{
+			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			for (int i = 0; i < arguments.length; i++) {
+		        preparedStatement.setObject(i + 1, arguments[i].toString());
+		    }
+			
+			affectedRows = preparedStatement.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new DaoException("executeUpdate failed, no rows affected.");
+	        }
+	        
+			if (isInsert) 
+			{
+				generatedKeys = preparedStatement.getGeneratedKeys();
+				
+				if (generatedKeys.next()) {
+					affectedRows = generatedKeys.getInt(1);
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new DaoException("executeUpdate failed. " + e.getMessage());
+		} finally 
+		{	
+			try 
+			{
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (generatedKeys != null) {
+					generatedKeys.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return affectedRows;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
-	public static <T> List<T> executeSelectMultipleQuery(Connection connection, String query, RowMapper rowMapper) throws DaoException
+	public static <T> List<T> executeQuery(Connection connection, RowMapper rowMapper, String query, Object... arguments) throws DaoException
 	{
 		List<T> result = new ArrayList<T>();
 		
@@ -29,14 +106,13 @@ public final class DaoUtil
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 		    ResultSet resultSet = preparedStatement.executeQuery();
-		        
+		    
 	        while(resultSet.next()) {
 	        	result.add((T) rowMapper.map(resultSet));
 	        }
 	        
-		} catch (SQLException e) 
-		{
-			throw new DaoException("executeSelectMultipleQuery failed. " + e.getMessage());
+		} catch (SQLException e) {
+			throw new DaoException("executeQuery failed. " + e.getMessage());
 		}
 		
 		return result;
@@ -44,7 +120,7 @@ public final class DaoUtil
 	
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T executeSelectWithId(Connection connection, String query, int id, RowMapper rowMapper) throws DaoException
+	public static <T> T executeQueryReturnOne(Connection connection, RowMapper rowMapper, String query, Object... arguments) throws DaoException
 	{
 		T result = null;
 		
@@ -52,7 +128,9 @@ public final class DaoUtil
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			
-			preparedStatement.setInt(1, id);
+			for (int i = 0; i < arguments.length; i++) {
+		        preparedStatement.setObject(i + 1, arguments[i].toString());
+		    }
 			
 		    ResultSet resultSet = preparedStatement.executeQuery();
 		        
@@ -60,9 +138,8 @@ public final class DaoUtil
 	        	result = (T) rowMapper.map(resultSet);
 	        }
 	        
-		} catch (SQLException e) 
-		{
-			throw new DaoException("executeSelectWithId failed. " + e.getMessage());
+		} catch (SQLException e) {
+			throw new DaoException("executeQueryReturnOne failed. " + e.getMessage());
 		}
 		
 		return result;

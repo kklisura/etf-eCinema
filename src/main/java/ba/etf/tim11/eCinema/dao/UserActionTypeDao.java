@@ -14,4 +14,6 @@ public interface UserActionTypeDao
 	public boolean insert(UserActionType userActionType) throws DaoException;
 	
 	public boolean update(UserActionType userActionType) throws DaoException;
+	
+	public boolean delete(UserActionType userActionType) throws DaoException;
 }

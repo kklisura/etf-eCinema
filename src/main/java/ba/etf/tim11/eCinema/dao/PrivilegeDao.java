@@ -11,7 +11,9 @@ public interface PrivilegeDao
 	
 	public Privilege find(int id) throws DaoException;
 	
-	public boolean insert(Privilege user) throws DaoException;
+	public boolean insert(Privilege privilege) throws DaoException;
 	
-	public boolean update(Privilege user) throws DaoException;
+	public boolean update(Privilege privilege) throws DaoException;
+	
+	public boolean delete(Privilege privilege) throws DaoException;
 }

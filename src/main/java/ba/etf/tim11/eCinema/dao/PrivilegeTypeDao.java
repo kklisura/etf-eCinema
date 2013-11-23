@@ -11,9 +11,11 @@ public interface PrivilegeTypeDao
 
 	public PrivilegeType find(int id) throws DaoException;
 	
-	public PrivilegeType findByName(String name) throws DaoException;
+	public PrivilegeType find(String name) throws DaoException;
 
 	public boolean insert(PrivilegeType privilegeType) throws DaoException;
 
 	public boolean update(PrivilegeType privilegeType) throws DaoException;
+	
+	public boolean delete(PrivilegeType privilegeType) throws DaoException;
 }

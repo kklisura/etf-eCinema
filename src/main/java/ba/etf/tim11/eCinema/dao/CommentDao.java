@@ -14,4 +14,6 @@ public interface CommentDao
 	public boolean insert(Comment comment) throws DaoException;
 	
 	public boolean update(Comment comment) throws DaoException;
+	
+	public boolean delete(Comment comment) throws DaoException;
 }

@@ -1,10 +1,6 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.DaoException;
@@ -32,7 +28,7 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeSelectMultipleQuery(connection, "SELECT * FROM Privileges", rowMapper);
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Privileges");
 	}
 
 	@Override
@@ -40,9 +36,7 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 	{		
 		Connection connection = daoFactory.getConnection();
 		
-		String query = "SELECT * FROM Privileges WHERE id = ?";
-		
-		return DaoUtil.executeSelectWithId(connection, query, id, rowMapper);	
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM Privileges WHERE id = ?", id);	
 	}
 
 	@Override
@@ -50,96 +44,40 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
-		ResultSet generatedKeys = null;
+		int rowId = DaoUtil.executeUpdate(connection,
+										  "INSERT INTO Privileges (allow, resources_id, roles_id, privilegetypes_id) VALUES (?, ?, ?, ?)",
+										  privilege.isAllowed(),
+										  privilege.getResource().getId(),
+										  privilege.getRole().getId(),
+										  privilege.getPrivilegeType().getId());
 		
-		try 
-		{
-			String query = "INSERT INTO Privileges (allow, resources_id, roles_id, privilegetypes_id) VALUES (?, ?, ?, ?)";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			preparedStatement.setBoolean(1, privilege.isAllowed());
-			preparedStatement.setInt(2,privilege.getResource().getId());
-			preparedStatement.setInt(3, privilege.getRole().getId());
-			preparedStatement.setInt(4, privilege.getPrivilegeType().getId());
-
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating privilege failed, no rows affected.");
-	        }
-
-	        generatedKeys = preparedStatement.getGeneratedKeys();
-	        if (generatedKeys.next()) {
-	        	
-	        	privilege.setId(generatedKeys.getInt(1));
-	        } else {
-	            throw new SQLException("Creating privilege failed, no generated key obtained.");
-	        }
-	        
-		} catch (SQLException e) 
-		{
-			throw new DaoException("insert failed. " + e.getMessage());
-		} finally
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-				
-				if (generatedKeys != null)
-					generatedKeys.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		privilege.setId(rowId);
 		
 		return true;
 	}
 
 	@Override
-	public boolean update(Privilege user) throws DaoException 
+	public boolean update(Privilege privilege) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		PreparedStatement preparedStatement = null;
+		DaoUtil.executeUpdate(connection,
+							  "UPDATE Privileges SET allow = ?, resources_id = ?, roles_id = ?, privilegetypes_id = ? WHERE id = ?",
+							  privilege.isAllowed(),
+							  privilege.getResource().getId(),
+							  privilege.getRole().getId(),
+							  privilege.getPrivilegeType().getId(),
+							  privilege.getId());
 		
-		try
-		{
-			String query = "UPDATE Privilege SET comment = ?, nesto = ? WHERE id = ?";
-			
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			// preparedStatement.setInt(1,  comment.getComment());
-			// ..
-			// ..
-			// ..
-			// preparedStatement.setInt(10,  comment.getId());
-			
-			int affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new SQLException("Creating Privilege failed, no rows affected.");
-	        }
-	        
-		} catch (SQLException e) {
-			throw new DaoException("Update failed. " + e.getMessage());
-		} finally 
-		{
-			try 
-			{
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} catch (SQLException e) 
-			{
-				// TOOD(kklisura): Better handling of this error.
-				e.printStackTrace();
-				throw new DaoException("Something went wrong " + e.getMessage());
-			}
-		}
+		return true;
+	}
+
+	@Override
+	public boolean delete(Privilege privilege) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		DaoUtil.executeUpdate(connection, "DELETE FROM Privileges WHERE id = ?", privilege.getId());
 		
 		return true;
 	}

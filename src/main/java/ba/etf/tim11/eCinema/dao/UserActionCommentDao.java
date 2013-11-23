@@ -13,5 +13,7 @@ public interface UserActionCommentDao
 	
 	public boolean insert(UserActionComment userActionComment) throws DaoException;
 	
-	public boolean update(UserActionComment userActionComment) throws DaoException;	
+	public boolean update(UserActionComment userActionComment) throws DaoException;
+	
+	public boolean delete(UserActionComment userActionComment) throws DaoException;
 }

@@ -13,7 +13,7 @@ public interface UserDao
 	
 	public User find(String username) throws DaoException;
 	
-	public User insert(User user) throws DaoException;
+	public boolean insert(User user) throws DaoException;
 	
 	public boolean update(User user) throws DaoException;
 	
