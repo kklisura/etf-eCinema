@@ -53,7 +53,7 @@ public class ContentDaoImpl implements ContentDao
 										  content.getLength(),
 										  // TODO(kklisura): Check this out.
 										  //content.getType().getId(),
-										  content.getFile());
+										  content.getFileId());
 		
 		content.setId(rowId);
 		
@@ -74,7 +74,7 @@ public class ContentDaoImpl implements ContentDao
 							  content.getLength(),
 							  // TODO(kklisura): Check this out.
 							  //content.getType().getId(),
-							  content.getFile(),
+							  content.getFileId(),
 							  content.getId());
 		
 		return true;

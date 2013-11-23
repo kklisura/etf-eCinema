@@ -36,6 +36,8 @@ public interface DaoFactory
 
     public abstract SessionDao getSessionDao();
 
+    public AudioSynchronizationDao getAudioSynchronizationDao();
+    
     public abstract LanguageDao getLanguageDao();
     
     public abstract SubtitleDao getSubtitleDao();
