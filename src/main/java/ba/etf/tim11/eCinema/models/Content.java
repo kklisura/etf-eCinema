@@ -1,14 +1,41 @@
 package ba.etf.tim11.eCinema.models;
 
+import java.util.Date;
+
 public class Content {
 	int id;
 	String title, actors, director, fileId;
 	int year, length;
 	Type type;
-	
+	Date updatedAt, createdAt;
 	
 	
 	public Content() {}
+	
+	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
 
 	public Type getType() {
 		return type;

@@ -33,4 +33,12 @@ public interface DaoFactory
     public abstract UserActionTypeDao getUserActionTypeDao();
     
     public abstract UserDao getUserDao();
+    
+    public abstract AudioSynchronizationDao getAudioSynchronizationDao();
+    
+    public abstract LanguageDao getLanguageDao();
+    
+    public abstract SubtitleDao getSubtitleDao();
+    
+    public abstract TypeDao getTypeDao();
 }

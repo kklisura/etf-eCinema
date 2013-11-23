@@ -4,16 +4,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import ba.etf.tim11.eCinema.dao.AudioSynchronizationDao;
 import ba.etf.tim11.eCinema.dao.CommentDao;
 import ba.etf.tim11.eCinema.dao.ContentDao;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.GroupDao;
+import ba.etf.tim11.eCinema.dao.LanguageDao;
 import ba.etf.tim11.eCinema.dao.PrivilegeDao;
 import ba.etf.tim11.eCinema.dao.PrivilegeTypeDao;
 import ba.etf.tim11.eCinema.dao.ResourceDao;
 import ba.etf.tim11.eCinema.dao.RoleDao;
 import ba.etf.tim11.eCinema.dao.StateDao;
+import ba.etf.tim11.eCinema.dao.SubtitleDao;
+import ba.etf.tim11.eCinema.dao.TypeDao;
 import ba.etf.tim11.eCinema.dao.UserActionCommentDao;
 import ba.etf.tim11.eCinema.dao.UserActionContentDao;
 import ba.etf.tim11.eCinema.dao.UserActionDao;
@@ -132,5 +136,30 @@ public class JDBCDaoFactory implements DaoFactory
 	public UserDao getUserDao() {
 		return new UserDaoImpl(this);
 	}
+
+	@Override
+	public AudioSynchronizationDao getAudioSynchronizationDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LanguageDao getLanguageDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SubtitleDao getSubtitleDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TypeDao getTypeDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 }
