@@ -139,8 +139,7 @@ public class JDBCDaoFactory implements DaoFactory
 
 	@Override
 	public AudioSynchronizationDao getAudioSynchronizationDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new AudioSynchronizationDaoImpl(this);
 	}
 
 	@Override
