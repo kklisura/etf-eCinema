@@ -72,8 +72,7 @@ public class ContentDaoImpl implements ContentDao
 							  content.getDirector(),
 							  content.getYear(),
 							  content.getLength(),
-							  // TODO(kklisura): Check this out.
-							  //content.getType().getId(),
+							  content.getType().getId(),
 							  content.getFileId(),
 							  content.getId());
 		

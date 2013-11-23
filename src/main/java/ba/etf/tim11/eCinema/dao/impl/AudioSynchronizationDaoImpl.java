@@ -37,7 +37,9 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM AudioSynchronizations WHERE id = ?", id);
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper,
+											"SELECT * FROM AudioSynchronizations WHERE id = ?",
+											id);
 	}
 
 	@Override
