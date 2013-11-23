@@ -12,12 +12,7 @@ public class CinemaHall
 	Date cretedAt;
 
 	public CinemaHall() {}
-	
-	
-<<<<<<< HEAD:src/main/java/ba/etf/tim11/eCinema/models/CinemaHall.java
-=======
 
->>>>>>> 5c53434c019cbc885939f1fd20a53e4b0b0da982:src/main/java/ba/etf/tim11/eCinema/models/CinemaHall.java
 	public int getId() {
 		return id;
 	}

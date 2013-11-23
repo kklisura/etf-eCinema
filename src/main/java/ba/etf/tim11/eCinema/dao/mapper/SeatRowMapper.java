@@ -14,11 +14,9 @@ public class SeatRowMapper implements RowMapper
 	public Object map(ResultSet rs) throws SQLException 
 	{
 		Seat seat = new Seat();
-<<<<<<< HEAD
+
 		CinemaHall cinemaHall= new CinemaHall();
-=======
-		CinemaHall cinemaHoll= new CinemaHall();
->>>>>>> 5c53434c019cbc885939f1fd20a53e4b0b0da982
+
 		Reservation reservation = new Reservation();
 		
 		seat.setId(rs.getInt(1));
