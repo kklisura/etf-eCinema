@@ -1,6 +1,9 @@
 package ba.etf.tim11.eCinema.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import ba.etf.tim11.eCinema.dao.DaoException;
@@ -42,8 +45,28 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 	@Override
 	public ProjectionType find(String type) throws DaoException 
 	{
-
-		return null;
+		Connection connection = daoFactory.getConnection();
+		
+		ProjectionType projectionType = null;
+		
+		try 
+		{
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ProjectionTypes WHERE type = ?");
+			
+			preparedStatement.setString(1, type);
+			
+		    ResultSet resultSet = preparedStatement.executeQuery();
+		        
+	        if (resultSet.next()) {
+	        	projectionType = (ProjectionType) rowMapper.map(resultSet);
+	        }
+	        
+		} catch (SQLException e) 
+		{
+			throw new DaoException("find(byProjectionType) failed. " + e.getMessage());
+		}
+		
+		return projectionType;
 	}
 
 }
