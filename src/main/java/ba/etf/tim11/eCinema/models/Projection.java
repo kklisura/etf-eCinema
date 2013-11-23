@@ -28,6 +28,10 @@ public class Projection
 		this.createdAt = createdAt;
 	}
 	
+	public Projection() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

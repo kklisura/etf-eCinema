@@ -22,6 +22,10 @@ public class CinemaHoll
 		this.cretedAt = cretedAt;
 	}
 	
+	public CinemaHoll() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

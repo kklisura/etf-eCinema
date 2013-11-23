@@ -17,6 +17,10 @@ public class ProjectionType
 		this.cretedAt = cretedAt;
 	}
 	
+	public ProjectionType() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

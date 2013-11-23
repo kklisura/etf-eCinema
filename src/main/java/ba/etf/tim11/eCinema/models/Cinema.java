@@ -15,6 +15,10 @@ public class Cinema
 		this.cretedAt = cretedAt;
 	}
 	
+	public Cinema() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

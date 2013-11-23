@@ -17,6 +17,10 @@ public class ReservationType
 		this.cretedAt = cretedAt;
 	}
 	
+	public ReservationType() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

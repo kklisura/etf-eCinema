@@ -22,6 +22,10 @@ public class Seat
 		this.cretedAt = cretedAt;
 	}
 	
+	public Seat() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -21,6 +21,10 @@ public class Receipt
 		this.cretedAt = cretedAt;
 	}
 	
+	public Receipt() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

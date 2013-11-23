@@ -25,6 +25,10 @@ public class Reservation
 		this.updatedAt = updatedAt;
 	}
 	
+	public Reservation() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}
