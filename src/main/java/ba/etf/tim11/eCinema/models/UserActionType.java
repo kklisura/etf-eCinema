@@ -6,9 +6,7 @@ public class UserActionType
 	String type;
 
 	
-	public UserActionType() {
-		
-	}
+	public UserActionType() {}
 	
 	public int getId() {
 		return id;

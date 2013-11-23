@@ -3,7 +3,7 @@ package ba.etf.tim11.eCinema.dao.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ba.etf.tim11.eCinema.models.CinemaHoll;
+import ba.etf.tim11.eCinema.models.CinemaHall;
 import ba.etf.tim11.eCinema.models.Content;
 import ba.etf.tim11.eCinema.models.Projection;
 import ba.etf.tim11.eCinema.models.ProjectionType;
@@ -16,7 +16,7 @@ public class ProjectionRowMapper implements RowMapper
 	{
 		Projection projection = new Projection();
 		Content content = new Content();
-		CinemaHoll cinemaHoll = new CinemaHoll();
+		CinemaHall cinemaHall = new CinemaHall();
 		ProjectionType projectionType = new ProjectionType();
 		
 		projection.setId(rs.getInt(1));
@@ -25,8 +25,8 @@ public class ProjectionRowMapper implements RowMapper
 		
 		content.setId(rs.getInt(4));
 		projection.setContent(content);
-		cinemaHoll.setId(rs.getInt(5));
-		projection.setCinemaHoll(cinemaHoll);
+		cinemaHall.setId(rs.getInt(5));
+		projection.setCinemaHall(cinemaHall);
 		projectionType.setId(rs.getInt(6));
 		projection.setProjectionType(projectionType);
 		

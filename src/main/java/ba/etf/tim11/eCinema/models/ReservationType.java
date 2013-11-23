@@ -9,17 +9,7 @@ public class ReservationType
 	Date updatedAt;
 	Date cretedAt;
 	
-	public ReservationType(int id, String type, Date updatedAt, Date cretedAt)
-	{
-		this.id = id;
-		this.type = type;
-		this.updatedAt = updatedAt;
-		this.cretedAt = cretedAt;
-	}
-	
-	public ReservationType() {
-		// TODO Auto-generated constructor stub
-	}
+	public ReservationType() {}
 
 	public int getId() {
 		return id;

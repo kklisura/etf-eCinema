@@ -2,7 +2,7 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
-public class CinemaHoll 
+public class CinemaHall 
 {
 	int id;
 	String title;
@@ -11,21 +11,9 @@ public class CinemaHoll
 	Date updatedAt;
 	Date cretedAt;
 
-	public CinemaHoll(int id, String title, Cinema cinema, int numberOfSeat,
-			Date updatedAt, Date cretedAt) 
-	{
-		this.id = id;
-		this.title = title;
-		this.cinema = cinema;
-		this.numberOfSeat = numberOfSeat;
-		this.updatedAt = updatedAt;
-		this.cretedAt = cretedAt;
-	}
+	public CinemaHall() {}
 	
-	public CinemaHoll() {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	public int getId() {
 		return id;
 	}

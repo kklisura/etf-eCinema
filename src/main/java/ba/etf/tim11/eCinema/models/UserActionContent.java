@@ -7,9 +7,7 @@ public class UserActionContent
 	UserAction userAction;
 	
 	
-	public UserActionContent() {
-		
-	}
+	public UserActionContent() {}
 	
 	public int getId() {
 		return id;

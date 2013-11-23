@@ -13,5 +13,7 @@ public interface TypeDao
 	public boolean insert (Type type) throws DaoException;
 	
 	public boolean update (Type type) throws DaoException;
+	
+	public boolean delete (Type type) throws DaoException;
 
 }

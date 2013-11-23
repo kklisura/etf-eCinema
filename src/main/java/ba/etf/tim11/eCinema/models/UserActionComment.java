@@ -11,9 +11,7 @@ public class UserActionComment
 	Date updatedAt, createdAt;
 
 	
-	public UserActionComment() {
-		
-	}
+	public UserActionComment() {}
 	
 	public int getId() {
 		return id;

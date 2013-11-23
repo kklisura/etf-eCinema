@@ -13,5 +13,7 @@ public interface LanguageDao
 	public boolean insert(Language language) throws DaoException;
 	
 	public boolean update (Language language) throws DaoException;
+	
+	public boolean delete(Language language) throws DaoException;
 
 }

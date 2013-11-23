@@ -6,25 +6,12 @@ public class Seat
 {
 	int id;
 	int seatNumber;
-	CinemaHoll cinemaHoll;
+	CinemaHall cinemaHall;
 	Reservation reservation;
 	Date updatedAt;
 	Date cretedAt;
 	
-	public Seat(int id, int seatNumber, CinemaHoll cinemaHoll,
-			Reservation reservation, Date updatedAt, Date cretedAt) 
-	{
-		this.id = id;
-		this.seatNumber = seatNumber;
-		this.cinemaHoll = cinemaHoll;
-		this.reservation = reservation;
-		this.updatedAt = updatedAt;
-		this.cretedAt = cretedAt;
-	}
-	
-	public Seat() {
-		// TODO Auto-generated constructor stub
-	}
+	public Seat() {}
 
 	public int getId() {
 		return id;
@@ -42,12 +29,12 @@ public class Seat
 		this.seatNumber = seatNumber;
 	}
 	
-	public CinemaHoll getCinemaHoll() {
-		return cinemaHoll;
+	public CinemaHall getCinemaHall() {
+		return cinemaHall;
 	}
 	
-	public void setCinemaHoll(CinemaHoll cinemaHoll) {
-		this.cinemaHoll = cinemaHoll;
+	public void setCinemaHall(CinemaHall cinemaHall) {
+		this.cinemaHall = cinemaHall;
 	}
 	
 	public Reservation getReservation() {
