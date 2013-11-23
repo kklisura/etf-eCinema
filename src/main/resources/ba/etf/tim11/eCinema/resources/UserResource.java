@@ -19,7 +19,11 @@ import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
 import ba.etf.tim11.eCinema.models.User;
+import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
+import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
+import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
+import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 
 @Path("users")
@@ -39,7 +43,7 @@ public class UserResource
 	
 	@GET
 	public List<User> getAllUsers() 
-	{
+	{ 
 		return userDao.findAll();
 	}
 	
@@ -47,17 +51,28 @@ public class UserResource
 	@Path("{username}")
 	public User getUser(@PathParam("username") String username) 
 	{
-		return userDao.find(username);
+		User user = userDao.find(username);
+		
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found.");
+		}
+		
+		return user;
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	public User createNewUser(MultivaluedMap<String, String> formParams) 
 	{
-		Integer salt = 0 + (int)(Math.random()*10000000); 
+		if (!ResourceUtil.hasAll(formParams, "password", "lastName", "firstName", "username", "email", "state", "dateOfBirth") ||
+			!ResourceUtil.isInt(formParams.getFirst("state"))) 
+		{
+			throw new BadRequestException("You are missing some fields.");
+		}
+		
+		Integer salt = ResourceUtil.generateSalt();
 		
 		String plainPassword = formParams.getFirst("password").concat(salt.toString());
-		
 		String password = DaoUtil.encryptPassword(plainPassword);
 		
 		User user = new User();
@@ -69,7 +84,6 @@ public class UserResource
 		user.setPhone(formParams.getFirst("phone"));
 		user.setAddress(formParams.getFirst("address"));
 		user.setPlaceOfBirth(formParams.getFirst("placeOfBirth"));
-		
 		user.setPassword(password);
 		user.setSalt(salt);
 		
@@ -77,23 +91,93 @@ public class UserResource
 		state.setId(Integer.parseInt(formParams.getFirst("state")));
 		user.setState(state);
 		
-		try {
+		try 
+		{
 			Date dateOfBirth = DaoUtil.string2Date(formParams.getFirst("dateOfBirth"));
 			user.setDateOfBirth(DaoUtil.utilDate2SqlDatw(dateOfBirth));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			throw new BadRequestException("Bad date format.", "Date should be in dd-MM-yyyy format.");
 		}
 		
-		return userDao.insert(user);
+		userDao.insert(user);
+		
+		return user;
+	}
+	
+	@POST
+	@Path("{username}")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response updateUser(@PathParam("username") String username, MultivaluedMap<String, String> formParams) 
+	{
+		User user = userDao.find(username);
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found.");
+		}
+		
+		if (formParams.getFirst("lastName") != null)
+			user.setLastName(formParams.getFirst("lastName"));
+		
+		if (formParams.getFirst("firstName") != null)
+			user.setFirstName(formParams.getFirst("firstName"));
+		
+		if (formParams.getFirst("email") != null)
+			user.setEmail(formParams.getFirst("email"));
+		
+		if (formParams.getFirst("phone") != null)
+			user.setPhone(formParams.getFirst("phone"));
+		
+		if (formParams.getFirst("address") != null)
+			user.setAddress(formParams.getFirst("address"));
+		
+		if (formParams.getFirst("placeOfBirth") != null)
+			user.setPlaceOfBirth(formParams.getFirst("placeOfBirth"));
+		
+		if (formParams.getFirst("password") != null)
+		{
+			Integer salt = ResourceUtil.generateSalt();
+			
+			String plainPassword = formParams.getFirst("password").concat(salt.toString());
+			String password = DaoUtil.encryptPassword(plainPassword);
+			
+			user.setPassword(password);
+			user.setSalt(salt);
+		}
+		
+		if (formParams.getFirst("state") != null)
+		{
+			State state = new State();
+			
+			state.setId(Integer.parseInt(formParams.getFirst("state")));
+			user.setState(state);
+		}
+		
+		if (formParams.getFirst("dateOfBirth") != null)
+		{
+			try 
+			{
+				Date dateOfBirth = DaoUtil.string2Date(formParams.getFirst("dateOfBirth"));
+				user.setDateOfBirth(DaoUtil.utilDate2SqlDatw(dateOfBirth));
+			} catch (ParseException e) {
+				throw new BadRequestException("Bad date format.", "Date should be in dd-MM-yyyy format.");
+			}
+		}
+		
+		userDao.update(user);
+		
+		return Response.success();
 	}
 	
 	@DELETE
 	@Path("{username}")
-	public void deleteUser(@PathParam("username") String username) 
+	public Response deleteUser(@PathParam("username") String username) 
 	{
 		User user = userDao.find(username);
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found.");
+		}
+		
 		userDao.delete(user);
+		
+		return Response.success();
 	}
 } 

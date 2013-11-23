@@ -2,51 +2,49 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
-public class Comment 
+
+
+public class Subtitle
 {
 	int id;
-	String title, text;
+	Language language;
 	Content content;
-	User user;
+	String fileId;
 	Date updatedAt, createdAt;
 	
-	public Comment() {}
-	
+	public Subtitle() {}
 	
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
-
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
 
-	public String getTitle() {
-		return title;
+	public int getId() {
+		return id;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getText() {
-		return text;
+	public Language getLanguage() {
+		return language;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setLanguage(Language language) {
+		this.language = language;
 	}
 
 	public Content getContent() {
@@ -57,24 +55,13 @@ public class Comment
 		this.content = content;
 	}
 
-	public User getUser() {
-		return user;
+	public String getFileId() {
+		return fileId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	
-
-	
 
 }

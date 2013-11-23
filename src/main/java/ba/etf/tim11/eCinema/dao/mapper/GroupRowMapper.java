@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import ba.etf.tim11.eCinema.models.Group;
 
 
-public class GroupRowMapper implements RowMapper {
+public class GroupRowMapper implements RowMapper
+{
 
 	@Override
 	public Object map(ResultSet rs) throws SQLException 

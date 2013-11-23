@@ -55,7 +55,9 @@ public class StateResource
 		state.setName(formParams.getFirst("name"));
 		state.setShortName(formParams.getFirst("shortName"));
 		
-		return stateDao.insert(state);
+		stateDao.insert(state);
+		
+		return state;
 	}
 	
 	@DELETE

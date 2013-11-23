@@ -33,6 +33,12 @@ public interface DaoFactory
     public abstract UserActionTypeDao getUserActionTypeDao();
     
     public abstract UserDao getUserDao();
-    
+
     public abstract SessionDao getSessionDao();
+
+    public abstract LanguageDao getLanguageDao();
+    
+    public abstract SubtitleDao getSubtitleDao();
+    
+    public abstract TypeDao getTypeDao();
 }
