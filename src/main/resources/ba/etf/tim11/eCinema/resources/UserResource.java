@@ -19,6 +19,7 @@ import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
 import ba.etf.tim11.eCinema.models.User;
+import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
@@ -42,6 +43,7 @@ public class UserResource
 	
 	
 	@GET
+	@Privilege("List")
 	public List<User> getAllUsers() 
 	{ 
 		return userDao.findAll();
@@ -49,6 +51,7 @@ public class UserResource
 	
 	@GET
 	@Path("{username}")
+	@Privilege("Read")
 	public User getUser(@PathParam("username") String username) 
 	{
 		User user = userDao.find(username);
@@ -62,6 +65,7 @@ public class UserResource
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Create")
 	public User createNewUser(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "password", "lastName", "firstName", "username", "email", "state", "dateOfBirth") ||
@@ -107,6 +111,7 @@ public class UserResource
 	@POST
 	@Path("{username}")
 	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Update")
 	public Response updateUser(@PathParam("username") String username, MultivaluedMap<String, String> formParams) 
 	{
 		User user = userDao.find(username);
@@ -169,6 +174,7 @@ public class UserResource
 	
 	@DELETE
 	@Path("{username}")
+	@Privilege("Delete")
 	public Response deleteUser(@PathParam("username") String username) 
 	{
 		User user = userDao.find(username);

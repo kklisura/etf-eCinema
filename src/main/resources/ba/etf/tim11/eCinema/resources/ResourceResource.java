@@ -18,7 +18,8 @@ import ba.etf.tim11.eCinema.models.Resource;
 
 @Path("resource")
 @Produces(MediaType.APPLICATION_JSON)
-public class ResourceResource {
+public class ResourceResource 
+{
 	private DaoFactory daoFactory;
 	private ResourceDao resourceDao;
 	

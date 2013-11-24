@@ -16,6 +16,7 @@ import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.GroupDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Group;
+import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
@@ -38,6 +39,7 @@ public class GroupResource
 
 	
 	@GET
+	@Privilege("List")
 	public List<Group> getAllGroups() 
 	{
 		return groupDao.findAll();
@@ -45,6 +47,7 @@ public class GroupResource
 	
 	@GET
 	@Path("{id}")
+	@Privilege("Read")
 	public Group getGroup(@PathParam("id") int id) 
 	{
 		Group group = groupDao.find(id);
@@ -58,6 +61,7 @@ public class GroupResource
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Create")
 	public Group createNewGroup(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "name", "description")) {
@@ -77,6 +81,7 @@ public class GroupResource
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Update")
 	public Response updateGroup(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{	
 		Group group = groupDao.find(id);
@@ -97,6 +102,7 @@ public class GroupResource
 	
 	@DELETE
 	@Path("{id}")
+	@Privilege("Delete")
 	public Response deleteUser(@PathParam("id") int id) 
 	{
 		Group group = groupDao.find(id);

@@ -18,14 +18,18 @@ import ba.etf.tim11.eCinema.models.Privilege;
 
 @Path("privileges")
 @Produces(MediaType.APPLICATION_JSON)
-public class PrivilegeResource {
+public class PrivilegeResource 
+{
 	private DaoFactory daoFactory;
 	private PrivilegeDao privilegeDao;
+
 	
 	public PrivilegeResource(){
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.privilegeDao = daoFactory.getPrivilegeDao();
 	}
+	
+	
 	@GET
 	public List<Privilege> getAllPrivileges() 
 	{

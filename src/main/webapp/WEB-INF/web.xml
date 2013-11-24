@@ -6,8 +6,14 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>ba.etf.tim11.eCinema</param-value>
+      <param-value>ba.etf.tim11.eCinema.resources</param-value>
     </init-param>
+
+    <init-param>  
+      <param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>  
+      <param-value>ba.etf.tim11.eCinema.resources.filters.ResourceFilterFactory</param-value>  
+    </init-param>  
+
     <init-param>
       <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
       <param-value>true</param-value>

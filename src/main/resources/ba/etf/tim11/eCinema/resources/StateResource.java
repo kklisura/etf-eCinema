@@ -16,6 +16,7 @@ import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
+import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 
 
 @Path("states")
@@ -34,6 +35,7 @@ public class StateResource
 	
 	
 	@GET
+	@Privilege("List")
 	public List<State> getAllStates() 
 	{
 		return stateDao.findAll();
@@ -41,6 +43,7 @@ public class StateResource
 	
 	@GET
 	@Path("{id}")
+	@Privilege("Read")
 	public State getState(@PathParam("id") int id) 
 	{
 		return stateDao.find(id);
@@ -48,6 +51,7 @@ public class StateResource
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Create")
 	public State createNewState(MultivaluedMap<String, String> formParams) 
 	{
 		State state = new State();
@@ -62,6 +66,7 @@ public class StateResource
 	
 	@DELETE
 	@Path("{id}")
+	@Privilege("Delete")
 	public void deleteState(@PathParam("id") int id) 
 	{
 		State state = stateDao.find(id);
