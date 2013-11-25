@@ -103,11 +103,11 @@ public class GroupResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteUser(@PathParam("id") int id) 
+	public Response deleteGroup(@PathParam("id") int id) 
 	{
 		Group group = groupDao.find(id);
 		if (group == null) {
-			throw new ResourceNotFoundException("User not found.");
+			throw new ResourceNotFoundException("Group not found.");
 		}
 		
 		groupDao.delete(group);
