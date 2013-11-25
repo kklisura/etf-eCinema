@@ -10,9 +10,9 @@ public interface CinemaHallDao
 
 	public CinemaHall find(int id) throws DaoException;
 	
-	public CinemaHall find(String type) throws DaoException;
+	public CinemaHall find(String title) throws DaoException;
 	
-	public CinemaHall insert(CinemaHall cinemaHall) throws DaoException;
+	public boolean insert(CinemaHall cinemaHall) throws DaoException;
 	
 	public boolean update(CinemaHall cinemaHall) throws DaoException;
 	

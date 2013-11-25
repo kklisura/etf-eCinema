@@ -11,4 +11,10 @@ public interface ReservationTypeDao
 	public ReservationType find(int id) throws DaoException;
 	
 	public ReservationType find(String type) throws DaoException;
+	
+	public boolean insert(ReservationType reservationType) throws DaoException;
+	
+	public boolean update(ReservationType reservationType) throws DaoException;
+	
+	public boolean delete(ReservationType reservationType) throws DaoException;
 }

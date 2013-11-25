@@ -11,5 +11,11 @@ public interface ProjectionTypeDao
 	public ProjectionType find(int id) throws DaoException;
 	
 	public ProjectionType find(String type) throws DaoException;
+	
+	public boolean insert(ProjectionType projectionType) throws DaoException;
+	
+	public boolean update(ProjectionType projectionType) throws DaoException;
+	
+	public boolean delete(ProjectionType projectionType) throws DaoException;
 
 }

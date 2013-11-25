@@ -10,7 +10,7 @@ public interface ProjectionDao
 	
 	public Projection find (int id) throws DaoException;
 	
-	public Projection insert (Projection projection) throws DaoException;
+	public boolean insert (Projection projection) throws DaoException;
 	
 	public boolean update (Projection projection) throws DaoException;
 	

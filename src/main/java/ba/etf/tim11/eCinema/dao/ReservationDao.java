@@ -10,7 +10,7 @@ public interface ReservationDao
 	
 	public Reservation find (int id) throws DaoException;
 	
-	public Reservation insert (Reservation reservation) throws DaoException;
+	public boolean insert (Reservation reservation) throws DaoException;
 	
 	public boolean update (Reservation reservation) throws DaoException;
 	

@@ -22,28 +22,74 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 		this.daoFactory = daoFactory;
 	}
 
+
 	@Override
-	public List<ProjectionType> findAll() throws DaoException 
+	public List<ProjectionType> findAll() throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM ProjectionTypes");
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM ProjectionType");
 	}
 
+
 	@Override
-	public ProjectionType find(int id) throws DaoException 
+	public ProjectionType find(int id) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM ProjectionTypes WHERE id = ?", id);
+		return DaoUtil.executeQueryReturnOne(connection, 
+											 rowMapper, 
+											 "SELECT * FROM ProjectionType WHERE id = ?", 
+											 id);
 	}
 
+
 	@Override
-	public ProjectionType find(String type) throws DaoException 
+	public ProjectionType find(String type) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM ProjectionTypes WHERE type = ?", type);
+		return DaoUtil.executeQueryReturnOne(connection, 
+											 rowMapper, 
+											 "SELECT * FROM ProjectionType WHERE type = ?", 
+											 type);
 	}
 
+
+	@Override
+	public boolean insert(ProjectionType projectionType) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		int rowId = DaoUtil.executeUpdate(connection, 
+											"INSERT INTO type VAlUES ?",
+											projectionType.getType());
+		projectionType.setId(rowId);
+		
+		return true;
+	}
+
+
+	@Override
+	public boolean update(ProjectionType projectionType) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		DaoUtil.executeUpdate(connection, 
+								"UPDATE type = ? WHERE id = ?",
+								projectionType.getType(),
+								projectionType.getId());
+		return true;
+	}
+
+
+	@Override
+	public boolean delete(ProjectionType projectionType) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		DaoUtil.executeUpdate(connection, "DELETE FROM ProjectionType WHERE id = ?", projectionType.getId());
+
+		return true;
+	}
 }

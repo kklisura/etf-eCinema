@@ -12,7 +12,7 @@ public interface SeatDao
 	
 	public Seat findSeatNumber(int seatNumber) throws DaoException;
 	
-	public Seat insert(Seat seat) throws DaoException;
+	public boolean insert(Seat seat) throws DaoException;
 	
 	public boolean update(Seat seat) throws DaoException;
 	

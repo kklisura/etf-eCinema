@@ -10,6 +10,10 @@ public interface ReceiptDao
 	
 	public Receipt find(int id) throws DaoException;
 	
-	public Receipt insert(Receipt receipt) throws DaoException;
+	public boolean insert(Receipt receipt) throws DaoException;
+	
+	public boolean update(Receipt receipt) throws DaoException;
+	
+	public boolean delete(Receipt receipt) throws DaoException;
 	
 }
