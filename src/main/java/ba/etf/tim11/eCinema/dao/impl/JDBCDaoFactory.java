@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.dao.AudioSynchronizationDao;
+import ba.etf.tim11.eCinema.dao.CinemaDao;
+import ba.etf.tim11.eCinema.dao.CinemaHallDao;
 import ba.etf.tim11.eCinema.dao.CommentDao;
 import ba.etf.tim11.eCinema.dao.ContentDao;
 import ba.etf.tim11.eCinema.dao.DaoException;
@@ -13,8 +15,13 @@ import ba.etf.tim11.eCinema.dao.GroupDao;
 import ba.etf.tim11.eCinema.dao.LanguageDao;
 import ba.etf.tim11.eCinema.dao.PrivilegeDao;
 import ba.etf.tim11.eCinema.dao.PrivilegeTypeDao;
+import ba.etf.tim11.eCinema.dao.ProjectionDao;
+import ba.etf.tim11.eCinema.dao.ProjectionTypeDao;
+import ba.etf.tim11.eCinema.dao.ReceiptDao;
+import ba.etf.tim11.eCinema.dao.ReservationDao;
 import ba.etf.tim11.eCinema.dao.ResourceDao;
 import ba.etf.tim11.eCinema.dao.RoleDao;
+import ba.etf.tim11.eCinema.dao.SeatDao;
 import ba.etf.tim11.eCinema.dao.SessionDao;
 import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.SubtitleDao;
@@ -162,6 +169,41 @@ public class JDBCDaoFactory implements DaoFactory
 	@Override
 	public SessionDao getSessionDao() {
 		return new SessionDaoImpl(this);
+	}
+
+	@Override
+	public ProjectionTypeDao getProjectionTypeDao() {
+		return new ProjectionTypeDaoImpl(this);
+	}
+
+	@Override
+	public ProjectionDao getProjectionDao() {
+		return new ProjectionDaoImpl(this);
+	}
+
+	@Override
+	public ReservationDao getReservationDao() {
+		return new ReservationDaoImpl(this);
+	}
+
+	@Override
+	public SeatDao getSeatDao() {
+		return new SeatDaoImpl(this);
+	}
+
+	@Override
+	public ReceiptDao getReceipt() {
+		return new ReceiptDaoImpl(this);
+	}
+
+	@Override
+	public CinemaDao getCinemaDao() {
+		return new CinemaDaoImpl(this);
+	}
+
+	@Override
+	public CinemaHallDao getCinemaHallDao() {
+		return new CinemaHallDaoImpl(this);
 	}
 	
 }

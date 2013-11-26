@@ -21,13 +21,7 @@ public class ReceiptDaoImpl implements ReceiptDao
 		this.daoFactory = daoFactory;
 	}
 
-	@Override
-	public List<Receipt> findAll() throws DaoException
-	{
-		Connection connection = daoFactory.getConnection();
-		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Receipts");
-	}
+
 
 	@Override
 	public Receipt find(int id) throws DaoException
@@ -75,6 +69,12 @@ public class ReceiptDaoImpl implements ReceiptDao
 		DaoUtil.executeUpdate(connection, "DELETE FROM Receipts WHERE id = ?", receipt.getId());
 		
 		return true;
+	}
+
+	@Override
+	public List<Receipt> findAll() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

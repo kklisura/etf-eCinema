@@ -14,6 +14,5 @@ public interface ReceiptDao
 	
 	public boolean update(Receipt receipt) throws DaoException;
 	
-	public boolean delete(Receipt receipt) throws DaoException;
-	
+	public boolean delete(Receipt receipt) throws DaoException;	
 }

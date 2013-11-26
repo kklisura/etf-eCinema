@@ -43,4 +43,18 @@ public interface DaoFactory
     public abstract SubtitleDao getSubtitleDao();
     
     public abstract TypeDao getTypeDao();
+
+	public abstract ProjectionTypeDao getProjectionTypeDao();
+
+	public abstract ProjectionDao getProjectionDao();
+
+	public abstract ReservationDao getReservationDao();
+
+	public abstract SeatDao getSeatDao();
+
+	public abstract ReceiptDao getReceipt();
+
+	public abstract CinemaDao getCinemaDao();
+
+	public abstract CinemaHallDao getCinemaHallDao();
 }

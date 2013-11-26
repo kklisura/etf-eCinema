@@ -62,7 +62,7 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-											"INSERT INTO type VAlUES ?",
+											"INSERT INTO (type) VAlUES (?)",
 											projectionType.getType());
 		projectionType.setId(rowId);
 		
