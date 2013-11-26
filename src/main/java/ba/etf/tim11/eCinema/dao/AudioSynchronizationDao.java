@@ -9,6 +9,8 @@ public interface AudioSynchronizationDao
 {
 	public List<AudioSynchronization> findAll() throws DaoException;
 	
+	public List<AudioSynchronization> findAllBy(int contentId, String language) throws DaoException;
+	
 	public AudioSynchronization find(int id) throws DaoException;
 		
 	public boolean insert(AudioSynchronization audioSynchronization) throws DaoException;

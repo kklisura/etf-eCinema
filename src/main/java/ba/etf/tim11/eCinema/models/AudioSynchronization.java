@@ -11,7 +11,10 @@ public class AudioSynchronization
 	String fileId;
 	Date updatedAt, createdAt;
 	
-	public AudioSynchronization() {}
+	
+	public AudioSynchronization() {
+		
+	}
 	
 	public Date getUpdatedAt() {
 		return updatedAt;
@@ -29,7 +32,6 @@ public class AudioSynchronization
 		this.createdAt = createdAt;
 	}
 
-	
 	public int getId() {
 		return id;
 	}
@@ -61,6 +63,5 @@ public class AudioSynchronization
 	public void setFileId(String fileId) {
 		this.fileId = fileId;
 	}
-
 	
 }

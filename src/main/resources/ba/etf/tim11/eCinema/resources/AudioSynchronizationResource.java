@@ -8,10 +8,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.AudioSynchronizationDao;
+import ba.etf.tim11.eCinema.dao.ContentDao;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
+import ba.etf.tim11.eCinema.dao.LanguageDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.AudioSynchronization;
 import ba.etf.tim11.eCinema.models.Content;
@@ -22,97 +27,68 @@ import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
+
+@Path("audiosync")
+@Produces(MediaType.APPLICATION_JSON)
 public class AudioSynchronizationResource
 {
 	private DaoFactory daoFactory;
+	private LanguageDao languageDao;
+	private ContentDao contentDao;
 	private AudioSynchronizationDao audioSynchronizationDao;
+	
 	
 	public AudioSynchronizationResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.audioSynchronizationDao = daoFactory.getAudioSynchronizationDao();
+		this.contentDao = daoFactory.getContentDao();
+		this.languageDao = daoFactory.getLanguageDao();
 	}
 	
+	
 	@GET
+	@Path("{content_id}")
 	@Privilege("List")
-	public List<AudioSynchronization> getAllAudioSynchronizations() 
+	public List<AudioSynchronization> getContentAudioSync(@PathParam("content_id") int contentId, @QueryParam("language") String language) 
 	{
-		return audioSynchronizationDao.findAll();
-	}
-	
-	@GET
-	@Path("{id}")
-	@Privilege("Read")
-	public AudioSynchronization getAudioSynchronization(@PathParam("id") int id) 
-	{
-		AudioSynchronization audioSynchronization = audioSynchronizationDao.find(id);
-		
-		if (audioSynchronization == null) {
-			throw new ResourceNotFoundException("AudioSynchronization not found");
+		if (contentDao.find(contentId) == null) {
+			throw new ResourceNotFoundException("Content not found");
 		}
 		
-		return audioSynchronization;
+		return audioSynchronizationDao.findAllBy(contentId, language);
 	}
 	
 	@POST
+	@Path("{content_id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public AudioSynchronization createNewAudioSynchronization(MultivaluedMap<String, String> formParams) 
+	public AudioSynchronization createNewAudioSynchronization(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
 	{
-		if (!ResourceUtil.hasAll(formParams, "content", "language", "fileId") ||
-			!ResourceUtil.isInt(formParams.getFirst("content")) ||
-			!ResourceUtil.isInt(formParams.getFirst("language"))) {
+		Content content = contentDao.find(contentId);
+		if (content == null) {
+			throw new ResourceNotFoundException("Content not found");
+		}
+		
+		if (!ResourceUtil.hasAll(formParams, "fileId", "language") ||
+		    !ResourceUtil.isInt(formParams.getFirst("language"))) {
 			throw new BadRequestException("You are missing some fields.");
+		}
+		
+		Language language = languageDao.find(Integer.parseInt(formParams.getFirst("language")));
+		if (language == null) {
+			throw new ResourceNotFoundException("Language not found");
 		}
 		
 		AudioSynchronization audioSynchronization = new AudioSynchronization();
 		
 		audioSynchronization.setFileId(formParams.getFirst("fileId"));
-		
-		Content content = new Content();
-		content.setId(Integer.parseInt(formParams.getFirst("content")));
-		audioSynchronization.setContent(content);
-		
-		Language language = new Language();
-		language.setId(Integer.parseInt(formParams.getFirst("language")));
+		audioSynchronization.setContent(content);		
 		audioSynchronization.setLanguage(language);
 
 		audioSynchronizationDao.insert(audioSynchronization);
 		
 		return audioSynchronization;
-	}
-	
-	@POST
-	@Path("{id}")
-	@Consumes("application/x-www-form-urlencoded")
-	@Privilege("Update")
-	public Response updateAudioSynchronization(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
-	{	
-		AudioSynchronization audioSynchronization =audioSynchronizationDao.find(id);
-		
-		if (audioSynchronization == null) {
-			throw new ResourceNotFoundException("AudioSynchronization not found.");
-		}
-		
-		if (formParams.getFirst("content") != null)
-		{
-			Content content = new Content();
-			content.setId(Integer.parseInt(formParams.getFirst("content")));
-			audioSynchronization.setContent(content);
-		}
-					
-		if (formParams.getFirst("language") != null)
-		{
-			Language language = new Language();
-			language.setId(Integer.parseInt(formParams.getFirst("language")));
-			audioSynchronization.setLanguage(language);
-		}
-			
-		audioSynchronization.setFileId(formParams.getFirst("fileId"));
-		
-		audioSynchronizationDao.update(audioSynchronization);
-		
-		return Response.success();
 	}
 	
 	@DELETE
@@ -129,5 +105,5 @@ public class AudioSynchronizationResource
 		
 		return Response.success();
 	}
-
+	
 }

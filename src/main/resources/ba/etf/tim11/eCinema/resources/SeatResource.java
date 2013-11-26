@@ -32,16 +32,18 @@ public class SeatResource
 	private DaoFactory daoFactory;
 	private SeatDao seatDao;
 	
+	
 	public SeatResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.seatDao = daoFactory.getSeatDao();
 	}
 	
+	
 	@GET
 	@Privilege("List")
 	public List<Seat> getAllSeats() 
-	{ 
+	{
 		return seatDao.findAll();
 	}
 	
@@ -75,10 +77,11 @@ public class SeatResource
 		
 	}
 	
+	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateSeat(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
+	public Response updateSeat(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
 		Seat seat = seatDao.find(id);
 		
