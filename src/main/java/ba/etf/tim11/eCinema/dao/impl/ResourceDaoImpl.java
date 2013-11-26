@@ -76,7 +76,6 @@ public class ResourceDaoImpl implements ResourceDao
 		return true;
 	}
 
-
 	@Override
 	public boolean delete(Resource resource) throws DaoException 
 	{

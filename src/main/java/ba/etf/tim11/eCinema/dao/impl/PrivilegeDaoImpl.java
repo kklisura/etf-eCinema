@@ -82,4 +82,47 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 		return true;
 	}
 
+	@Override
+	public boolean isAllowed(String username, int resourceId, int privilegeTypeId) throws DaoException 
+	{
+		if (isAllowedBasedOnUserRoles(username, resourceId, privilegeTypeId)) {
+			return true;
+		}
+		
+		return isAllowedBasedOnGroupRoles(username, resourceId, privilegeTypeId);
+	}
+	
+	
+	private boolean isAllowedBasedOnUserRoles(String username, int resourceId, int privilegeTypeId) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+
+		String query = "SELECT p.* " +
+					   "FROM Privileges p, Roles r, UserRoles ur, Users u " +
+					   "WHERE p.roles_id = r.id AND " +
+					   "      u.username = ? AND " +
+					   "      p.resources_id = ? AND p.privilegetypes_id = ? AND " +
+					   "      r.id = ur.roles_id AND ur.users_id = u.id";
+		
+		Privilege priv = DaoUtil.executeQueryReturnOne(connection, rowMapper, query, username, resourceId, privilegeTypeId);
+		
+		return priv != null && priv.isAllowed();
+	}
+	
+	private boolean isAllowedBasedOnGroupRoles(String username, int resourceId, int privilegeTypeId) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+
+		String query = "SELECT p.* " +
+					   "FROM Privileges p, Roles r, Users u, GroupRoles gr, Groups g, UserGroups ug " +
+					   "WHERE p.roles_id = r.id AND " +
+					   "      u.username = ? AND " +
+					   "      p.resources_id = ? AND p.privilegetypes_id = ? AND" + 
+					   "      r.id = gr.roles_id AND gr.groups_id = g.id AND ug.groups_id = g.id AND ug.users_id = u.id";
+		
+		Privilege priv = DaoUtil.executeQueryReturnOne(connection, rowMapper, query, username, resourceId, privilegeTypeId);
+		
+		return priv != null && priv.isAllowed();
+	}
+
 }
