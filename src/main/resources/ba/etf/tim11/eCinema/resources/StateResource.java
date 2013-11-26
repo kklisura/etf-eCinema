@@ -17,6 +17,8 @@ import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
+import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
+import ba.etf.tim11.eCinema.resources.responses.Response;
 
 
 @Path("states")
@@ -46,7 +48,13 @@ public class StateResource
 	@Privilege("Read")
 	public State getState(@PathParam("id") int id) 
 	{
-		return stateDao.find(id);
+		State state = stateDao.find(id);
+		
+		if (state == null) {
+			throw new ResourceNotFoundException("State not found.");
+		}
+		
+		return state;
 	}
 	
 	@POST
@@ -67,10 +75,17 @@ public class StateResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public void deleteState(@PathParam("id") int id) 
+	public Response deleteState(@PathParam("id") int id) 
 	{
 		State state = stateDao.find(id);
+		
+		if (state == null) {
+			throw new ResourceNotFoundException("State not found.");
+		}
+		
 		stateDao.delete(state);
+		
+		return Response.success();
 	}
-
+	
 } 

@@ -32,6 +32,14 @@ public class CommentDaoImpl implements CommentDao
 	}
 	
 	@Override
+	public List<Comment> findAllByContent(int contentId) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Comments WHERE contents_id = ?", contentId);
+	}
+	
+	@Override
 	public Comment find(int id)  throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();

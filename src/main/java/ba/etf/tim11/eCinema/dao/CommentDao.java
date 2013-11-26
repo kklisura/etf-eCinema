@@ -9,6 +9,8 @@ public interface CommentDao
 {
 	public List<Comment> findAll() throws DaoException;
 	
+	public List<Comment> findAllByContent(int contentId) throws DaoException;
+	
 	public Comment find(int id) throws DaoException;
 	
 	public boolean insert(Comment comment) throws DaoException;

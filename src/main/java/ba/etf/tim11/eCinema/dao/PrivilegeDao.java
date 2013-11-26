@@ -16,4 +16,6 @@ public interface PrivilegeDao
 	public boolean update(Privilege privilege) throws DaoException;
 	
 	public boolean delete(Privilege privilege) throws DaoException;
+	
+	public boolean isAllowed(String username, int resourceId, int privilegeTypeId) throws DaoException;
 }

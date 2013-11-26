@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
+import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
@@ -23,6 +24,8 @@ import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
+import ba.etf.tim11.eCinema.service.LoginService;
+import ba.etf.tim11.eCinema.service.impl.ServiceFactory;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
@@ -31,14 +34,19 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource 
 {
+	private static LoginService loginService = ServiceFactory.getLoginService();
+	
 	private DaoFactory daoFactory;
 	private UserDao userDao;
+	private StateDao stateDao;
 
 	
 	public UserResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
+		
 		this.userDao = daoFactory.getUserDao();
+		this.stateDao = daoFactory.getStateDao();
 	}
 	
 	
@@ -50,11 +58,11 @@ public class UserResource
 	}
 	
 	@GET
-	@Path("{username}")
+	@Path("{id}")
 	@Privilege("Read")
-	public User getUser(@PathParam("username") String username) 
+	public User getUser(@PathParam("id") int id) 
 	{
-		User user = userDao.find(username);
+		User user = userDao.find(id);
 		
 		if (user == null) {
 			throw new ResourceNotFoundException("User not found.");
@@ -74,10 +82,17 @@ public class UserResource
 			throw new BadRequestException("You are missing some fields.");
 		}
 		
+		int stateId = Integer.parseInt(formParams.getFirst("state"));
+		
+		State state = stateDao.find(stateId);
+		if (state == null) {
+			throw new BadRequestException("State is unknown.");
+		}
+		
 		Integer salt = ResourceUtil.generateSalt();
 		
 		String plainPassword = formParams.getFirst("password").concat(salt.toString());
-		String password = DaoUtil.encryptPassword(plainPassword);
+		String password = loginService.encryptPassword(plainPassword);
 		
 		User user = new User();
 	
@@ -90,9 +105,6 @@ public class UserResource
 		user.setPlaceOfBirth(formParams.getFirst("placeOfBirth"));
 		user.setPassword(password);
 		user.setSalt(salt);
-		
-		State state = new State();
-		state.setId(Integer.parseInt(formParams.getFirst("state")));
 		user.setState(state);
 		
 		try 
@@ -109,12 +121,12 @@ public class UserResource
 	}
 	
 	@POST
-	@Path("{username}")
+	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateUser(@PathParam("username") String username, MultivaluedMap<String, String> formParams) 
+	public Response updateUser(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
-		User user = userDao.find(username);
+		User user = userDao.find(id);
 		if (user == null) {
 			throw new ResourceNotFoundException("User not found.");
 		}
@@ -142,17 +154,21 @@ public class UserResource
 			Integer salt = ResourceUtil.generateSalt();
 			
 			String plainPassword = formParams.getFirst("password").concat(salt.toString());
-			String password = DaoUtil.encryptPassword(plainPassword);
+			String password = loginService.encryptPassword(plainPassword);
 			
 			user.setPassword(password);
 			user.setSalt(salt);
 		}
 		
-		if (formParams.getFirst("state") != null)
+		if (ResourceUtil.isInt(formParams.getFirst("state")))
 		{
-			State state = new State();
+			int stateId = Integer.parseInt(formParams.getFirst("state"));
 			
-			state.setId(Integer.parseInt(formParams.getFirst("state")));
+			State state = stateDao.find(stateId);
+			if (state == null) {
+				throw new BadRequestException("State is unknown.");
+			}
+			
 			user.setState(state);
 		}
 		
@@ -173,11 +189,11 @@ public class UserResource
 	}
 	
 	@DELETE
-	@Path("{username}")
+	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteUser(@PathParam("username") String username) 
+	public Response deleteUser(@PathParam("id") int id) 
 	{
-		User user = userDao.find(username);
+		User user = userDao.find(id);
 		if (user == null) {
 			throw new ResourceNotFoundException("User not found.");
 		}
@@ -186,4 +202,5 @@ public class UserResource
 		
 		return Response.success();
 	}
+	
 } 

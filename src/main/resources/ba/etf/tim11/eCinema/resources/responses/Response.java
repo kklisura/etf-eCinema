@@ -1,5 +1,9 @@
 package ba.etf.tim11.eCinema.resources.responses;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+
+@JsonPropertyOrder({"status", "message", "moreInfo"})
 public class Response 
 {
 	private int status;

@@ -11,13 +11,16 @@ import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.User;
-import ba.etf.tim11.eCinema.utils.DaoUtil;
+import ba.etf.tim11.eCinema.service.LoginService;
+import ba.etf.tim11.eCinema.service.impl.ServiceFactory;
 
 
 @Path("login")
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource 
 {
+	private static LoginService loginService = ServiceFactory.getLoginService();
+	
 	private DaoFactory daoFactory;
 	private UserDao userDao;
 	
@@ -40,7 +43,7 @@ public class LoginResource
 			String salt = Integer.toString(user.getSalt());
 			String plainPassword = formParams.getFirst("password").concat(salt);
 
-			String password = DaoUtil.encryptPassword(plainPassword);
+			String password = loginService.encryptPassword(plainPassword);
 
 			if (user.getPassword().equals(password)) 
 			{
