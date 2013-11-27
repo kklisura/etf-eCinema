@@ -21,12 +21,17 @@ public class SeatDaoImpl implements SeatDao
 		this.daoFactory = daoFactory;
 	}
 
+	
 	@Override
-	public List<Seat> findAll() throws DaoException 
+	public List<Seat> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Seats");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Seats LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

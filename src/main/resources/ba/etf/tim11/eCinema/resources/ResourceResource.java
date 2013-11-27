@@ -18,7 +18,7 @@ import ba.etf.tim11.eCinema.models.Resource;
 
 @Path("resources")
 @Produces(MediaType.APPLICATION_JSON)
-public class ResourceResource 
+public class ResourceResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ResourceDao resourceDao;
@@ -34,7 +34,7 @@ public class ResourceResource
 	@GET
 	public List<Resource> getAllResources() 
 	{
-		return resourceDao.findAll();
+		return resourceDao.findAll(offset, limit);
 	}
 
 	@GET

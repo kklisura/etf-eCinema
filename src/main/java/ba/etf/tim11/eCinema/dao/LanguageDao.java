@@ -6,7 +6,7 @@ import ba.etf.tim11.eCinema.models.Language;
 
 public interface LanguageDao
 {
-	public List<Language> findAll() throws DaoException;
+	public List<Language> findAll(int offset, int limit) throws DaoException;
 	
 	public Language find(int id) throws DaoException;
 	

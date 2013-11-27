@@ -27,7 +27,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("seats")
 @Produces(MediaType.APPLICATION_JSON)
-public class SeatResource
+public class SeatResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private SeatDao seatDao;
@@ -44,7 +44,7 @@ public class SeatResource
 	@Privilege("List")
 	public List<Seat> getAllSeats() 
 	{
-		return seatDao.findAll();
+		return seatDao.findAll(offset, limit);
 	}
 	
 	@POST

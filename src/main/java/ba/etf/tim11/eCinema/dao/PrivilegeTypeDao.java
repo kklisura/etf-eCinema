@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.PrivilegeType;
 
 public interface PrivilegeTypeDao 
 {
-	public List<PrivilegeType> findAll() throws DaoException;
+	public List<PrivilegeType> findAll(int offset, int limit) throws DaoException;
 
 	public PrivilegeType find(int id) throws DaoException;
 	

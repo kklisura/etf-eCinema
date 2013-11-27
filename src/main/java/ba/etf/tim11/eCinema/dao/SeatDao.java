@@ -6,7 +6,7 @@ import ba.etf.tim11.eCinema.models.Seat;
 
 public interface SeatDao
 {
-	public List<Seat> findAll() throws DaoException;
+	public List<Seat> findAll(int offset, int limit) throws DaoException;
 	
 	public Seat find(int id) throws DaoException;
 	

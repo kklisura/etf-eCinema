@@ -6,7 +6,7 @@ import ba.etf.tim11.eCinema.models.Type;
 
 public interface TypeDao
 {
-	public List<Type> findAll() throws DaoException;
+	public List<Type> findAll(int offset, int limit) throws DaoException;
 	
 	public Type find(int id) throws DaoException;
 	

@@ -25,7 +25,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("reservationtypes")
 @Produces(MediaType.APPLICATION_JSON)
-public class ReservationTypeResource 
+public class ReservationTypeResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ReservationTypeDao reservationTypeDao;
@@ -40,7 +40,7 @@ public class ReservationTypeResource
 	@Privilege("List")
 	public List<ReservationType> getAllReservationTypes() 
 	{ 
-		return reservationTypeDao.findAll();
+		return reservationTypeDao.findAll(offset, limit);
 	}
 	
 	@GET

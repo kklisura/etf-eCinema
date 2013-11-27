@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.UserActionComment;
 
 public interface UserActionCommentDao 
 {	
-	public List<UserActionComment> findAll() throws DaoException;
+	public List<UserActionComment> findAll(int offset, int limit) throws DaoException;
 	
 	public UserActionComment find(int id) throws DaoException;
 	

@@ -21,12 +21,17 @@ public class ProjectionDaoImpl implements ProjectionDao
 		this.daoFactory = daoFactory;
 	}
 
+	
 	@Override
-	public List<Projection> findAll() throws DaoException 
+	public List<Projection> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Projection");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Projections LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override
@@ -36,7 +41,7 @@ public class ProjectionDaoImpl implements ProjectionDao
 		
 		return DaoUtil.executeQueryReturnOne(connection, 
 											 rowMapper, 
-											 "SELECT * FROM Projection WHERE id = ?", 
+											 "SELECT * FROM Projections WHERE id = ?", 
 											 id);
 	}
 
@@ -47,7 +52,7 @@ public class ProjectionDaoImpl implements ProjectionDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-											"INSERT INTO (time, pricePerSeat, contens_id, cinemaholls_id, projectiontypes_id) VAlUES (?, ?, ?, ?, ?)",
+											"INSERT INTO Projections (time, pricePerSeat, contens_id, cinemaholls_id, projectiontypes_id) VAlUES (?, ?, ?, ?, ?)",
 											DaoUtil.utilDate2SqlDatw(projection.getTime()),
 											projection.getPricePerSeat(),
 											projection.getContent().getId(),

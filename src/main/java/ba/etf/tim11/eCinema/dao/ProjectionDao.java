@@ -4,9 +4,10 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Projection;
 
+
 public interface ProjectionDao 
 {
-	public List<Projection> findAll() throws DaoException;
+	public List<Projection> findAll(int offset, int limit) throws DaoException;
 	
 	public Projection find (int id) throws DaoException;
 	

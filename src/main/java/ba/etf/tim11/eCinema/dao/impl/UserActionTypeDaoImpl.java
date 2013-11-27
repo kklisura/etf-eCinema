@@ -24,11 +24,15 @@ public class UserActionTypeDaoImpl implements UserActionTypeDao
 	
 	
 	@Override
-	public List<UserActionType> findAll()
+	public List<UserActionType> findAll(int offset, int limit)
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM UserActionTypes");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM UserActionTypes LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

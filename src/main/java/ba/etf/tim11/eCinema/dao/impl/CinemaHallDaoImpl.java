@@ -24,22 +24,28 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 
 	
 	@Override
-	public List<CinemaHall> findAll() throws DaoException 
-	{
-		Connection connection = daoFactory.getConnection();
-		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM CinemaHalls");
-	}
-
-	@Override
-	public List<CinemaHall> findAllByCinema(int cinemaId) throws DaoException 
+	public List<CinemaHall> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
 		return DaoUtil.executeQuery(connection, 
 									rowMapper, 
-									"SELECT * FROM CinemaHalls WHERE cinemas_id = ?", 
-									cinemaId);
+									"SELECT * FROM CinemaHalls LIMIT ?, ?",
+									offset,
+									limit);
+	}
+
+	@Override
+	public List<CinemaHall> findAllByCinema(int cinemaId, int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM CinemaHalls WHERE cinemas_id = ? LIMIT ?, ?", 
+									cinemaId,
+									offset,
+									limit);
 	}
 	
 	@Override

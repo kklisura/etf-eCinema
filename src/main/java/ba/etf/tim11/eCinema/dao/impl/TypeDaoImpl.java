@@ -16,16 +16,23 @@ public class TypeDaoImpl implements TypeDao
 	private DaoFactory daoFactory;
 	private static RowMapper rowMapper = new TypeRowMapper();
 	
+	
 	public TypeDaoImpl(DaoFactory daoFactory)
 	{
 		this.daoFactory = daoFactory;
 	}
 
+	
 	@Override
-	public List<Type> findAll() throws DaoException 
+	public List<Type> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Types");
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Types LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

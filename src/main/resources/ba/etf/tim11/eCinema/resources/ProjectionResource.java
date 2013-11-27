@@ -35,7 +35,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("projections")
 @Produces(MediaType.APPLICATION_JSON)
-public class ProjectionResource 
+public class ProjectionResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ProjectionDao projectionDao;
@@ -58,21 +58,23 @@ public class ProjectionResource
 	@Privilege("List")
 	public List<Projection> getAllProjections() 
 	{ 
-		return projectionDao.findAll();
+		return projectionDao.findAll(offset, limit);
 	}
 	
 	@POST
-	@Path("{content_id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Projection createNewProjection(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
+	public Projection createNewProjection(MultivaluedMap<String, String> formParams) 
 	{
-		if (!ResourceUtil.hasAll(formParams, "time", "pricePerSite", "cinemahall", "projectiontype") ||
+		if (!ResourceUtil.hasAll(formParams, "time", "pricePerSite", "content", "cinemahall", "projectiontype") ||
 			!ResourceUtil.isInt(formParams.getFirst("cinemahall")) ||
-			!ResourceUtil.isInt(formParams.getFirst("projectiontype")))
+			!ResourceUtil.isInt(formParams.getFirst("projectiontype")) ||
+			!ResourceUtil.isInt(formParams.getFirst("content")))
 		{
 			throw new BadRequestException("You are missing some fields.");
 		}
+		
+		int contentId = Integer.parseInt(formParams.getFirst("content"));
 		
 		Content content = contentDao.find(contentId);
 		if (content == null) {
@@ -86,7 +88,7 @@ public class ProjectionResource
 		
 		ProjectionType projectionType = projectionTypeDao.find(Integer.parseInt(formParams.getFirst("projectiontype")));
 		if (projectionType == null) {
-			throw new ResourceNotFoundException("Projectio type not found.");
+			throw new ResourceNotFoundException("Projection type not found.");
 		}
 		
 
@@ -114,7 +116,7 @@ public class ProjectionResource
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response Projection(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
+	public Response updateProjection(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
 		Projection projection = projectionDao.find(id) ;
 		if (projection == null) {
@@ -131,26 +133,23 @@ public class ProjectionResource
 				throw new BadRequestException("Bad date format.", "Date should be in dd-MM-yyyy format.");
 			}		
 		}
-		
-		if(formParams.getFirst("content") != null)
-		{
-			Content content = new Content();
-			
-			content.setId(Integer.parseInt(formParams.getFirst("content")));
-			projection.setContent(content);
-		}
-		
+
 		if(formParams.getFirst("cinemahall") != null)
 		{
-			CinemaHall cinemaHall = new CinemaHall();
+			CinemaHall cinemaHall = cinemaHallDao.find(Integer.parseInt(formParams.getFirst("cinamehall")));
+			if (cinemaHall == null) {
+				throw new ResourceNotFoundException("Cinema hall not found.");
+			}
 			
-			cinemaHall.setId(Integer.parseInt(formParams.getFirst("cinemahall")));
 			projection.setCinemaHall(cinemaHall);
 		}
 		
-		if(formParams.getFirst("projectiontype") != null)
+		if(ResourceUtil.isInt(formParams.getFirst("projectiontype")))
 		{
-			ProjectionType projectionType = new ProjectionType();
+			ProjectionType projectionType = projectionTypeDao.find(Integer.parseInt(formParams.getFirst("projectiontype")));
+			if (projectionType == null) {
+				throw new ResourceNotFoundException("Projection type not found.");
+			}
 			
 			projectionType.setId(Integer.parseInt(formParams.getFirst("projectiontype")));
 			projection.setProjectionType(projectionType);

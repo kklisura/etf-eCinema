@@ -6,9 +6,9 @@ import ba.etf.tim11.eCinema.models.CinemaHall;
 
 public interface CinemaHallDao
 {
-	public List<CinemaHall> findAll() throws DaoException;
+	public List<CinemaHall> findAll(int offset, int limit) throws DaoException;
 	
-	public List<CinemaHall> findAllByCinema(int cinemaId) throws DaoException;
+	public List<CinemaHall> findAllByCinema(int cinemaId, int offset, int limit) throws DaoException;
 
 	public CinemaHall find(int id) throws DaoException;
 	

@@ -24,11 +24,15 @@ public class GroupDaoImpl  implements GroupDao
 	
 
 	@Override
-	public List<Group> findAll() throws DaoException 
+	public List<Group> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Groups");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Groups LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

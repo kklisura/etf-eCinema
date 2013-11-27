@@ -24,11 +24,15 @@ public class RoleDaoImpl implements RoleDao
 	
 	
 	@Override
-	public List<Role> findAll() throws DaoException 
+	public List<Role> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Roles");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Roles LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

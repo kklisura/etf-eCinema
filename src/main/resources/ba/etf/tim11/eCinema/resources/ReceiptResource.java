@@ -26,7 +26,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("receipts")
 @Produces(MediaType.APPLICATION_JSON)
-public class ReceiptResource 
+public class ReceiptResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ReceiptDao receiptDao;
@@ -41,7 +41,7 @@ public class ReceiptResource
 	@Privilege("List")
 	public List<Receipt> getAllReceipts() 
 	{ 
-		return receiptDao.findAll();
+		return receiptDao.findAll(offset, limit);
 	}
 	
 	@POST

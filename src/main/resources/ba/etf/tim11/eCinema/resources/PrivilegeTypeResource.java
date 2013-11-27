@@ -18,7 +18,7 @@ import ba.etf.tim11.eCinema.models.PrivilegeType;
 
 @Path("privilegetypes")
 @Produces(MediaType.APPLICATION_JSON)
-public class PrivilegeTypeResource
+public class PrivilegeTypeResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private PrivilegeTypeDao privilegeTypeDao;
@@ -34,7 +34,7 @@ public class PrivilegeTypeResource
 	@GET
 	public List<PrivilegeType> getAllPrivilegeTypes() 
 	{
-		return privilegeTypeDao.findAll();
+		return privilegeTypeDao.findAll(offset, limit);
 	}
 	
 	@GET

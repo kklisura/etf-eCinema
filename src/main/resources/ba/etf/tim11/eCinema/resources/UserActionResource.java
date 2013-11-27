@@ -18,7 +18,7 @@ import ba.etf.tim11.eCinema.models.UserAction;
 
 @Path("useractions")
 @Produces(MediaType.APPLICATION_JSON)
-public class UserActionResource
+public class UserActionResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private UserActionDao userActionDao;
@@ -30,10 +30,11 @@ public class UserActionResource
 		this.userActionDao = daoFactory.getUserActionDao();
 	}
 	
+	
 	@GET
 	public List<UserAction> getAllUserActions() 
 	{
-		return userActionDao.findAll();
+		return userActionDao.findAll(offset, limit);
 	}
 	
 	@GET

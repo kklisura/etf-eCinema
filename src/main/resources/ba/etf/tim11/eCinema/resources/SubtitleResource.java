@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
@@ -22,7 +24,10 @@ import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
-public class SubtitleResource
+
+@Path("subtitles")
+@Produces(MediaType.APPLICATION_JSON)
+public class SubtitleResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private SubtitleDao subtitleDao;
@@ -37,7 +42,7 @@ public class SubtitleResource
 	@Privilege("List")
 	public List<Subtitle> getAllSubtitles() 
 	{
-		return subtitleDao.findAll();
+		return subtitleDao.findAll(offset, limit);
 	}
 	
 	@GET

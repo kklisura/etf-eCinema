@@ -4,9 +4,10 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Receipt;
 
+
 public interface ReceiptDao 
 {
-	public List<Receipt> findAll() throws DaoException;
+	public List<Receipt> findAll(int offset, int limit) throws DaoException;
 	
 	public Receipt find(int id) throws DaoException;
 	

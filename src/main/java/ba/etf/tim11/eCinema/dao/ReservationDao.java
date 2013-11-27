@@ -4,9 +4,10 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Reservation;
 
+
 public interface ReservationDao 
 {
-	public List<Reservation> findAll () throws DaoException;
+	public List<Reservation> findAll (int offset, int limit) throws DaoException;
 	
 	public Reservation find (int id) throws DaoException;
 	

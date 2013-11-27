@@ -79,7 +79,7 @@ public class SecurityServiceImpl implements SecurityService
 	
 	private void retrievePrivilegeTypes()
 	{
-		for(PrivilegeType priv : privilegeTypeDao.findAll()) {
+		for(PrivilegeType priv : privilegeTypeDao.findAll(0, 999999999)) {
 			privilegeTypes.put(priv.getName(), priv);
 		}
 	}

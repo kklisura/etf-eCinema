@@ -24,11 +24,15 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 	
 
 	@Override
-	public List<Privilege> findAll() throws DaoException 
+	public List<Privilege> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Privileges");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Privileges LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

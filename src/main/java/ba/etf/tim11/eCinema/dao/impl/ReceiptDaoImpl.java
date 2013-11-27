@@ -22,7 +22,6 @@ public class ReceiptDaoImpl implements ReceiptDao
 	}
 
 
-
 	@Override
 	public Receipt find(int id) throws DaoException
 	{
@@ -72,7 +71,7 @@ public class ReceiptDaoImpl implements ReceiptDao
 	}
 
 	@Override
-	public List<Receipt> findAll() throws DaoException {
+	public List<Receipt> findAll(int offset, int limit) throws DaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}

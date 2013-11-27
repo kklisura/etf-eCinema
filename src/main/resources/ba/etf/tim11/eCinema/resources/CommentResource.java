@@ -30,7 +30,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("comments")
 @Produces(MediaType.APPLICATION_JSON)
-public class CommentResource
+public class CommentResource extends BaseResource
 {
 	private static LoginService loginService = ServiceFactory.getLoginService();
 	
@@ -57,7 +57,7 @@ public class CommentResource
 			throw new ResourceNotFoundException("Content is unknown.");
 		}
 		
-		return commentDao.findAllByContent(contentId);
+		return commentDao.findAllByContent(contentId, offset, limit);
 	}
 	
 	@POST

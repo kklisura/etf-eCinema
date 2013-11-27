@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
@@ -20,10 +22,14 @@ import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
-public class TypeResource 
+
+@Path("types")
+@Produces(MediaType.APPLICATION_JSON)
+public class TypeResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private TypeDao typeDao;
+	
 	
 	public TypeResource()
 	{
@@ -31,11 +37,12 @@ public class TypeResource
 		this.typeDao = daoFactory.getTypeDao();
 	}
 	
+	
 	@GET
 	@Privilege("List")
 	public List<Type> getAllTypes() 
 	{
-		return typeDao.findAll();
+		return typeDao.findAll(offset, limit);
 	}
 	
 	@GET

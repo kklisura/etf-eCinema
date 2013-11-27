@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.User;
 
 public interface UserDao
 {
-	public List<User> findAll() throws DaoException;
+	public List<User> findAll(int offset, int limit) throws DaoException;
 	
 	public User find(int id) throws DaoException;
 	

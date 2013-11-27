@@ -16,16 +16,23 @@ public class SubtitleDaoImpl implements SubtitleDao
 	private DaoFactory daoFactory;
 	private static RowMapper rowMapper= new SubtitleRowMapper();
 	
+	
 	public SubtitleDaoImpl(DaoFactory daoFactory)
 	{
 		this.daoFactory = daoFactory;
 	}
 	
+	
 	@Override
-	public List<Subtitle> findAll() throws DaoException
+	public List<Subtitle> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Subtitles");
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Subtitles LIMIT ?, ?",
+									offset,
+									limit);
 		
 	}
 

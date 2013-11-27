@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.Group;
 
 public interface GroupDao 
 {
-	public List<Group> findAll() throws DaoException;
+	public List<Group> findAll(int offset, int limit) throws DaoException;
 	
 	public Group find(int id) throws DaoException;
 	

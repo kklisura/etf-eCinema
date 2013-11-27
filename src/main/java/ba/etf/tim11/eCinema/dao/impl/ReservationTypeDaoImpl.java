@@ -21,12 +21,17 @@ public class ReservationTypeDaoImpl implements ReservationTypeDao
 		this.daoFactory = daoFactory;
 	}
 	
+	
 	@Override
-	public List<ReservationType> findAll() throws DaoException
+	public List<ReservationType> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM ReservationTypes");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM ReservationTypes LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

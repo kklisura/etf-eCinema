@@ -24,19 +24,28 @@ public class CommentDaoImpl implements CommentDao
 	
 	
 	@Override
-	public List<Comment> findAll() throws DaoException
+	public List<Comment> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Comments");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Comments LIMIT ?, ?",
+									offset,
+									limit);
 	}
 	
 	@Override
-	public List<Comment> findAllByContent(int contentId) throws DaoException 
+	public List<Comment> findAllByContent(int contentId, int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Comments WHERE contents_id = ?", contentId);
+		return DaoUtil.executeQuery(connection, 
+									rowMapper,
+									"SELECT * FROM Comments WHERE contents_id = ? LIMIT ?, ?", 
+									contentId,
+									offset,
+									limit);
 	}
 	
 	@Override

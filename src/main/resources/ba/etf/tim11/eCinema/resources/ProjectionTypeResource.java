@@ -25,7 +25,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("projectionTypes")
 @Produces(MediaType.APPLICATION_JSON)
-public class ProjectionTypeResource 
+public class ProjectionTypeResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ProjectionTypeDao projectionTypeDao;
@@ -40,7 +40,7 @@ public class ProjectionTypeResource
 	@Privilege("List")
 	public List<ProjectionType> getAllProjectionTypes() 
 	{ 
-		return projectionTypeDao.findAll();
+		return projectionTypeDao.findAll(offset, limit);
 	}
 	
 	@GET

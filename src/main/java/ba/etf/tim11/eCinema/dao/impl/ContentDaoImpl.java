@@ -24,11 +24,15 @@ public class ContentDaoImpl implements ContentDao
 	
 	
 	@Override
-	public List<Content> findAll() throws DaoException
+	public List<Content> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Contents");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Contents LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

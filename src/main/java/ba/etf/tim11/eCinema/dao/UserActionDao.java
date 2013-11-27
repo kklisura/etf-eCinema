@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.UserAction;
 
 public interface UserActionDao 
 {
-	public List<UserAction> findAll() throws DaoException;
+	public List<UserAction> findAll(int offset, int limit) throws DaoException;
 	
 	public UserAction find(int id) throws DaoException;
 	

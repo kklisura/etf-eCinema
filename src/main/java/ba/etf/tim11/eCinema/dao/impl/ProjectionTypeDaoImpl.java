@@ -24,11 +24,15 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 
 
 	@Override
-	public List<ProjectionType> findAll() throws DaoException
+	public List<ProjectionType> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM ProjectionType");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM ProjectionType LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 

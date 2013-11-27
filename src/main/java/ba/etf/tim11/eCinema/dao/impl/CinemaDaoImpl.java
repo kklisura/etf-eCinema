@@ -24,11 +24,15 @@ public class CinemaDaoImpl implements CinemaDao
 	
 
 	@Override
-	public List<Cinema> findAll() throws DaoException
+	public List<Cinema> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Cinemas");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Cinemas LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

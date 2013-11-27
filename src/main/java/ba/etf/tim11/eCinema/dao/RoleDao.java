@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.Role;
 
 public interface RoleDao
 {
-	public List<Role> findAll() throws DaoException;
+	public List<Role> findAll(int offset, int limit) throws DaoException;
 	
 	public Role find(int id) throws DaoException;
 	

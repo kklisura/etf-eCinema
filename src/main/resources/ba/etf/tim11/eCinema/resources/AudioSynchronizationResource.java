@@ -29,7 +29,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("audiosync")
 @Produces(MediaType.APPLICATION_JSON)
-public class AudioSynchronizationResource
+public class AudioSynchronizationResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private LanguageDao languageDao;
@@ -55,7 +55,7 @@ public class AudioSynchronizationResource
 			throw new ResourceNotFoundException("Content not found");
 		}
 		
-		return audioSynchronizationDao.findAllByContent(contentId);
+		return audioSynchronizationDao.findAllByContent(contentId, offset, limit);
 	}
 	
 	@POST

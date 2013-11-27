@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.Resource;
 
 public interface ResourceDao 
 {
-	public List<Resource> findAll() throws DaoException;
+	public List<Resource> findAll(int offset, int limit) throws DaoException;
 	
 	public Resource find(int id) throws DaoException;
 	

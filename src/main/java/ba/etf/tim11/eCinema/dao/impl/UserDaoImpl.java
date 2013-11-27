@@ -24,11 +24,15 @@ public class UserDaoImpl implements UserDao
 	
 	
 	@Override
-	public List<User> findAll() throws DaoException
+	public List<User> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Users");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Users LIMIT ?, ?", 
+									offset, 
+									limit);
 	}	
 
 	@Override

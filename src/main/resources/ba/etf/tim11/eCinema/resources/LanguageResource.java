@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
@@ -21,22 +23,27 @@ import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
-public class LanguageResource
+
+@Path("languages")
+@Produces(MediaType.APPLICATION_JSON)
+public class LanguageResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private LanguageDao languageDao;
-	 
+	
+	
 	public LanguageResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.languageDao = daoFactory.getLanguageDao();
 	}
 	
+	
 	@GET
 	@Privilege("List")
 	public List<Language> getAllLanguages() 
 	{
-		return languageDao.findAll();
+		return languageDao.findAll(offset, limit);
 	}
 	
 	@GET

@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.Content;
 
 public interface ContentDao 
 {
-	public List<Content> findAll() throws DaoException;
+	public List<Content> findAll(int offset, int limit) throws DaoException;
 	
 	public Content find(int id) throws DaoException;
 	

@@ -25,22 +25,28 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 	
 
 	@Override
-	public List<AudioSynchronization> findAll() throws DaoException 
-	{
-		Connection connection = daoFactory.getConnection();
-		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM AudioSynchronizations");
-	}
-	
-	@Override
-	public List<AudioSynchronization> findAllByContent(int contentId) throws DaoException 
+	public List<AudioSynchronization> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
 		return DaoUtil.executeQuery(connection, 
 									rowMapper, 
-									"SELECT * FROM AudioSynchronizations WHERE contents_id = ?",
-									contentId);
+									"SELECT * FROM AudioSynchronizations LIMIT ?, ?", 
+									offset, 
+									limit);
+	}
+	
+	@Override
+	public List<AudioSynchronization> findAllByContent(int contentId, int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM AudioSynchronizations WHERE contents_id = ? LIMIT ?, ?",
+									contentId,
+									offset,
+									limit);
 	}
 
 	@Override

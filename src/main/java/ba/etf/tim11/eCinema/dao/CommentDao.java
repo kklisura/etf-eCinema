@@ -7,9 +7,9 @@ import ba.etf.tim11.eCinema.models.Comment;
 
 public interface CommentDao
 {
-	public List<Comment> findAll() throws DaoException;
+	public List<Comment> findAll(int offset, int limit) throws DaoException;
 	
-	public List<Comment> findAllByContent(int contentId) throws DaoException;
+	public List<Comment> findAllByContent(int contentId, int offset, int limit) throws DaoException;
 	
 	public Comment find(int id) throws DaoException;
 	

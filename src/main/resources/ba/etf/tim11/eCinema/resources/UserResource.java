@@ -32,7 +32,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("users")
 @Produces(MediaType.APPLICATION_JSON)
-public class UserResource 
+public class UserResource extends BaseResource
 {
 	private static LoginService loginService = ServiceFactory.getLoginService();
 	
@@ -54,7 +54,9 @@ public class UserResource
 	@Privilege("List")
 	public List<User> getAllUsers() 
 	{ 
-		return userDao.findAll();
+		System.out.println("Offset: " + offset);
+		System.out.println("Limit: " + limit);
+		return userDao.findAll(offset, limit);
 	}
 	
 	@GET

@@ -29,7 +29,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("reservations")
 @Produces(MediaType.APPLICATION_JSON)
-public class ReservationResource 
+public class ReservationResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ReservationDao reservationDao;
@@ -44,7 +44,7 @@ public class ReservationResource
 	@Privilege("List")
 	public List<Reservation> getAllReservations() 
 	{ 
-		return reservationDao.findAll();
+		return reservationDao.findAll(offset, limit);
 	}
 	
 	@POST

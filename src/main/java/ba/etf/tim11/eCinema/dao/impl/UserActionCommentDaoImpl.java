@@ -24,11 +24,15 @@ public class UserActionCommentDaoImpl implements UserActionCommentDao
 	
 	
 	@Override
-	public List<UserActionComment> findAll() throws DaoException
+	public List<UserActionComment> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM UserActionComments");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM UserActionComments LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

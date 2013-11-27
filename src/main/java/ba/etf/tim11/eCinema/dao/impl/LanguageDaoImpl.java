@@ -24,11 +24,15 @@ public class LanguageDaoImpl implements LanguageDao
 	
 
 	@Override
-	public List<Language> findAll() throws DaoException
+	public List<Language> findAll(int offset, int limit) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Languages");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Languages LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

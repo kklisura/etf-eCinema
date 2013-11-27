@@ -25,7 +25,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("states")
 @Produces(MediaType.APPLICATION_JSON)
-public class StateResource
+public class StateResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private StateDao stateDao;
@@ -42,7 +42,7 @@ public class StateResource
 	@Privilege("List")
 	public List<State> getAllStates() 
 	{
-		return stateDao.findAll();
+		return stateDao.findAll(offset, limit);
 	}
 	
 	@GET

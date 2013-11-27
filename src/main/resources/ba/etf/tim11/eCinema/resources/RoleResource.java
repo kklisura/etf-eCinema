@@ -25,7 +25,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("roles")
 @Produces(MediaType.APPLICATION_JSON)
-public class RoleResource
+public class RoleResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private RoleDao roleDao;
@@ -42,7 +42,7 @@ public class RoleResource
 	@Privilege("List")
 	public List<Role> getAllRoles() 
 	{
-		return roleDao.findAll();
+		return roleDao.findAll(offset, limit);
 	}
 	
 	@GET

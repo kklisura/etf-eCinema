@@ -7,9 +7,9 @@ import ba.etf.tim11.eCinema.models.AudioSynchronization;
 
 public interface AudioSynchronizationDao
 {
-	public List<AudioSynchronization> findAll() throws DaoException;
+	public List<AudioSynchronization> findAll(int offset, int limit) throws DaoException;
 	
-	public List<AudioSynchronization> findAllByContent(int contentId) throws DaoException;
+	public List<AudioSynchronization> findAllByContent(int contentId, int offset, int limit) throws DaoException;
 	
 	public AudioSynchronization find(int id) throws DaoException;
 		

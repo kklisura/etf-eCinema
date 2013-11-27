@@ -6,7 +6,7 @@ import ba.etf.tim11.eCinema.models.Subtitle;
 
 public interface SubtitleDao
 {
-	public List<Subtitle> findAll() throws DaoException;
+	public List<Subtitle> findAll(int offset, int limit) throws DaoException;
 	
 	public Subtitle find(int id) throws DaoException;
 	

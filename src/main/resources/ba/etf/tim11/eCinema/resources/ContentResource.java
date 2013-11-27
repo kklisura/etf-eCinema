@@ -25,7 +25,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("contents")
 @Produces(MediaType.APPLICATION_JSON)
-public class ContentResource
+public class ContentResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ContentDao contentDao;
@@ -40,7 +40,7 @@ public class ContentResource
 	@Privilege("List")
 	public List<Content> getAllContents() 
 	{
-		return contentDao.findAll();
+		return contentDao.findAll(offset, limit);
 	}
 	
 	@GET

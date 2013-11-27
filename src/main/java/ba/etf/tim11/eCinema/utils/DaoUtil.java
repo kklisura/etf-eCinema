@@ -27,7 +27,7 @@ public final class DaoUtil
 			preparedStatement = connection.prepareStatement(query);
 			
 			for (int i = 0; i < arguments.length; i++) {
-		        preparedStatement.setObject(i + 1, arguments[i].toString());
+		        preparedStatement.setObject(i + 1, arguments[i]);
 		    }
 			
 			resultSet = preparedStatement.executeQuery();
@@ -53,7 +53,7 @@ public final class DaoUtil
 			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			for (int i = 0; i < arguments.length; i++) {
-		        preparedStatement.setObject(i + 1, arguments[i].toString());
+		        preparedStatement.setObject(i + 1, arguments[i]);
 		    }
 			
 			affectedRows = preparedStatement.executeUpdate();
@@ -101,6 +101,11 @@ public final class DaoUtil
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			
+			for (int i = 0; i < arguments.length; i++) {
+		        preparedStatement.setObject(i + 1, arguments[i]);
+		    }
+			
 		    ResultSet resultSet = preparedStatement.executeQuery();
 		    
 	        while(resultSet.next()) {

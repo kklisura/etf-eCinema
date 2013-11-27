@@ -7,7 +7,7 @@ import ba.etf.tim11.eCinema.models.State;
 
 public interface StateDao 
 {
-	public List<State> findAll() throws DaoException;
+	public List<State> findAll(int offset, int limit) throws DaoException;
 	
 	public State find(int id) throws DaoException;
 	

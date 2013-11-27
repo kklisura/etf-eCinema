@@ -24,11 +24,15 @@ public class StateDaoImpl implements StateDao
 	
 	
 	@Override
-	public List<State> findAll() throws DaoException 
+	public List<State> findAll(int offset, int limit) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM States");
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM States LIMIT ?, ?",
+									offset,
+									limit);
 	}
 
 	@Override

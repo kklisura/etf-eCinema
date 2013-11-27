@@ -25,7 +25,7 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 @Path("groups")
 @Produces(MediaType.APPLICATION_JSON)
-public class GroupResource 
+public class GroupResource extends BaseResource
 {	
 	private DaoFactory daoFactory;
 	private GroupDao groupDao;
@@ -42,7 +42,7 @@ public class GroupResource
 	@Privilege("List")
 	public List<Group> getAllGroups() 
 	{
-		return groupDao.findAll();
+		return groupDao.findAll(offset, limit);
 	}
 	
 	@GET
