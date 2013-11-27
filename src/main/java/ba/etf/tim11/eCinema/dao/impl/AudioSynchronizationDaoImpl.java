@@ -33,23 +33,14 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 	}
 	
 	@Override
-	public List<AudioSynchronization> findAllBy(int contentId, String language) throws DaoException 
+	public List<AudioSynchronization> findAllByContent(int contentId) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		if (language == null || language.length() == 0) 
-		{
-			return DaoUtil.executeQuery(connection, 
-										rowMapper, 
-										"SELECT * FROM AudioSynchronizations WHERE contents_id = ?",
-										contentId);
-		}
-		
 		return DaoUtil.executeQuery(connection, 
 									rowMapper, 
-									"SELECT as.* FROM AudioSynchronizations as, Languages l WHERE as.languages_id = l.id AND as.contents_id = ? AND l.language = ?",
-									contentId,
-									language);
+									"SELECT * FROM AudioSynchronizations WHERE contents_id = ?",
+									contentId);
 	}
 
 	@Override

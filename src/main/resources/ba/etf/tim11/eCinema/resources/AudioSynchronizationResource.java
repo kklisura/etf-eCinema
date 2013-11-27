@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -50,13 +49,13 @@ public class AudioSynchronizationResource
 	@GET
 	@Path("{content_id}")
 	@Privilege("List")
-	public List<AudioSynchronization> getContentAudioSync(@PathParam("content_id") int contentId, @QueryParam("language") String language) 
+	public List<AudioSynchronization> getContentAudioSync(@PathParam("content_id") int contentId) 
 	{
 		if (contentDao.find(contentId) == null) {
 			throw new ResourceNotFoundException("Content not found");
 		}
 		
-		return audioSynchronizationDao.findAllBy(contentId, language);
+		return audioSynchronizationDao.findAllByContent(contentId);
 	}
 	
 	@POST
@@ -70,9 +69,8 @@ public class AudioSynchronizationResource
 			throw new ResourceNotFoundException("Content not found");
 		}
 		
-		if (!ResourceUtil.hasAll(formParams, "fileId", "language") ||
-		    !ResourceUtil.isInt(formParams.getFirst("language"))) {
-			throw new BadRequestException("You are missing some fields.");
+		if (!ResourceUtil.isInt(formParams.getFirst("language"))) {
+			throw new BadRequestException("You are missing language field.");
 		}
 		
 		Language language = languageDao.find(Integer.parseInt(formParams.getFirst("language")));
@@ -82,7 +80,8 @@ public class AudioSynchronizationResource
 		
 		AudioSynchronization audioSynchronization = new AudioSynchronization();
 		
-		audioSynchronization.setFileId(formParams.getFirst("fileId"));
+		// TODO(kklisura): Receive file here; save ti; hash it; use hash as fileId
+		// audioSynchronization.setFileId();
 		audioSynchronization.setContent(content);		
 		audioSynchronization.setLanguage(language);
 

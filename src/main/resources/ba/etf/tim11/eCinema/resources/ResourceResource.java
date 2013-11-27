@@ -16,17 +16,20 @@ import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Resource;
 
 
-@Path("resource")
+@Path("resources")
 @Produces(MediaType.APPLICATION_JSON)
 public class ResourceResource 
 {
 	private DaoFactory daoFactory;
 	private ResourceDao resourceDao;
 	
-	public ResourceResource(){
+	
+	public ResourceResource()
+	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.resourceDao = daoFactory.getResourceDao();
 	}
+	
 	
 	@GET
 	public List<Resource> getAllResources() 

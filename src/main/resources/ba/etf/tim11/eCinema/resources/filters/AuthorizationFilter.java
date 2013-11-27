@@ -55,9 +55,10 @@ public class AuthorizationFilter implements ContainerRequestFilter, ResourceFilt
 			username = DEFAULT_USERNAME;
 		}
 		
-		if (!securityService.isAllowed(username, resource, privilege)) {
-			throw new UnauthorizedException("You don't have permission for this resource.");
-		}
+		// TODO(kklisura): Remove following comments to enable privileges.
+		//if (!securityService.isAllowed(username, resource, privilege)) {
+		//	throw new UnauthorizedException("You don't have permission for this resource.");
+		//}
 		
 		return containerRequest;
 	}

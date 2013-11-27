@@ -15,8 +15,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import ba.etf.tim11.eCinema.dao.CinemaHallDao;
+import ba.etf.tim11.eCinema.dao.ContentDao;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ProjectionDao;
+import ba.etf.tim11.eCinema.dao.ProjectionTypeDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.CinemaHall;
 import ba.etf.tim11.eCinema.models.Content;
@@ -30,19 +33,26 @@ import ba.etf.tim11.eCinema.utils.DaoUtil;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 
-
 @Path("projections")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectionResource 
 {
 	private DaoFactory daoFactory;
 	private ProjectionDao projectionDao;
+	private ContentDao contentDao;
+	private CinemaHallDao cinemaHallDao;
+	private ProjectionTypeDao projectionTypeDao;
+	
 	
 	public ProjectionResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.projectionDao = daoFactory.getProjectionDao();
+		this.contentDao = daoFactory.getContentDao();
+		this.cinemaHallDao = daoFactory.getCinemaHallDao();
+		this.projectionTypeDao = daoFactory.getProjectionTypeDao();
 	}
+	
 	
 	@GET
 	@Privilege("List")
@@ -52,17 +62,34 @@ public class ProjectionResource
 	}
 	
 	@POST
+	@Path("{content_id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Projection createNewProjection(MultivaluedMap<String, String> formParams) 
+	public Projection createNewProjection(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
 	{
-		if (!ResourceUtil.hasAll(formParams, "time", "pricePerSite", "content", "cinemahall", "projectiontype") ||
-				!ResourceUtil.isInt(formParams.getFirst("content")) || !ResourceUtil.isInt(formParams.getFirst("cinemahall")) ||
-				!ResourceUtil.isInt(formParams.getFirst("projectiontype")))
+		if (!ResourceUtil.hasAll(formParams, "time", "pricePerSite", "cinemahall", "projectiontype") ||
+			!ResourceUtil.isInt(formParams.getFirst("cinemahall")) ||
+			!ResourceUtil.isInt(formParams.getFirst("projectiontype")))
 		{
 			throw new BadRequestException("You are missing some fields.");
 		}
 		
+		Content content = contentDao.find(contentId);
+		if (content == null) {
+			throw new ResourceNotFoundException("Content not found.");
+		}
+		
+		CinemaHall cinemaHall = cinemaHallDao.find(Integer.parseInt(formParams.getFirst("cinamehall")));
+		if (cinemaHall == null) {
+			throw new ResourceNotFoundException("Cinema hall not found.");
+		}
+		
+		ProjectionType projectionType = projectionTypeDao.find(Integer.parseInt(formParams.getFirst("projectiontype")));
+		if (projectionType == null) {
+			throw new ResourceNotFoundException("Projectio type not found.");
+		}
+		
+
 		Projection projection = new Projection();
 		
 		try 
@@ -74,22 +101,13 @@ public class ProjectionResource
 		}
 		
 		BigDecimal price = new BigDecimal(formParams.getFirst("pricePerSeat"));
+		
 		projection.setPricePerSeat(price);
-		
-		Content content = new Content();
-		content.setId(Integer.parseInt(formParams.getFirst("content")));
 		projection.setContent(content);
-		
-		CinemaHall cinemaHall = new CinemaHall();
-		cinemaHall.setId(Integer.parseInt(formParams.getFirst("cinamehall")));
 		projection.setCinemaHall(cinemaHall);
-		
-		ProjectionType projectionType = new ProjectionType();
-		projectionType.setId(Integer.parseInt(formParams.getFirst("projectiontype")));
 		projection.setProjectionType(projectionType);
 		
-		return projection;
-		
+		return projection;	
 	}
 	
 	@POST
@@ -159,5 +177,4 @@ public class ProjectionResource
 		return Response.success();
 	}
 	
-
 }

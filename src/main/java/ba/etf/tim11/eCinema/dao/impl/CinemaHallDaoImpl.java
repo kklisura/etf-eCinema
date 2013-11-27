@@ -11,6 +11,7 @@ import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
 import ba.etf.tim11.eCinema.models.CinemaHall;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
+
 public class CinemaHallDaoImpl implements CinemaHallDao
 {
 	private DaoFactory daoFactory;
@@ -21,6 +22,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 		this.daoFactory = daoFactory;
 	}
 
+	
 	@Override
 	public List<CinemaHall> findAll() throws DaoException 
 	{
@@ -30,6 +32,17 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 	}
 
 	@Override
+	public List<CinemaHall> findAllByCinema(int cinemaId) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM CinemaHalls WHERE cinemas_id = ?", 
+									cinemaId);
+	}
+	
+	@Override
 	public CinemaHall find(int id) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
@@ -38,17 +51,6 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 											 rowMapper, 
 											 "SELECT * FROM CinemaHalls WHERE id = ?", 
 											 id);
-	}
-
-	@Override
-	public CinemaHall find(String title) throws DaoException 
-	{
-		Connection connection = daoFactory.getConnection();
-		
-		return DaoUtil.executeQueryReturnOne(connection, 
-											 rowMapper, 
-											 "SELECT * FROM CinemaHalls WHERE title = ?", 
-											 title);
 	}
 
 	@Override

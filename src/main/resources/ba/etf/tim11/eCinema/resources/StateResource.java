@@ -17,8 +17,10 @@ import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
+import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
+import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 
 @Path("states")
@@ -62,6 +64,10 @@ public class StateResource
 	@Privilege("Create")
 	public State createNewState(MultivaluedMap<String, String> formParams) 
 	{
+		if (!ResourceUtil.hasAll(formParams, "name", "shortName")) {
+			throw new BadRequestException("You are missing name and/or shortName field.");
+		}
+		
 		State state = new State();
 		
 		state.setName(formParams.getFirst("name"));
@@ -70,6 +76,27 @@ public class StateResource
 		stateDao.insert(state);
 		
 		return state;
+	}
+	
+	@POST
+	@Path("{id}")
+	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Update")
+	public Response updateState(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	{
+		State state = stateDao.find(id);
+		if (state == null) {
+			throw new ResourceNotFoundException("State not found.");
+		}
+		
+		if (formParams.getFirst("name") != null)
+			state.setName(formParams.getFirst("name"));
+		if (formParams.getFirst("shortName") != null)
+			state.setShortName(formParams.getFirst("shortName"));
+		
+		stateDao.update(state);
+		
+		return Response.success();
 	}
 	
 	@DELETE
