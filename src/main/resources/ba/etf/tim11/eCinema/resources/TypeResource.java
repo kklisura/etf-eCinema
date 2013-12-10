@@ -45,20 +45,6 @@ public class TypeResource extends BaseResource
 		return typeDao.findAll(offset, limit);
 	}
 	
-	@GET
-	@Path("{id}")
-	@Privilege("Read")
-	public Type getType(@PathParam("id") int id) 
-	{
-		Type type = typeDao.find(id);
-		
-		if (type == null) {
-			throw new ResourceNotFoundException("Type not found");
-		}
-		
-		return type;
-	}
-	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")

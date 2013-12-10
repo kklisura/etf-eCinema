@@ -14,8 +14,10 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.RoleDao;
+import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Role;
+import ba.etf.tim11.eCinema.models.User;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
@@ -29,20 +31,25 @@ public class RoleResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private RoleDao roleDao;
+	private UserDao userDao;
 	
 	
 	public RoleResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.roleDao = daoFactory.getRoleDao();
+		this.userDao = daoFactory.getUserDao();
 	}
 	
 	
 	@GET
 	@Privilege("List")
-	public List<Role> getAllRoles() 
+	public Response getAllRoles() 
 	{
-		return roleDao.findAll(offset, limit);
+		return Response.paginated(roleDao.findAll(offset, limit),
+								  offset,
+								  limit,
+								  roleDao.count());
 	}
 	
 	@GET
@@ -107,4 +114,26 @@ public class RoleResource extends BaseResource
 		return Response.success();
 	}
 
+	@POST
+	@Path("{id}\\users")
+	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Create")
+	public Response addUserToRole(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	{
+		if (!ResourceUtil.isInt(formParams.getFirst("user"))) {
+			throw new BadRequestException("You are missing user field.");
+		}
+		
+		Role role = roleDao.find(id);
+		if (role == null) {
+			throw new ResourceNotFoundException("Role not found.");
+		}
+		
+		User user = userDao.find(Integer.parseInt(formParams.getFirst("user")));
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found.");
+		}	
+		
+		return Response.success();
+	}
 } 

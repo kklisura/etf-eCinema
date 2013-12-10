@@ -34,17 +34,20 @@ public class ReservationResource extends BaseResource
 	private DaoFactory daoFactory;
 	private ReservationDao reservationDao;
 	
+	
 	public ReservationResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.reservationDao = daoFactory.getReservationDao();
 	}
 	
+	
 	@GET
+	@Path("{projection_id}")
 	@Privilege("List")
-	public List<Reservation> getAllReservations() 
+	public List<Reservation> getAllReservations(@PathParam("projection_id") int projectionId) 
 	{ 
-		return reservationDao.findAll(offset, limit);
+		return reservationDao.findAllByProjection(projectionId, offset, limit);
 	}
 	
 	@POST
@@ -52,7 +55,8 @@ public class ReservationResource extends BaseResource
 	@Privilege("Create")
 	public Reservation createNewReservation(MultivaluedMap<String, String> formParams) 
 	{
-		if (!ResourceUtil.hasAll(formParams, "projection", "user", "receipt", "reservationtype") ||
+		// TODO(kklisura): Need to implement this.
+		if (!ResourceUtil.hasAll(formParams, "user", "reservationtype") ||
 			!ResourceUtil.isInt(formParams.getFirst("projection")) || !ResourceUtil.isInt(formParams.getFirst("user")) ||
 			!ResourceUtil.isInt(formParams.getFirst("receipt")) || !ResourceUtil.isInt(formParams.getFirst("reservationtype"))) 
 		{
@@ -127,11 +131,11 @@ public class ReservationResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteReservation(@PathParam("username") Integer id) 
+	public Response deleteReservation(@PathParam("id") int id) 
 	{
 		Reservation reservation= reservationDao.find(id);
 		if (reservation == null) {
-			throw new ResourceNotFoundException("Reservationr not found.");
+			throw new ResourceNotFoundException("Reservation not found.");
 		}
 		
 		reservationDao.delete(reservation);

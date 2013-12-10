@@ -35,6 +35,19 @@ public class ReservationDaoImpl implements ReservationDao
 	}
 
 	@Override
+	public List<Reservation> findAllByProjection(int projectionId, int offset, int limit) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Reservations WHERE projections_id = ? LIMIT ?, ?",
+									projectionId,
+									offset,
+									limit);
+	}
+	
+	@Override
 	public Reservation find(int id) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();

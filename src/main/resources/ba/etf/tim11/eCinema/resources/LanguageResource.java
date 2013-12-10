@@ -14,6 +14,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.LanguageDao;
+import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Language;
 import ba.etf.tim11.eCinema.models.State;
@@ -30,12 +31,14 @@ public class LanguageResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private LanguageDao languageDao;
+	private StateDao stateDao;
 	
 	
 	public LanguageResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.languageDao = daoFactory.getLanguageDao();
+		this.stateDao = daoFactory.getStateDao();
 	}
 	
 	
@@ -46,36 +49,24 @@ public class LanguageResource extends BaseResource
 		return languageDao.findAll(offset, limit);
 	}
 	
-	@GET
-	@Path("{id}")
-	@Privilege("Read")
-	public Language getLanguage(@PathParam("id") int id) 
-	{
-		Language language = languageDao.find(id);
-		
-		if (language == null) {
-			throw new ResourceNotFoundException("Language not found");
-		}
-		
-		return language;
-	}
-	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
 	public Language createNewLanguage(MultivaluedMap<String, String> formParams) 
 	{
-		if (!ResourceUtil.hasAll(formParams, "language", "state") ||
+		if (!ResourceUtil.hasAll(formParams, "language") ||
 			!ResourceUtil.isInt(formParams.getFirst("state"))) {
-			throw new BadRequestException("You are missing some description fields.");
+			throw new BadRequestException("You are missing some fields.");
+		}
+		
+		State state = stateDao.find(Integer.parseInt(formParams.getFirst("state")));
+		if (state == null) {
+			throw new ResourceNotFoundException("State not found.");
 		}
 		
 		Language language = new Language();
 		
 		language.setLanguage(formParams.getFirst("language"));
-		
-		State state = new State();
-		state.setId(Integer.parseInt(formParams.getFirst("state")));
 		language.setState(state);
 		
 		languageDao.insert(language);
@@ -97,14 +88,15 @@ public class LanguageResource extends BaseResource
 		if (formParams.getFirst("language") != null)
 			language.setLanguage(formParams.getFirst("language"));
 		
-		if (formParams.getFirst("state") != null)
+		if (ResourceUtil.isInt(formParams.getFirst("state")))
 		{
-			State state = new State();
+			State state = stateDao.find(Integer.parseInt(formParams.getFirst("state")));
+			if (state == null) {
+				throw new ResourceNotFoundException("State not found.");
+			}
 			
-			state.setId(Integer.parseInt(formParams.getFirst("state")));
 			language.setState(state);
 		}
-			
 
 		languageDao.update(language);
 		
@@ -125,5 +117,5 @@ public class LanguageResource extends BaseResource
 		
 		return Response.success();
 	}
-
+	
 }

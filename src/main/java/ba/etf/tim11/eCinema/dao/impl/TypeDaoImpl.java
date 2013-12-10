@@ -11,6 +11,7 @@ import ba.etf.tim11.eCinema.dao.mapper.TypeRowMapper;
 import ba.etf.tim11.eCinema.models.Type;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
+
 public class TypeDaoImpl implements TypeDao
 {
 	private DaoFactory daoFactory;
