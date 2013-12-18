@@ -54,8 +54,6 @@ public class UserResource extends BaseResource
 	@Privilege("List")
 	public List<User> getAllUsers() 
 	{ 
-		System.out.println("Offset: " + offset);
-		System.out.println("Limit: " + limit);
 		return userDao.findAll(offset, limit);
 	}
 	

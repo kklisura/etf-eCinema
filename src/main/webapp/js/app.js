@@ -11,6 +11,24 @@ App.ApplicationController = Ember.Controller.extend({
 }),
 
 
+/*
+
+
+
+App.Person = DS.Model.extend({
+  firstName: DS.attr('string'),
+  birthday:  DS.attr('date')
+});
+
+App.Order = DS.Model.extend({
+  lineItems: DS.hasMany('lineItem')
+});
+
+App.LineItem = DS.Model.extend({
+  order: DS.belongsTo('order')
+});
+
+*/
 
 
 // ============================================
@@ -25,6 +43,8 @@ App.Router.map(function() {
     this.route('now');
     this.route('theaters');
 
+
+    this.route('content', {path: 'content/:id'});
 
 
     this.resource('user', function() {
@@ -79,6 +99,14 @@ App.RegisterRoute = Ember.Route.extend({
     }
 });
 
+App.AdminUsersRoute = Ember.Route.extend({
+    model: function() {
+        return Ember.$.getJSON('api/v1/users', function(response) {
+            return response;
+        });
+    }
+});
+
 
 
 // ============================================
@@ -99,6 +127,13 @@ App.CrossfadeView = {
 
 App.IndexView = Ember.View.extend(App.CrossfadeView);
 App.RegisterView = Ember.View.extend(App.CrossfadeView);
+App.NewestView = Ember.View.extend(App.CrossfadeView);
+App.TopView = Ember.View.extend(App.CrossfadeView);
+App.NowView = Ember.View.extend(App.CrossfadeView);
+App.TheatersView = Ember.View.extend(App.CrossfadeView);
+App.ContentView = Ember.View.extend(App.CrossfadeView);
+
+
 
 
 

@@ -14,8 +14,10 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.GroupDao;
+import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Group;
+import ba.etf.tim11.eCinema.models.User;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
@@ -29,12 +31,14 @@ public class GroupResource extends BaseResource
 {	
 	private DaoFactory daoFactory;
 	private GroupDao groupDao;
+	private UserDao userDao;
 	
 	
 	public GroupResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.groupDao = daoFactory.getGroupDao();
+		this.userDao = daoFactory.getUserDao();
 	}
 
 	
@@ -109,6 +113,33 @@ public class GroupResource extends BaseResource
 		if (group == null) {
 			throw new ResourceNotFoundException("Group not found.");
 		}
+		
+		groupDao.delete(group);
+		
+		return Response.success();
+	}
+		
+	@POST
+	@Path("{id}/users")
+	@Consumes("application/x-www-form-urlencoded")
+	@Privilege("Add")
+	public Response addUserToGroup(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	{
+		if (!ResourceUtil.isInt(formParams.getFirst("id"))) {
+			throw new BadRequestException("You are missing user.");
+		}
+		
+		Group group = groupDao.find(id);
+		if (group == null) {
+			throw new ResourceNotFoundException("Group not found.");
+		}
+		
+		User user = userDao.find(Integer.parseInt(formParams.getFirst("id")));
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found.");
+		}
+		
+		group.addUser(user);	
 		
 		groupDao.delete(group);
 		

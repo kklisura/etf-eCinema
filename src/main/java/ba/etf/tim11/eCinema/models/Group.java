@@ -1,17 +1,25 @@
 package ba.etf.tim11.eCinema.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
+@JsonIgnoreProperties({"users"})
 public class Group 
 {
 	int id;
 	String name, description;
 	Date updatedAt, createdAt;
+	List<User> users;
 	
 	
-	public Group()  {
-		
+	public Group()
+	{
+		users = new ArrayList<User>();
+
 	}
 	
 	public int getId() {
@@ -54,4 +62,18 @@ public class Group
 		this.createdAt = createdAt;
 	}
 
+	public List<User> getUsers() {
+		return users;
+	}
+	
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	
+	
+	public void addUser(User user)
+	{
+		users.add(user);
+	}
+	
 }

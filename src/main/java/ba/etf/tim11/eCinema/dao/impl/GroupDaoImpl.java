@@ -9,6 +9,7 @@ import ba.etf.tim11.eCinema.dao.GroupDao;
 import ba.etf.tim11.eCinema.dao.mapper.GroupRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Group;
+import ba.etf.tim11.eCinema.models.User;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
 
@@ -63,6 +64,14 @@ public class GroupDaoImpl  implements GroupDao
 		
 		group.setId(rowId);
 		
+		for(User user : group.getUsers()) 
+		{
+			DaoUtil.executeUpdate(connection, 
+					  			  "INSERT INTO UserGroup (users_id, groups_id) VALUES (?, ?)",
+					  			  user.getId(),
+					  			  group.getId());
+		}
+		
 		return true;
 	}
 
@@ -76,6 +85,14 @@ public class GroupDaoImpl  implements GroupDao
 							  group.getName(),
 							  group.getDescription(),
 							  group.getId());
+		
+		for(User user : group.getUsers()) 
+		{
+			DaoUtil.executeUpdate(connection, 
+					  			  "INSERT INTO UserGroup (users_id, groups_id) VALUES (?, ?)",
+					  			  user.getId(),
+					  			  group.getId());
+		}
 		
 		return true;
 	}

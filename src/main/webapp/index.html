@@ -101,6 +101,180 @@
 
 
 
+
+
+    <!-- ========================================== -->
+    <!--  (Application) Index template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="index">
+    <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="images/thumb/1.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Example headline.</h1>
+              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="images/thumb/2.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Another example headline.</h1>
+              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="images/thumb/3.jpg" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>One more for good measure.</h1>
+              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
+        
+
+      <!-- Newest content -->
+
+      <div class="row">
+        <div class="col-lg-4">
+          <h3>{{#link-to 'newest' classNames="index-subnav"}} Newest {{/link-to}}</h3>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Source code (2011){{/link-to}}</h3>
+          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- Top rated -->
+
+      <div class="row">
+        <div class="col-lg-4">
+          <h3>{{#link-to 'top' classNames="index-subnav"}}Top rated{{/link-to}}</h3>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' id}}Test{{/link-to}}</h3>
+          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+      </div>
+
+
+
+      <!-- Latest comments -->
+
+      <div class="row">
+        <div class="col-lg-4">
+          <h3>Latest comments</h3>
+        </div>
+      </div>
+
+      <div class="row">
+
+
+      </div>
+
+    </script>
+
+
+
+
     <!-- ========================================== -->
     <!--  Login modal template -->
     <!-- ========================================== -->
@@ -136,69 +310,16 @@
 
 
 
+
     <!-- ========================================== -->
-    <!--  (Application) Index template -->
+    <!--  Top template -->
     <!-- ========================================== -->
 
-    <script type="text/x-handlebars" data-template-name="index">
-
-      <div class="carousel slide" data-ride="carousel" id="carousel">
-
-        <ol class="carousel-indicators">
-          <li data-target="#carousel-captions" data-slide-to="0" class=""></li>
-          <li data-target="#carousel-captions" data-slide-to="1" class="active"></li>
-          <li data-target="#carousel-captions" data-slide-to="2" class=""></li>
-        </ol>
-
-        <div class="carousel-inner">
-          <div class="item">
-
-            <!-- Carousel item -->
-            <img src="images/thumb/1.jpg"></img>
-            <div class="carousel-caption">
-              <h3>Gray's Anatomy</h3>
-              <p>Watch all new episodes.</p>
-            </div>
-
-          </div>
-
-          <div class="item active">
-
-            <!-- Carousel item -->
-            <img src="images/thumb/2.jpg"></img>
-            <div class="carousel-caption">
-              <h3>Hobbit: Desolation of Smaug</h3>
-              <p>Watch now.</p>
-            </div>
-
-          </div>
-
-          <div class="item">
-
-            <!-- Carousel item -->
-            <img src="images/thumb/3.jpg"></img>
-            <div class="carousel-caption">
-              <h3>Desicable me 2</h3>
-              <p>Comming this week in theaters.</p>
-            </div>
-
-          </div>
-        </div>
-
-        <a class="left carousel-control" href="#carousel-captions" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#carousel-captions" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-      </div>
-        
-
-      <!-- Newest content -->
+    <script type="text/x-handlebars" data-template-name="top">
 
       <div class="row">
         <div class="col-lg-4">
-          <h3>{{#link-to 'newest' classNames="index-subnav"}} Newest {{/link-to}}</h3>
+          <h3>Top rated content</h3>
         </div>
       </div>
 
@@ -208,7 +329,7 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Source code (2011)</h3>
+          <h3>{{#link-to 'content' 1}}Source code (2011){{/link-to}}</h3>
           <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
           <p>
             <a class="btn btn-default" href="#" role="button">Watch now »</a>
@@ -221,7 +342,7 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Heading</h3>
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
           <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
           <p>
             <a class="btn btn-default" href="#" role="button">Watch now »</a>
@@ -234,7 +355,7 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Heading</h3>
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p>
             <a class="btn btn-default" href="#" role="button">Watch now »</a>
@@ -245,11 +366,104 @@
       </div>
 
 
-      <!-- Top rated -->
+
+      <div class="row">
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+      </div>
+
+    </script>
+
+
+
+
+    <!-- ========================================== -->
+    <!--  Top template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="newest">
 
       <div class="row">
         <div class="col-lg-4">
-          <h3>{{#link-to 'top' classNames="index-subnav"}}Top rated{{/link-to}}</h3>
+          <h3>Newest content</h3>
         </div>
       </div>
 
@@ -259,7 +473,7 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Source code (2011)</h3>
+          <h3>{{#link-to 'content' 1}}Source code (2011){{/link-to}}</h3>
           <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
           <p>
             <a class="btn btn-default" href="#" role="button">Watch now »</a>
@@ -272,7 +486,7 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Heading</h3>
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
           <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
           <p>
             <a class="btn btn-default" href="#" role="button">Watch now »</a>
@@ -285,7 +499,7 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Heading</h3>
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
           <p>
             <a class="btn btn-default" href="#" role="button">Watch now »</a>
@@ -297,13 +511,47 @@
 
 
 
-      <!-- Latest comments -->
-
       <div class="row">
+
+        <!-- Content item -->
+
         <div class="col-lg-4">
-          <h3>Latest comments</h3>
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
         </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
       </div>
+
 
       <div class="row">
 
@@ -311,38 +559,150 @@
 
         <div class="col-lg-4">
           <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+
+
+        <!-- Content item -->
+
+        <div class="col-lg-4">
+          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
+          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>
+            <a class="btn btn-default" href="#" role="button">Watch now »</a>
+            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
+          </p>
+        </div>
+      </div>
+      
+    </script>
+
+
+
+    <!-- ========================================== -->
+    <!--  Now template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="now">
+
+    </script>
+
+
+
+    <!-- ========================================== -->
+    <!--  Now template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="thaters">
+
+    </script>
+
+
+
+
+    <!-- ========================================== -->
+    <!--  Content template -->
+    <!-- ========================================== -->
+    
+    <script type="text/x-handlebars" data-template-name="content">
+
+      <div class="container">
+        <div class="col-lg-offset-1">
           <h3>Source code (2011)</h3>
-          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
         </div>
 
+        <div class="row">
+          <div class="col-lg-5 col-lg-offset-1">
+          <embed width="420" height="345" src="http://www.youtube.com/v/WatVodRARsU" type="application/x-shockwave-flash"></embed>
+          </div>
 
-        <!-- Content item -->
+          <div class="col-lg-5 "> 
+            <h4>Movie info</h4>        
+            <p>When decorated soldier Captain Colter Stevens (Jake Gyllenhaal) wakes up in the body of an unknown man, he discovers he's part of a mission to find the bomber of a Chicago commuter train. In an assignment unlike any he's ever known, he learns he's part of a government experiment called the Source Code, a program that enables him to cross over into another man's identity in the last 8 minutes of his life. With a second, much larger target threatening to kill millions in downtown Chicago, Colter re-lives the incident over and over again, gathering clues each time, until he can solve the mystery of who is behind the bombs and prevent the next attack.
+            </p>
 
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Heading</h3>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
+            <p><h4>Director</h4> Christopher Nolan</p>
+
+            <p><h4>Actors</h4> Jake Gyllenhaal, Nicole Kidman, Chuck Norris</p>
+
+
+            <p><h4>Length</h4> 150 minutes</p>
+
+            <p><h4>Rating (5.4/10)</h4></p>
+            <div class="rating">
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon glyphicon-star"></span>
+              <span class="glyphicon glyphicon-star-empty"></span>
+              <span class="glyphicon glyphicon-star-empty"></span>
+              <span class="glyphicon glyphicon-star-empty"></span>
+            </rating>
+
+          </div>
         </div>
 
+        </div>
 
-        <!-- Content item -->
+        <br>
+        <div class="row">
+          <div class="col-lg-10 col-lg-offset-1">
+            <div class="panel panel-default">
+              
+              <div class="panel-heading">
+                <h3 class="panel-title">Add your comment</h3>
+              </div>
+              
+              <div class="panel-body">
 
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>Heading</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
+                <div class="form-group">
+                  <textarea class="form-control" rows="3" placeholder="Comment text"></textarea>
+                </div>
+                <button class="pull-right btn btn-primary">Comment</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-lg-10 col-lg-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Comments</h3>
+              </div>
+              <div class="panel-body">
+                <span><b>Naida</b> says:</span><br>
+                <span>Bezze film, majke m'.</span>
+              </div>
+              <hr>
+              <div class="panel-body">
+                Panel content
+              </div>
+              <hr>
+              <div class="panel-body">
+                Panel content
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -350,10 +710,21 @@
     </script>
 
 
-    <!-- Register template -->
+    <!-- ========================================== -->
+    <!--  NESTO_NOVO template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="naziv_nesto_novo">
+
+    </script>
+
+    <!-- ========================================== -->
+    <!--  Register template -->
+    <!-- ========================================== -->
+
     <script type="text/x-handlebars" data-template-name="register">
 
-    <div class="col-md-offset-2 col-md-8">
+    <div class="col-sm-offset-0 col-sm-12 col-lg-offset-2 col-lg-8">
       <div class="panel panel-default">
 
         <div class="panel-heading">Enter your information</div>
@@ -451,7 +822,7 @@
             <label for="exampleInputState">State</label>
             <select class="form-control" placeholder="Pick a state">       
 
-              {{#each state in model.states}}
+              {{#each state in model}}
                 <option value="{{state.id}}">{{state.name}}</option>
               {{/each}}
 
@@ -482,7 +853,9 @@
 
 
 
-    <!-- User template -->
+    <!-- ========================================== -->
+    <!--  User template -->
+    <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="user">
 
@@ -518,7 +891,10 @@
 
 
 
-    <!-- User action template -->
+
+    <!-- ========================================== -->
+    <!--  User Action template -->
+    <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="user/history">
 
@@ -536,7 +912,10 @@
 
 
 
-    <!-- User Settings template -->
+
+    <!-- ========================================== -->
+    <!--  User Settings template -->
+    <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="user/settings">
 
@@ -572,61 +951,11 @@
               <div class="">
                 <div class="form-inline">
                   <select class="form-control"> 
-                    <option>Month</option>
-                    <option>Jan</option>
-                    <option>Feb</option>
-                    <option>Mar</option>
-                    <option>Apr</option>
-                    <option>May</option>
-                    <option>Jun</option>
-                    <option>Jul</option>
-                    <option>Aug</option>
-                    <option>Sep</option>
-                    <option>Oct</option>
-                    <option>Nov</option>
-                    <option>Dec</option>
-                  </select>
+                    <option>Month</option><option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option>Jun</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option></select>
                   <select class="form-control"> 
-                    <option>Day</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
-                    <option>13</option>
-                    <option>14</option>
-                    <option>15</option>
-                    <option>16</option>
-                    <option>17</option>
-                    <option>18</option>
-                    <option>19</option>
-                    <option>20</option>
-                    <option>21</option>
-                    <option>22</option>
-                    <option>23</option>
-                    <option>24</option>
-                    <option>25</option>
-                    <option>26</option>
-                    <option>27</option>
-                    <option>28</option>
-                    <option>29</option>
-                    <option>30</option>
-                    <option>31</option>
-                  </select>
+                    <option>Day</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>
                   <select class="form-control"> 
-                    <option>Year</option>
-                    <option>1989</option>
-                    <option>1990</option>
-                    <option>1991</option>
-                    <option>1992</option>
-                  </select>       
+                    <option>Year</option><option>1989</option><option>1990</option><option>1991</option><option>1992</option></select>       
                 </div>
               </div>
             </div>
@@ -669,7 +998,10 @@
 
 
 
-    <!-- User billing info template -->
+    <!-- ========================================== -->
+    <!--  User Billing template -->
+    <!--  TODO -->
+    <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="user/billing">
 
@@ -686,7 +1018,9 @@
 
 
 
-    <!-- Admin Users template -->
+    <!-- ========================================== -->
+    <!--  Admin Users template -->
+    <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="admin/users">
 
@@ -698,21 +1032,24 @@
           <table class="table table-condensed table-hover">
             
             <thead>
-            <tr><th>#</th><th>Last Name</th><th>First Name</th><th>Email</th><th>Privilege</th><th>Action</th></tr>
+              <tr><th>#</th><th>Last Name</th><th>First Name</th><th>Email</th><th>Groups</th><th>Action</th></tr>
             </thead>
             
-            <tr ><td>1</td><td>Husic</td><td>Huso</td><td>neki.mail@gmail.com</td><td>pitajKenu</td><td><button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
-          <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button></td></tr>
-            <tr><td>2</td><td>Husic</td><td>Huso</td><td>neki.mail@gmail.com</td><td>pitajKenu</td><td><button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
-          <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button></td></tr></td></tr>
-            <tr><td>3</td><td>Husic</td><td>Huso</td><td>neki.mail@gmail.com</td><td>pitajKenu</td><td><button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
-          <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button></td></tr></td></tr>
-            <tr><td>4</td><td>Husic</td><td>Huso</td><td>neki.mail@gmail.com</td><td>pitajKenu</td><td><button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span></button>
+            {{#each model}}
+              <tr>
+                <td>1</td>
+                <td>{{lastName}}</td>
+                <td>{{firstName}}</td>
+                <td>{{email}}</td>
+                <td>TODO</td>
+                <td>
+                  <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></button>
+                  <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-remove"></button>
+                </td>
+              </tr>
+            {{/each}}
 
-          <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button></td></tr></td></tr>
-            
             </table>
-            <button type="button" class="btn btn-primary">Add new user</button>
 
         </div>
       </div>
@@ -741,6 +1078,7 @@
     <script src="js/libs/bootstrap.min.js"></script>    
     <script src="js/libs/handlebars-1.1.2.js"></script>
     <script src="js/libs/ember-1.2.0.js"></script>
+    <script src="js/libs/ember-model-0.0.10.js"></script>
 
     <script src="js/app.js"></script>
 

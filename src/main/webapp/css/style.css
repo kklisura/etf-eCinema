@@ -18,11 +18,18 @@ body {
 }
 
 
-.index-subnav {
-    height: 100px;
+a {
     color: #000;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
+
+.rating {
+    font-size: 24px;
+}
 
 
 /* Wrapper for page content to push down footer */

@@ -32,11 +32,13 @@ public class SubtitleResource extends BaseResource
 	private DaoFactory daoFactory;
 	private SubtitleDao subtitleDao;
 	
+	
 	public SubtitleResource ()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.subtitleDao = daoFactory.getSubtitleDao();
 	}
+	
 	
 	@GET
 	@Privilege("List")

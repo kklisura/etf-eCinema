@@ -23,6 +23,7 @@ import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
+
 @Path("contents")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContentResource extends BaseResource
@@ -30,11 +31,13 @@ public class ContentResource extends BaseResource
 	private DaoFactory daoFactory;
 	private ContentDao contentDao;
 	
+	
 	public ContentResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.contentDao = daoFactory.getContentDao();
 	}
+	
 	
 	@GET
 	@Privilege("List")
@@ -110,22 +113,22 @@ public class ContentResource extends BaseResource
 		
 		return Response.success();
 		
-	    }
+	}
 		
-		@DELETE
-		@Path("{id}")
-		@Privilege("Delete")
-		public Response deleteUser(@PathParam("id") int id) 
-		{
-			Content content = contentDao.find(id);
-			if (content == null) {
-				throw new ResourceNotFoundException("Content not found.");
-			}
-			
-			contentDao.delete(content);
-			
-			return Response.success();
+	@DELETE
+	@Path("{id}")
+	@Privilege("Delete")
+	public Response deleteContent(@PathParam("id") int id) 
+	{
+		Content content = contentDao.find(id);
+		
+		if (content == null) {
+			throw new ResourceNotFoundException("Content not found.");
 		}
-	
+		
+		contentDao.delete(content);
+		
+		return Response.success();
+	}
 
 }
