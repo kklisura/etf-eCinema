@@ -22,6 +22,18 @@ Running:
     (start MySQL server 5.7; import /database/dump.sql by any means)
     cd etf-eCinema
     mvn clean compile tomcat7:run
+    (navigate to http://localhost:8080/eCinema in browser)
+
+Frameworks and technologies used:
+  - Project management: Maven 3.x
+  - DB: MySQL server 5.6
+  - Backend:
+    - Jeresy 1.7
+    - Tomcat 7.5 web server
+  - Frontend:
+    - Ember.js 1.2.0
+    - Bootstrap
+  
 
 Frontpage image:
 ![Frontpage image](/images/front.png)
