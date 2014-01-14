@@ -7,14 +7,15 @@ import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.SeatDao;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
-import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.SeatRowMapper;
 import ba.etf.tim11.eCinema.models.Seat;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
+
 
 public class SeatDaoImpl implements SeatDao
 {
 	private DaoFactory daoFactory;
-	private static RowMapper rowMapper = new UserRowMapper();
+	private static RowMapper rowMapper = new SeatRowMapper();
 	
 	
 	public SeatDaoImpl(DaoFactory daoFactory) {
@@ -46,25 +47,14 @@ public class SeatDaoImpl implements SeatDao
 	}
 
 	@Override
-	public Seat findSeatNumber(int seatNumber) throws DaoException
-	{
-		Connection connection = daoFactory.getConnection();
-		
-		return DaoUtil.executeQueryReturnOne(connection, 
-											 rowMapper, 
-											 "SELECT * FROM Seats WHERE seatNumber = ?", 
-											 seatNumber);
-	}
-
-	@Override
 	public boolean insert(Seat seat) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection,
-											"INSERT INTO Seats (seatNumber, cinemahalls_id, reservations_id) VALUES (?, ?, ?)",
-											seat.getSeatNumber(),
-											seat.getCinemaHall().getId(),
+											"INSERT INTO Seats (row, col, reservations_id) VALUES (?, ?, ?)",
+											seat.getRow(),
+											seat.getCol(),
 											seat.getReservation().getId());
 		seat.setId(rowId);
 		
@@ -77,8 +67,9 @@ public class SeatDaoImpl implements SeatDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection, 
-								"UPDATE Seats SET seatNumber = ?, cinemahalls_id = ?, reservations_id = ? WHERE = ?",
-								seat.getSeatNumber(),
+								"UPDATE Seats SET row = ?, col = ?, cinemahalls_id = ?, reservations_id = ? WHERE = ?",
+								seat.getRow(),
+								seat.getCol(),
 								seat.getCinemaHall().getId(),
 								seat.getReservation().getId(),
 								seat.getId());
@@ -95,4 +86,17 @@ public class SeatDaoImpl implements SeatDao
 		return true;
 	}
 
+
+	@Override
+	public List<Seat> findByProjection(int id, int offset, int limit) throws DaoException {
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT s.* FROM Seats s, Reservations r WHERE s.reservations_id = r.id AND r.projections_id = ? LIMIT ?, ?",
+									id,
+									offset,
+									limit);
+	}
+	
 }

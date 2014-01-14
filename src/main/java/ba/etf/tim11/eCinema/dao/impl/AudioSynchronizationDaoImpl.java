@@ -66,10 +66,9 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection,
-										  "INSERT INTO AudioSynchronizations (contents_id, languages_id, fileId) VALUES (?, ?, ?)",
+										  "INSERT INTO AudioSynchronizations (contents_id, languages_id) VALUES (?, ?)",
 										  audioSynchronization.getContent().getId(),
-										  audioSynchronization.getLanguage().getId(),
-										  audioSynchronization.getFileId());
+										  audioSynchronization.getLanguage().getId());
 		
 		audioSynchronization.setId(rowId);
 		
@@ -82,15 +81,13 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection,
-							  "UPDATE AudioSynchronizations SET contents_id = ?, languages_id = ?, fileId = ? WHERE id = ?",
+							  "UPDATE AudioSynchronizations SET contents_id = ?, languages_id = ? WHERE id = ?",
 							  audioSynchronization.getContent().getId(),
 							  audioSynchronization.getLanguage().getId(),
-							  audioSynchronization.getFileId(),
 							  audioSynchronization.getId());
 		
 		return true;
 	}
-
 
 	@Override
 	public boolean delete(AudioSynchronization audioSynchronization) throws DaoException 
@@ -101,5 +98,5 @@ public class AudioSynchronizationDaoImpl implements AudioSynchronizationDao
 		
 		return true;	
 	}
-		
+	
 }

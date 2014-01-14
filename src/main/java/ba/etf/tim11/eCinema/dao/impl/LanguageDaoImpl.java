@@ -11,14 +11,14 @@ import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Language;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
+
 public class LanguageDaoImpl implements LanguageDao
 {
 	private DaoFactory daoFactory;
 	private static RowMapper rowMapper = new LanguageRowMapper();
 	
 	
-	public LanguageDaoImpl(DaoFactory daoFactory) 
-	{
+	public LanguageDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 	
@@ -73,7 +73,7 @@ public class LanguageDaoImpl implements LanguageDao
 							  language.getState().getId(),
 							  language.getId());
 		
-		return false;
+		return true;
 	}
 
 	@Override
@@ -85,5 +85,5 @@ public class LanguageDaoImpl implements LanguageDao
 		
 		return true;
 	}
-
+	
 }

@@ -4,13 +4,14 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Seat;
 
+
 public interface SeatDao
 {
 	public List<Seat> findAll(int offset, int limit) throws DaoException;
 	
-	public Seat find(int id) throws DaoException;
+	public List<Seat> findByProjection(int id, int offset, int limit) throws DaoException;
 	
-	public Seat findSeatNumber(int seatNumber) throws DaoException;
+	public Seat find(int id) throws DaoException;
 	
 	public boolean insert(Seat seat) throws DaoException;
 	

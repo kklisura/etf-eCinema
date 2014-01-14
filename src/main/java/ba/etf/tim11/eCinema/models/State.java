@@ -5,12 +5,16 @@ import java.util.Date;
 
 public class State 
 {
-	int id;
-	String name, shortName;
-	Date updatedAt, createdAt;
+	private int id;
+	
+	private String name, shortName;
+	
+	private Date updatedAt, createdAt;
 	
 	
-	public State() {}
+	public State() {
+		
+	}
 	
 	public int getId() {
 		return id;
@@ -51,5 +55,5 @@ public class State
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-
+	
 }

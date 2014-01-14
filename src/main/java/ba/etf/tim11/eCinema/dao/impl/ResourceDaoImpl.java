@@ -57,9 +57,8 @@ public class ResourceDaoImpl implements ResourceDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection,	
-										  "INSERT INTO Resources (name, description) VALUES (?, ?)",
-										  resource.getName(),
-										  resource.getDescription());
+										  "INSERT INTO Resources (name) VALUES (?)",
+										  resource.getName());
 		
 		resource.setId(rowId);
 		
@@ -72,9 +71,8 @@ public class ResourceDaoImpl implements ResourceDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection,	
-							  "UPDATE Resources SET name = ?, description = ? WHERE id = ?",
+							  "UPDATE Resources SET name = ? WHERE id = ?",
 							  resource.getName(),
-							  resource.getDescription(),
 							  resource.getId());
 		
 		return true;
@@ -89,5 +87,5 @@ public class ResourceDaoImpl implements ResourceDao
 		
 		return true;
 	}
-
+	
 }

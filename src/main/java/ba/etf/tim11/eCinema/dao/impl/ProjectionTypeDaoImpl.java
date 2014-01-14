@@ -6,7 +6,7 @@ import java.util.List;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ProjectionTypeDao;
-import ba.etf.tim11.eCinema.dao.mapper.CommentRowMapper;
+import ba.etf.tim11.eCinema.dao.mapper.ProjectionTypeRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.ProjectionType;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
@@ -15,7 +15,7 @@ import ba.etf.tim11.eCinema.utils.DaoUtil;
 public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 {
 	private DaoFactory daoFactory;
-	private static RowMapper rowMapper = new CommentRowMapper();
+	private static RowMapper rowMapper = new ProjectionTypeRowMapper();
 	
 	
 	public ProjectionTypeDaoImpl(DaoFactory daoFactory) {
@@ -30,11 +30,10 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 		
 		return DaoUtil.executeQuery(connection, 
 									rowMapper, 
-									"SELECT * FROM ProjectionType LIMIT ?, ?",
+									"SELECT * FROM ProjectionTypes LIMIT ?, ?",
 									offset,
 									limit);
 	}
-
 
 	@Override
 	public ProjectionType find(int id) throws DaoException
@@ -43,10 +42,9 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 		
 		return DaoUtil.executeQueryReturnOne(connection, 
 											 rowMapper, 
-											 "SELECT * FROM ProjectionType WHERE id = ?", 
+											 "SELECT * FROM ProjectionTypes WHERE id = ?", 
 											 id);
 	}
-
 
 	@Override
 	public ProjectionType find(String type) throws DaoException
@@ -55,10 +53,9 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 		
 		return DaoUtil.executeQueryReturnOne(connection, 
 											 rowMapper, 
-											 "SELECT * FROM ProjectionType WHERE type = ?", 
+											 "SELECT * FROM ProjectionTypes WHERE type = ?", 
 											 type);
 	}
-
 
 	@Override
 	public boolean insert(ProjectionType projectionType) throws DaoException
@@ -73,27 +70,26 @@ public class ProjectionTypeDaoImpl implements ProjectionTypeDao
 		return true;
 	}
 
-
 	@Override
 	public boolean update(ProjectionType projectionType) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection, 
-								"UPDATE type = ? WHERE id = ?",
+								"UPDATE ProjectionTypes SET type = ? WHERE id = ?",
 								projectionType.getType(),
 								projectionType.getId());
 		return true;
 	}
-
 
 	@Override
 	public boolean delete(ProjectionType projectionType) throws DaoException
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		DaoUtil.executeUpdate(connection, "DELETE FROM ProjectionType WHERE id = ?", projectionType.getId());
+		DaoUtil.executeUpdate(connection, "DELETE FROM ProjectionTypes WHERE id = ?", projectionType.getId());
 
 		return true;
 	}
+	
 }

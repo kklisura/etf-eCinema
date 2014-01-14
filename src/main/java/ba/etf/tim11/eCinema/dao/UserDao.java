@@ -11,12 +11,20 @@ public interface UserDao
 	
 	public User find(int id) throws DaoException;
 	
-	public User find(String username) throws DaoException;
+	public User find(String usernameOrEmail) throws DaoException;
 	
 	public boolean insert(User user) throws DaoException;
 	
 	public boolean update(User user) throws DaoException;
 	
 	public boolean delete(User user) throws DaoException;
+	
+	public int count() throws DaoException;
+	
+	public void logActionLogin(User user) throws DaoException;
+	
+	public void logActionContentWatch(User user, int contentId) throws DaoException;
+	
+	public void logActionContentMark(User user, int contentId, int mark) throws DaoException;
 }
 

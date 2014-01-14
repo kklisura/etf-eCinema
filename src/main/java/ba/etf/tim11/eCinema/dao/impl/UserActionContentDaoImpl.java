@@ -40,7 +40,7 @@ public class UserActionContentDaoImpl implements UserActionContentDao
 	{
 		Connection connection = daoFactory.getConnection();
 
-		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM UserActionContent WHERE id = ?", id);
+		return DaoUtil.executeQueryReturnOne(connection, rowMapper, "SELECT * FROM UserActionContents WHERE id = ?", id);
 	}
 
 	@Override

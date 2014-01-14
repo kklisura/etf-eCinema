@@ -2,16 +2,21 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
+
 public class Seat
 {
-	int id;
-	int seatNumber;
-	CinemaHall cinemaHall;
-	Reservation reservation;
-	Date updatedAt;
-	Date cretedAt;
+	private int id;
 	
-	public Seat() {}
+	private int row, col;
+	private CinemaHall cinemaHall;
+	private Reservation reservation;
+	
+	private Date updatedAt, createdAt;
+	
+	
+	public Seat() {
+		
+	}
 
 	public int getId() {
 		return id;
@@ -21,21 +26,27 @@ public class Seat
 		this.id = id;
 	}
 	
-	public int getSeatNumber() {
-		return seatNumber;
+	public int getRow() {
+		return row;
 	}
 	
-	public void setSeatNumber(int seatNumber) {
-		this.seatNumber = seatNumber;
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public int getCol() {
+		return col;
+	}
+	
+	public void setCol(int col) {
+		this.col = col;
 	}
 	
 	public CinemaHall getCinemaHall() {
 		return cinemaHall;
 	}
 	
-
 	public void setCinemaHall(CinemaHall cinemaHall) {
-
 		this.cinemaHall = cinemaHall;
 	}
 	
@@ -55,11 +66,12 @@ public class Seat
 		this.updatedAt = updatedAt;
 	}
 	
-	public Date getCretedAt() {
-		return cretedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 	
-	public void setCretedAt(Date cretedAt) {
-		this.cretedAt = cretedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+	
 }

@@ -6,8 +6,8 @@ import java.util.List;
 import ba.etf.tim11.eCinema.dao.CinemaHallDao;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
+import ba.etf.tim11.eCinema.dao.mapper.CinemaHallRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
-import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
 import ba.etf.tim11.eCinema.models.CinemaHall;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
@@ -15,7 +15,7 @@ import ba.etf.tim11.eCinema.utils.DaoUtil;
 public class CinemaHallDaoImpl implements CinemaHallDao
 {
 	private DaoFactory daoFactory;
-	private static RowMapper rowMapper = new UserRowMapper();
+	private static RowMapper rowMapper = new CinemaHallRowMapper();
 	
 	
 	public CinemaHallDaoImpl(DaoFactory daoFactory) {
@@ -65,10 +65,12 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection,
-											"INSERT INTO CinemaHalls (title, cinemas_id, numberOfSeats) VALUES (?, ?, ?)",
+											"INSERT INTO CinemaHalls (title, rows, cols, seatMatrix) VALUES (?, ?, ?, ?)",
 											cinemaHall.getTitle(),
-											cinemaHall.getCinema().getId(),
-											cinemaHall.getNumberOfSeat());
+											cinemaHall.getRows(),
+											cinemaHall.getCols(),
+											cinemaHall.getSeatMatrix());
+		
 		cinemaHall.setId(rowId);
 		
 		return true;
@@ -80,10 +82,11 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection,
-								"UPDATE CinemaHalls SET title = ?, cinemas_id = ?, numberOfSeats = ? WHERE id = ?",
+								"UPDATE CinemaHalls SET title = ?, rows = ?, cols = ?, seatMatrix = ? WHERE id = ?",
 								cinemaHall.getTitle(),
-								cinemaHall.getCinema().getId(),
-								cinemaHall.getNumberOfSeat(),
+								cinemaHall.getRows(),
+								cinemaHall.getCols(),
+								cinemaHall.getSeatMatrix(),
 								cinemaHall.getId());
 		return true;
 	}
@@ -97,5 +100,5 @@ public class CinemaHallDaoImpl implements CinemaHallDao
 		
 		return true;
 	}
-
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Cinema;
 
+
 public interface CinemaDao
 {
 	public List<Cinema> findAll(int offset, int limit) throws DaoException;

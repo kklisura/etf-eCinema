@@ -7,6 +7,7 @@ import ba.etf.tim11.eCinema.models.AudioSynchronization;
 import ba.etf.tim11.eCinema.models.Content;
 import ba.etf.tim11.eCinema.models.Language;
 
+
 public class AudioSynchronizationRowMapper implements RowMapper
 {
 
@@ -21,15 +22,14 @@ public class AudioSynchronizationRowMapper implements RowMapper
 		content.setId(rs.getInt(2));
 		audioSynchronization.setContent(content);
 		
-		Language language = new Language ();
+		Language language = new Language();
 		language.setId(rs.getInt(3));
 		audioSynchronization.setLanguage(language);
 		
-		audioSynchronization.setFileId(rs.getString(4));
-		audioSynchronization.setUpdatedAt(rs.getDate(5));
-		audioSynchronization.setCreatedAt(rs.getDate(6));
+		audioSynchronization.setUpdatedAt(rs.getDate(4));
+		audioSynchronization.setCreatedAt(rs.getDate(5));
 		
 		return audioSynchronization;
 	}
-
+	
 }

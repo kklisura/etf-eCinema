@@ -2,14 +2,19 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
+
 public class ReservationType
 {
-	int id;
-	String type;
-	Date updatedAt;
-	Date cretedAt;
+	private int id;
 	
-	public ReservationType() {}
+	private String type;
+	
+	private Date updatedAt, createdAt;
+	
+	
+	public ReservationType() {
+		
+	}
 
 	public int getId() {
 		return id;
@@ -35,11 +40,12 @@ public class ReservationType
 		this.updatedAt = updatedAt;
 	}
 	
-	public Date getCretedAt() {
-		return cretedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 	
-	public void setCretedAt(Date cretedAt) {
-		this.cretedAt = cretedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+	
 }

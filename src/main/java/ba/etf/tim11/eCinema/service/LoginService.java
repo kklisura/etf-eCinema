@@ -10,4 +10,5 @@ public interface LoginService
 	public String encryptPassword(String password);
 	
 	public User getCurrentUser();
+	
 }

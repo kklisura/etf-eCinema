@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -49,21 +47,23 @@ public class AudioSynchronizationResource extends BaseResource
 	@GET
 	@Path("{content_id}")
 	@Privilege("List")
-	public List<AudioSynchronization> getContentAudioSync(@PathParam("content_id") int contentId) 
+	public Object getContentAudioSync(@PathParam("content_id") int contentId) 
 	{
 		if (contentDao.find(contentId) == null) {
 			throw new ResourceNotFoundException("Content not found");
 		}
 		
-		return audioSynchronizationDao.findAllByContent(contentId, offset, limit);
+		return Response.entity(audioSynchronizationDao.findAllByContent(contentId, offset, limit));
 	}
 	
 	@POST
 	@Path("{content_id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public AudioSynchronization createNewAudioSynchronization(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
+	public Object createNewAudioSynchronization(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
 	{
+		// TODO(kklisura): Handle upload!
+		
 		Content content = contentDao.find(contentId);
 		if (content == null) {
 			throw new ResourceNotFoundException("Content not found");
@@ -80,20 +80,18 @@ public class AudioSynchronizationResource extends BaseResource
 		
 		AudioSynchronization audioSynchronization = new AudioSynchronization();
 		
-		// TODO(kklisura): Receive file here; save ti; hash it; use hash as fileId
-		// audioSynchronization.setFileId();
 		audioSynchronization.setContent(content);		
 		audioSynchronization.setLanguage(language);
 
 		audioSynchronizationDao.insert(audioSynchronization);
 		
-		return audioSynchronization;
+		return Response.redirect(this, audioSynchronization.getId());
 	}
 	
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteAudioSynchronization(@PathParam("id") int id) 
+	public Object deleteAudioSynchronization(@PathParam("id") int id) 
 	{
 		AudioSynchronization audioSynchronization = audioSynchronizationDao.find(id);
 		if (audioSynchronization == null) {

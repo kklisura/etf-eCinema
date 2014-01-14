@@ -5,38 +5,17 @@ import java.util.Date;
 
 public class Language 
 {
-	int id;
-	String language;
-	State state;
-	Date updatedAt, createdAt;
+	private int id;
+	
+	private String language;
+	private State state;
+	
+	private Date updatedAt, createdAt;
+	
+	
+	public Language() {
 		
-	public Language() {}
-	
-	
-
-	public Date getUpdatedAt() {
-		return updatedAt;
 	}
-
-
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-
 
 	public int getId() {
 		return id;
@@ -61,6 +40,20 @@ public class Language
 	public void setState(State state) {
 		this.state = state;
 	}
-	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
 
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
 }

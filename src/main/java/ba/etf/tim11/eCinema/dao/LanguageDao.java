@@ -4,6 +4,7 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Language;
 
+
 public interface LanguageDao
 {
 	public List<Language> findAll(int offset, int limit) throws DaoException;

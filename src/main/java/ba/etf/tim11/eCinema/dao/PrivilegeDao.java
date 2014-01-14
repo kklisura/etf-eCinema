@@ -9,6 +9,8 @@ public interface PrivilegeDao
 {
     public List<Privilege> findAll(int offset, int limit) throws DaoException;
 	
+    public List<Privilege> findAllByRole(int roleId, int offset, int limit) throws DaoException;
+    
 	public Privilege find(int id) throws DaoException;
 	
 	public boolean insert(Privilege privilege) throws DaoException;
@@ -18,4 +20,5 @@ public interface PrivilegeDao
 	public boolean delete(Privilege privilege) throws DaoException;
 	
 	public boolean isAllowed(String username, int resourceId, int privilegeTypeId) throws DaoException;
+
 }

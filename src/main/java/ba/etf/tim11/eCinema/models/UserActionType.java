@@ -1,12 +1,20 @@
 package ba.etf.tim11.eCinema.models;
 
+import java.util.Date;
+
+
 public class UserActionType 
 {
-	int id;
-	String type;
-
+	private int id;
 	
-	public UserActionType() {}
+	private String type;
+
+	private Date updatedAt, createdAt;
+	
+	
+	public UserActionType() {
+		
+	}
 	
 	public int getId() {
 		return id;
@@ -22,6 +30,22 @@ public class UserActionType
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getCreatdAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

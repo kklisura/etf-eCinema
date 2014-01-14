@@ -9,6 +9,7 @@ import ba.etf.tim11.eCinema.models.User;
 
 public class UserRowMapper implements RowMapper 
 {
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{	
@@ -16,24 +17,22 @@ public class UserRowMapper implements RowMapper
 		
 		user.setId(rs.getInt(1));
 		user.setLastName(rs.getString(2));
-		user.setFirstName(rs.getNString(3));
-		user.setUsername(rs.getNString(4));
-		user.setEmail(rs.getNString(5));
-		user.setPhone(rs.getNString(6));
-		user.setAddress(rs.getNString(7));
-		user.setDateOfBirth(rs.getDate(8));
-		user.setPlaceOfBirth(rs.getString(9));
+		user.setFirstName(rs.getString(3));
+		user.setUsername(rs.getString(4));
+		user.setEmail(rs.getString(5));
+		user.setPhone(rs.getString(6));;
+		user.setDateOfBirth(rs.getDate(7));
 		
 		State state = new State();
-		state.setId(rs.getInt(10));
+		state.setId(rs.getInt(8));
 		user.setState(state);
 		
-		user.setPassword(rs.getString(11));
-		user.setSalt(rs.getInt(12));
-		user.setUpdatedAt(rs.getDate(13));
-		user.setCreatedAt(rs.getDate(14));
+		user.setPassword(rs.getString(9));
+		user.setSalt(rs.getInt(10));
+		user.setUpdatedAt(rs.getTimestamp(11));
+		user.setCreatedAt(rs.getTimestamp(12));
 		
 		return user;
 	}
-
+	
 }

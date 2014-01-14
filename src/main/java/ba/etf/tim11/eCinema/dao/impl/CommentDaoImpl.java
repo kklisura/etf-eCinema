@@ -42,7 +42,7 @@ public class CommentDaoImpl implements CommentDao
 		
 		return DaoUtil.executeQuery(connection, 
 									rowMapper,
-									"SELECT * FROM Comments WHERE contents_id = ? LIMIT ?, ?", 
+									"SELECT * FROM Comments WHERE contents_id = ? ORDER BY id DESC LIMIT ?, ?", 
 									contentId,
 									offset,
 									limit);
@@ -65,8 +65,7 @@ public class CommentDaoImpl implements CommentDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-										  "INSERT INTO Comments (title, text, contents_id, users_id) VALUES (?, ?, ?, ?)",
-										  comment.getTitle(),
+										  "INSERT INTO Comments (text, contents_id, users_id) VALUES (?, ?, ?)",
 										  comment.getText(),
 										  comment.getContent().getId(),
 										  comment.getUser().getId());
@@ -82,16 +81,14 @@ public class CommentDaoImpl implements CommentDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection, 
-							  "UPDATE Comments SET title = ?, text = ?, contents_id = ?, users_id = ? WHERE id = ?",
-							  comment.getTitle(),
+							  "UPDATE Comments SET text = ?, contents_id = ?, users_id = ? WHERE id = ?",
 							  comment.getText(),
 							  comment.getContent().getId(),
 							  comment.getUser().getId(),
 							  comment.getId());
 		
-		return false;
+		return true;
 	}
-
 
 	@Override
 	public boolean delete(Comment comment) throws DaoException 

@@ -57,9 +57,6 @@ public final class DaoUtil
 		    }
 			
 			affectedRows = preparedStatement.executeUpdate();
-	        if (affectedRows == 0) {
-	            throw new DaoException("executeUpdate failed, no rows affected.");
-	        }
 	        
 			if (isInsert) 
 			{
@@ -152,7 +149,7 @@ public final class DaoUtil
 	public static java.util.Date string2Date(String date) throws ParseException
 	{
 		if (dateFormat == null) {
-			dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		}
 		
 		return dateFormat.parse(date);

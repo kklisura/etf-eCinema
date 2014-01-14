@@ -5,9 +5,10 @@ import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.models.ProjectionType;
 
+
 public class ProjectionTypeRowMapper implements RowMapper 
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
@@ -16,9 +17,9 @@ public class ProjectionTypeRowMapper implements RowMapper
 		projectionType.setId(rs.getInt(1));
 		projectionType.setType(rs.getString(2));
 		projectionType.setUpdatedAt(rs.getDate(3));
-		projectionType.setCretedAt(rs.getDate(4));
+		projectionType.setCreatedAt(rs.getDate(4));
 		
 		return projectionType;
 	}
-
+	
 }

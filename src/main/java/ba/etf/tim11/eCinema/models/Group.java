@@ -7,19 +7,19 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
-@JsonIgnoreProperties({"users"})
+@JsonIgnoreProperties({"roles"})
 public class Group 
 {
-	int id;
-	String name, description;
-	Date updatedAt, createdAt;
-	List<User> users;
+	private int id;
+	
+	private String name, description;
+	private List<Role> roles;
+	
+	private Date updatedAt, createdAt;
 	
 	
-	public Group()
-	{
-		users = new ArrayList<User>();
-
+	public Group() {
+		roles = new ArrayList<Role>();
 	}
 	
 	public int getId() {
@@ -45,6 +45,14 @@ public class Group
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 	
 	public Date getUpdatedAt() {
 		return updatedAt;
@@ -61,19 +69,10 @@ public class Group
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	
 
-	public List<User> getUsers() {
-		return users;
-	}
-	
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-	
-	
-	public void addUser(User user)
-	{
-		users.add(user);
+	public void addRole(Role role) {
+		roles.add(role);
 	}
 	
 }

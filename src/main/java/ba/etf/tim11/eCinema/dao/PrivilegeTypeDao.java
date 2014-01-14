@@ -18,4 +18,5 @@ public interface PrivilegeTypeDao
 	public boolean update(PrivilegeType privilegeType) throws DaoException;
 	
 	public boolean delete(PrivilegeType privilegeType) throws DaoException;
+
 }

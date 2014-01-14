@@ -1,19 +1,15 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ResourceDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
-import ba.etf.tim11.eCinema.models.Resource;
+import ba.etf.tim11.eCinema.resources.privileges.Privilege;
+import ba.etf.tim11.eCinema.resources.responses.Response;
 
 
 @Path("resources")
@@ -32,28 +28,10 @@ public class ResourceResource extends BaseResource
 	
 	
 	@GET
-	public List<Resource> getAllResources() 
+	@Privilege("List")
+	public Object getAllResources() 
 	{
-		return resourceDao.findAll(offset, limit);
+		return Response.entity(resourceDao.findAll(offset, limit));
 	}
-
-	@GET
-	@Path("{id}")
-	public Resource getResource(@PathParam("id") int id) 
-	{
-		return resourceDao.find(id);
-	}
-
-	@POST
-	public void createNewResource() 
-	{
-		
-	}
-
-	@DELETE
-	@Path("{id}")
-	public void deleteResource(@PathParam("id") int id) 
-	{
-		
-	}
+	
 }

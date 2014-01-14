@@ -6,21 +6,30 @@ import java.util.List;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ReceiptDao;
+import ba.etf.tim11.eCinema.dao.mapper.ReceiptRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
-import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
 import ba.etf.tim11.eCinema.models.Receipt;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
+
 
 public class ReceiptDaoImpl implements ReceiptDao
 {
 	private DaoFactory daoFactory;
-	private static RowMapper rowMapper = new UserRowMapper();
+	private static RowMapper rowMapper = new ReceiptRowMapper();
 	
 	
 	public ReceiptDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
+
+	@Override
+	public List<Receipt> findAll(int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, rowMapper, "SELECT * FROM Receipts LIMIT ?, ?", offset, limit);
+	}
 
 	@Override
 	public Receipt find(int id) throws DaoException
@@ -53,7 +62,7 @@ public class ReceiptDaoImpl implements ReceiptDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection,
-								"UPDATE Receipts SET totalPrice = ? , discount = ?  WHERE id = ?",
+								"UPDATE Receipts SET totalPrice = ?, discount = ?  WHERE id = ?",
 								receipt.getTotalPrice(),
 								receipt.getDiscount(),
 								receipt.getId());
@@ -69,11 +78,5 @@ public class ReceiptDaoImpl implements ReceiptDao
 		
 		return true;
 	}
-
-	@Override
-	public List<Receipt> findAll(int offset, int limit) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

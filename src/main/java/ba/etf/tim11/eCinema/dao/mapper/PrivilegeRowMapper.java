@@ -9,8 +9,9 @@ import ba.etf.tim11.eCinema.models.Role;
 import ba.etf.tim11.eCinema.models.PrivilegeType;;
 
 
-public class PrivilegeRowMapper implements RowMapper {
-
+public class PrivilegeRowMapper implements RowMapper 
+{
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
@@ -33,5 +34,5 @@ public class PrivilegeRowMapper implements RowMapper {
 		
 		return privilege;
 	}
-
+	
 }

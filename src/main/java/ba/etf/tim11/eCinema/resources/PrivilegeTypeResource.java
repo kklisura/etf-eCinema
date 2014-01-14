@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -10,8 +8,8 @@ import javax.ws.rs.core.MediaType;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.PrivilegeTypeDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
-import ba.etf.tim11.eCinema.models.PrivilegeType;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
+import ba.etf.tim11.eCinema.resources.responses.Response;
 
 
 @Path("privilegetypes")
@@ -31,9 +29,9 @@ public class PrivilegeTypeResource extends BaseResource
 	
 	@GET
 	@Privilege("List")
-	public List<PrivilegeType> getAllPrivilegeTypes() 
+	public Object getAllPrivilegeTypes() 
 	{
-		return privilegeTypeDao.findAll(offset, limit);
+		return Response.entity(privilegeTypeDao.findAll(offset, limit));
 	}
 	
 } 

@@ -7,15 +7,17 @@ import ba.etf.tim11.eCinema.models.Content;
 import ba.etf.tim11.eCinema.models.UserAction;
 import ba.etf.tim11.eCinema.models.UserActionContent;
 
-public class UserActionContentRowMapper implements RowMapper {
 
+public class UserActionContentRowMapper implements RowMapper 
+{
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
 		UserActionContent userActionContent = new UserActionContent();
 		
-	
 		userActionContent.setId(rs.getInt(1));
+		
 		Content content = new Content();
 		content.setId(rs.getInt(2));
 		userActionContent.setContent(content);
@@ -24,8 +26,8 @@ public class UserActionContentRowMapper implements RowMapper {
 		userAction.setId(rs.getInt(3));
 		userActionContent.setUserAction(userAction);
 			
-		
-		// TODO(nhuseinovic): Need to 2 more atributes ERD?
+		userActionContent.setUpdatedAt(rs.getDate(4));
+		userActionContent.setCreatedAt(rs.getDate(5));
 		
 		return userActionContent;
 	}

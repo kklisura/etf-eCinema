@@ -18,4 +18,5 @@ public interface ReservationDao
 	public boolean update(Reservation reservation) throws DaoException;
 	
 	public boolean delete(Reservation reservation) throws DaoException;
+
 }

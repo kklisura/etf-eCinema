@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +12,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ReservationDao;
+import ba.etf.tim11.eCinema.dao.SeatDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Projection;
 import ba.etf.tim11.eCinema.models.Receipt;
@@ -33,27 +32,36 @@ public class ReservationResource extends BaseResource
 {
 	private DaoFactory daoFactory;
 	private ReservationDao reservationDao;
+	private SeatDao seatDao;
 	
 	
 	public ReservationResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.reservationDao = daoFactory.getReservationDao();
+		this.seatDao = daoFactory.getSeatDao();
 	}
 	
 	
 	@GET
+	@Privilege("List")
+	public Object getAllReservations() 
+	{ 
+		return Response.paginated(reservationDao.findAll(offset, limit), offset, limit, -1);
+	}
+	
+	@GET
 	@Path("{projection_id}")
 	@Privilege("List")
-	public List<Reservation> getAllReservations(@PathParam("projection_id") int projectionId) 
+	public Object getReservationsPerProjection(@PathParam("projection_id") int projectionId) 
 	{ 
-		return reservationDao.findAllByProjection(projectionId, offset, limit);
+		return Response.entity(reservationDao.findAllByProjection(projectionId, 0, 999999));
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Reservation createNewReservation(MultivaluedMap<String, String> formParams) 
+	public Object createNewReservation(MultivaluedMap<String, String> formParams) 
 	{
 		// TODO(kklisura): Need to implement this.
 		if (!ResourceUtil.hasAll(formParams, "user", "reservationtype") ||
@@ -83,14 +91,14 @@ public class ReservationResource extends BaseResource
 		
 		reservationDao.insert(reservation);
 		
-		return reservation;
+		return Response.redirect(this, reservation.getId());
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateReservation(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
+	public Object updateReservation(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
 	{
 		Reservation reservation= reservationDao.find(id);
 		if (reservation == null) {
@@ -131,7 +139,7 @@ public class ReservationResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteReservation(@PathParam("id") int id) 
+	public Object deleteReservation(@PathParam("id") int id) 
 	{
 		Reservation reservation= reservationDao.find(id);
 		if (reservation == null) {

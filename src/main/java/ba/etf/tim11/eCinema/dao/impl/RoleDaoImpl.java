@@ -89,5 +89,27 @@ public class RoleDaoImpl implements RoleDao
 		
 		return true;
 	}
+
+	@Override
+	public List<Role> findAllByUser(int userId) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT r.* FROM Roles r, UserRoles ur WHERE ur.roles_id = r.id AND ur.users_id = ?", 
+									userId);
+	}
+
+	@Override
+	public List<Role> findAllByGroup(int groupId) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT r.* FROM Roles r, GroupRoles gr WHERE gr.roles_id = r.id AND gr.groups_id = ?", 
+									groupId);
+	}
 	
 }

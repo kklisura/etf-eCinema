@@ -36,6 +36,19 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 	}
 
 	@Override
+	public List<Privilege> findAllByRole(int roleId, int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Privileges WHERE roles_id = ? LIMIT ?, ?",
+									roleId,
+									offset,
+									limit);
+	}
+	
+	@Override
 	public Privilege find(int id) throws DaoException 
 	{		
 		Connection connection = daoFactory.getConnection();
@@ -128,5 +141,5 @@ public class PrivilegeDaoImpl implements PrivilegeDao
 		
 		return priv != null && priv.isAllowed();
 	}
-
+	
 }

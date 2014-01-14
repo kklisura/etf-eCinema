@@ -7,9 +7,10 @@ import ba.etf.tim11.eCinema.models.Content;
 import ba.etf.tim11.eCinema.models.Language;
 import ba.etf.tim11.eCinema.models.Subtitle;
 
+
 public class SubtitleRowMapper implements RowMapper
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
@@ -25,11 +26,10 @@ public class SubtitleRowMapper implements RowMapper
 		content.setId(rs.getInt(3));
 		subtitle.setContent(content);
 		
-		subtitle.setFileId(rs.getString(4));
-		subtitle.setUpdatedAt(rs.getDate(5));
-		subtitle.setCreatedAt(rs.getDate(6));
+		subtitle.setUpdatedAt(rs.getDate(4));
+		subtitle.setCreatedAt(rs.getDate(5));
 		
 		return subtitle;
 	}
-
+	
 }

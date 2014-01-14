@@ -1,7 +1,6 @@
 package ba.etf.tim11.eCinema.resources;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -39,15 +38,15 @@ public class ReceiptResource extends BaseResource
 	
 	@GET
 	@Privilege("List")
-	public List<Receipt> getAllReceipts() 
+	public Object getAllReceipts() 
 	{ 
-		return receiptDao.findAll(offset, limit);
+		return Response.paginated(receiptDao.findAll(offset, limit), offset, limit, -1);
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Receipt createNewReceipt(MultivaluedMap<String, String> formParams) 
+	public Object createNewReceipt(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "totalPrice", "discount")) 
 		{
@@ -64,14 +63,14 @@ public class ReceiptResource extends BaseResource
 		
 		receiptDao.insert(receipt);
 		
-		return receipt;
+		return Response.redirect(this, receipt.getId());
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateReceipt(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
+	public Object updateReceipt(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
 	{
 		Receipt receipt = receiptDao.find(id);
 		if(receipt == null){
@@ -98,7 +97,7 @@ public class ReceiptResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteReceipt(@PathParam("id") Integer id) 
+	public Object deleteReceipt(@PathParam("id") Integer id) 
 	{
 		Receipt receipt = receiptDao.find(id);
 		if (receipt == null) {
@@ -110,5 +109,4 @@ public class ReceiptResource extends BaseResource
 		return Response.success();
 	}
 	
-
 }

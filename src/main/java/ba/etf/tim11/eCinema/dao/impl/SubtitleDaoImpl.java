@@ -11,6 +11,7 @@ import ba.etf.tim11.eCinema.dao.mapper.SubtitleRowMapper;
 import ba.etf.tim11.eCinema.models.Subtitle;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
+
 public class SubtitleDaoImpl implements SubtitleDao
 {
 	private DaoFactory daoFactory;
@@ -40,11 +41,11 @@ public class SubtitleDaoImpl implements SubtitleDao
 	public Subtitle find(int id) throws DaoException 
 	{
 		Connection connection = daoFactory.getConnection();
+		
 		return DaoUtil.executeQueryReturnOne(connection,
 									rowMapper,
 									"SELECT * FROM Subtitles WHERE id=? ",
 									id);
-		
 	}
 
 	@Override
@@ -53,10 +54,9 @@ public class SubtitleDaoImpl implements SubtitleDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-										  "INSERT INTO Subtitles (languages_id, contents_id, fileId) VALUES (?, ?, ?)",
+										  "INSERT INTO Subtitles (languages_id, contents_id) VALUES (?, ?)",
 										  subtitle.getLanguage().getId(),
-										  subtitle.getContent().getId(),
-										  subtitle.getFileId());
+										  subtitle.getContent().getId());
 
 		subtitle.setId(rowId);
 		
@@ -69,10 +69,9 @@ public class SubtitleDaoImpl implements SubtitleDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection, 
-							  "UPDATE Subtitiles SET languages_id = ?, contents_id = ?, fileId = ? WHERE id = ?",
+							  "UPDATE Subtitiles SET languages_id = ?, contents_id = ? WHERE id = ?",
 							  subtitle.getLanguage().getId(),
 							  subtitle.getContent().getId(),
-							  subtitle.getFileId(),
 							  subtitle.getId());
 		
 		return false;
@@ -87,5 +86,5 @@ public class SubtitleDaoImpl implements SubtitleDao
 		
 		return true;
 	}
-
+	
 }

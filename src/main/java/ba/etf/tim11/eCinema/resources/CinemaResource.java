@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -35,29 +33,28 @@ public class CinemaResource extends BaseResource
 	
 	@GET
 	@Privilege("List")
-	public List<Cinema> getAllGroups() 
+	public Object getAllGroups() 
 	{
-		return cinemaDao.findAll(offset, limit);
+		return Response.paginated(cinemaDao.findAll(offset, limit), offset, limit, -1);
 	}
 	
 	@GET
 	@Path("{id}")
 	@Privilege("Read")
-	public Cinema getGroup(@PathParam("id") int id) 
+	public Object getGroup(@PathParam("id") int id) 
 	{
 		Cinema cinema = cinemaDao.find(id);
-		
 		if (cinema == null) {
 			throw new ResourceNotFoundException("Cinema not found");
 		}
 		
-		return cinema;
+		return Response.entity(cinema);
 	}
 	
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteCinema(@PathParam("id") Integer id) 
+	public Object deleteCinema(@PathParam("id") Integer id) 
 	{
 		Cinema cinema= cinemaDao.find(id);
 		if (cinema == null) {

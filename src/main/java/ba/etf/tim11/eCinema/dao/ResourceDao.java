@@ -18,4 +18,5 @@ public interface ResourceDao
 	public boolean update(Resource resource) throws DaoException;
 	
 	public boolean delete(Resource resource) throws DaoException;
+
 }

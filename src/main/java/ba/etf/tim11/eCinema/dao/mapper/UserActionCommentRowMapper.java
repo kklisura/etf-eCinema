@@ -8,14 +8,16 @@ import ba.etf.tim11.eCinema.models.UserAction;
 import ba.etf.tim11.eCinema.models.UserActionComment;
 
 
-public class UserActionCommentRowMapper implements RowMapper {
-
+public class UserActionCommentRowMapper implements RowMapper 
+{
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{
 		UserActionComment userActionComment = new UserActionComment();
 		
 		userActionComment.setId(rs.getInt(1));
+		
 		Comment comment = new Comment();
 		comment.setId(rs.getInt(2));
 		userActionComment.setComment(comment);
@@ -26,9 +28,8 @@ public class UserActionCommentRowMapper implements RowMapper {
 		
 		userActionComment.setUpdatedAt(rs.getDate(4));
 		userActionComment.setCreatedAt(rs.getDate(5));
-		
 				
 		return userActionComment;
 	}
-
+	
 }

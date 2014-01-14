@@ -1,12 +1,18 @@
 package ba.etf.tim11.eCinema.models;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+
+@JsonIgnoreProperties({"role"})
 public class Privilege 
 {
-	int id;
-	boolean allowed;
-	Resource resource;
-	Role role;
-	PrivilegeType privilegeType;
+	private int id;
+	
+	private boolean allowed;
+	
+	private Resource resource;
+	private Role role;
+	private PrivilegeType privilegeType;
 	
 	
 	public Privilege() {

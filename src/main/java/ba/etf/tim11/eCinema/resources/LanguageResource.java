@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -44,15 +42,15 @@ public class LanguageResource extends BaseResource
 	
 	@GET
 	@Privilege("List")
-	public List<Language> getAllLanguages() 
+	public Object getAllLanguages() 
 	{
-		return languageDao.findAll(offset, limit);
+		return Response.paginated(languageDao.findAll(offset, limit), offset, limit, -1);
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Language createNewLanguage(MultivaluedMap<String, String> formParams) 
+	public Object createNewLanguage(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "language") ||
 			!ResourceUtil.isInt(formParams.getFirst("state"))) {
@@ -71,14 +69,14 @@ public class LanguageResource extends BaseResource
 		
 		languageDao.insert(language);
 		
-		return language;
+		return Response.redirect(this, language.getId());
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateLanguage(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	public Object updateLanguage(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{	
 		Language language = languageDao.find(id);
 		if (language == null) {
@@ -106,7 +104,7 @@ public class LanguageResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteLanguage(@PathParam("id") int id) 
+	public Object deleteLanguage(@PathParam("id") int id) 
 	{
 		Language language = languageDao.find(id);
 		if (language == null) {

@@ -9,7 +9,7 @@ import ba.etf.tim11.eCinema.dao.GroupDao;
 import ba.etf.tim11.eCinema.dao.mapper.GroupRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Group;
-import ba.etf.tim11.eCinema.models.User;
+import ba.etf.tim11.eCinema.models.Role;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
 
@@ -63,13 +63,13 @@ public class GroupDaoImpl  implements GroupDao
 										  group.getDescription());
 		
 		group.setId(rowId);
-		
-		for(User user : group.getUsers()) 
+
+		for(Role role : group.getRoles()) 
 		{
 			DaoUtil.executeUpdate(connection, 
-					  			  "INSERT INTO UserGroup (users_id, groups_id) VALUES (?, ?)",
-					  			  user.getId(),
-					  			  group.getId());
+				  			  	 "INSERT INTO GroupRoles(roles_id, groups_id) VALUES (?, ?)",
+				  			  	 role.getId(),
+				  			  	 group.getId());
 		}
 		
 		return true;
@@ -86,11 +86,15 @@ public class GroupDaoImpl  implements GroupDao
 							  group.getDescription(),
 							  group.getId());
 		
-		for(User user : group.getUsers()) 
+		DaoUtil.executeUpdate(connection,
+							  "DELETE IGNORE FROM GroupRoles WHERE groups_id = ?",
+							  group.getId());
+		
+		for(Role role : group.getRoles()) 
 		{
 			DaoUtil.executeUpdate(connection, 
-					  			  "INSERT INTO UserGroup (users_id, groups_id) VALUES (?, ?)",
-					  			  user.getId(),
+					  			  "INSERT INTO GroupRoles(roles_id, groups_id) VALUES (?, ?)",
+					  			  role.getId(),
 					  			  group.getId());
 		}
 		
@@ -105,6 +109,17 @@ public class GroupDaoImpl  implements GroupDao
 		DaoUtil.executeUpdate(connection, "DELETE FROM Groups WHERE id = ?", group.getId());
 		
 		return true;
+	}
+
+	@Override
+	public List<Group> findAllByUser(int userId) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT g.* FROM Groups g, UserGroups ug WHERE ug.groups_id = g.id AND ug.users_id = ?", 
+									userId);
 	}
 	
 }

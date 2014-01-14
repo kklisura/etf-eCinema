@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -42,15 +40,15 @@ public class SeatResource extends BaseResource
 	
 	@GET
 	@Privilege("List")
-	public List<Seat> getAllSeats() 
+	public Object getAllSeats() 
 	{
-		return seatDao.findAll(offset, limit);
+		return Response.entity(seatDao.findAll(offset, limit));
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Seat createNewSeat(MultivaluedMap<String, String> formParams) 
+	public Object createNewSeat(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "seatNumber", "cinemahall", "reservation") ||
 			!ResourceUtil.isInt(formParams.getFirst("cinemahall")) || 
@@ -61,7 +59,8 @@ public class SeatResource extends BaseResource
 		
 		Seat seat = new Seat();
 		
-		seat.setSeatNumber(Integer.parseInt(formParams.getFirst("seatNumber")));
+		// TODO(kklisura): 
+		//seat.setSeatNumber(Integer.parseInt(formParams.getFirst("seatNumber")));
 		
 		CinemaHall cinemaHall = new CinemaHall();
 		cinemaHall.setId(Integer.parseInt(formParams.getFirst("cinemahall")));
@@ -73,7 +72,7 @@ public class SeatResource extends BaseResource
 		
 		seatDao.insert(seat);
 		
-		return seat;
+		return Response.redirect(this, seat.getId());
 		
 	}
 	
@@ -81,16 +80,15 @@ public class SeatResource extends BaseResource
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateSeat(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	public Object updateSeat(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
 		Seat seat = seatDao.find(id);
-		
 		if (seat == null) {
 			throw new ResourceNotFoundException("Seat not found.");
 		}
 		
-		if (formParams.getFirst("seatNumber") != null)
-			seat.setSeatNumber(Integer.parseInt(formParams.getFirst("seatNumber")));
+		//if (formParams.getFirst("seatNumber") != null)
+		//	seat.setSeatNumber(Integer.parseInt(formParams.getFirst("seatNumber")));
 		
 		if (formParams.getFirst("cinemahall") != null)
 		{
@@ -115,10 +113,9 @@ public class SeatResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteSeat(@PathParam("id") Integer id) 
+	public Object deleteSeat(@PathParam("id") Integer id) 
 	{
 		Seat seat = seatDao.find(id);
-		
 		if (seat == null) {
 			throw new ResourceNotFoundException("Seat not found.");
 		}

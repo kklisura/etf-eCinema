@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import ba.etf.tim11.eCinema.models.Language;
 import ba.etf.tim11.eCinema.models.State;
 
+
 public class LanguageRowMapper implements RowMapper
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
@@ -26,5 +27,5 @@ public class LanguageRowMapper implements RowMapper
 		
 		return language;
 	}
-
+	
 }

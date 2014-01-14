@@ -5,8 +5,10 @@ import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.models.UserActionType;
 
+
 public class UserActionTypeRowMapper implements RowMapper 
 {
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{
@@ -14,8 +16,10 @@ public class UserActionTypeRowMapper implements RowMapper
 		
 		userActionType.setId(rs.getInt(1));
 		userActionType.setType(rs.getString(2));
+		userActionType.setUpdatedAt(rs.getDate(3));
+		userActionType.setCreatedAt(rs.getDate(4));
 		
 		return userActionType;
 	}
-
+	
 }

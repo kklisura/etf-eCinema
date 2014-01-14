@@ -6,15 +6,16 @@ import java.util.List;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ReservationTypeDao;
+import ba.etf.tim11.eCinema.dao.mapper.ReservationTypeRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
-import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
 import ba.etf.tim11.eCinema.models.ReservationType;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
+
 
 public class ReservationTypeDaoImpl implements ReservationTypeDao
 {
 	private DaoFactory daoFactory;
-	private static RowMapper rowMapper = new UserRowMapper();
+	private static RowMapper rowMapper = new ReservationTypeRowMapper();
 	
 	
 	public ReservationTypeDaoImpl(DaoFactory daoFactory) {
@@ -62,7 +63,7 @@ public class ReservationTypeDaoImpl implements ReservationTypeDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-											"INSERT INTO ReservationTypes type VALUES ?",
+											"INSERT INTO ReservationTypes(type) VALUES (?)",
 											reservationType.getType());
 		reservationType.setId(rowId);
 		
@@ -75,7 +76,7 @@ public class ReservationTypeDaoImpl implements ReservationTypeDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection, 
-								"UPDATE ReservationTypes SET type = ? WHERE ID = ?",
+								"UPDATE ReservationTypes SET type = ? WHERE id = ?",
 								reservationType.getType(),
 								reservationType.getId());
 		return true;
@@ -90,5 +91,5 @@ public class ReservationTypeDaoImpl implements ReservationTypeDao
 		
 		return true;
 	}
-
+	
 }

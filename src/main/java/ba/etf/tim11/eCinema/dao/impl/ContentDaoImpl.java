@@ -9,6 +9,7 @@ import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.mapper.ContentRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
 import ba.etf.tim11.eCinema.models.Content;
+import ba.etf.tim11.eCinema.models.Tag;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
 
 
@@ -34,6 +35,60 @@ public class ContentDaoImpl implements ContentDao
 									offset,
 									limit);
 	}
+	
+	@Override
+	public List<Content> findAllByFilter(String filter, int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT c.* FROM Contents c, Tags t, ContentTags ct WHERE t.id = ct.tags_id AND c.id = ct.contents_id AND t.name = ? LIMIT ?, ?",
+									filter,
+									offset,
+									limit);
+	}
+	
+	@Override
+	public List<Content> findRecentlyAdded(int offset, int limit) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Contents ORDER BY updatedAt DESC LIMIT ?, ?",
+									offset,
+									limit);
+	}
+	
+	@Override
+	public List<Content> findBestRated(int offset, int limit) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT c.* " + 
+									"FROM Contents c, ContentMarks cm " +
+									"WHERE c.id = cm.contents_id " +
+									"GROUP BY c.id " +
+									"ORDER BY AVG(cm.mark) DESC " +
+									"LIMIT ?, ?",
+									offset,
+									limit);
+	}
+	
+	@Override
+	public List<Content> findTop(int offset, int limit) throws DaoException
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM Contents c WHERE top = 1 LIMIT ?, ?",
+									offset,
+									limit);
+	}
 
 	@Override
 	public Content find(int id) throws DaoException
@@ -49,18 +104,20 @@ public class ContentDaoImpl implements ContentDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-										  "INSERT INTO Contents (title, actors, director, year, length, types_id, fileId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+										  "INSERT INTO Contents (title, actors, director, year, length, description) VALUES (?, ?, ?, ?, ?, ?)",
 										  content.getTitle(),
 										  content.getActors(),
 										  content.getDirector(),
 										  content.getYear(),
 										  content.getLength(),
-										  // TODO(kklisura): Check this out.
-										  //content.getType().getId(),
-										  content.getFileId());
+										  content.getDescription());
 		
 		content.setId(rowId);
 		
+		for(Tag tag : content.getTags()) {
+			DaoUtil.executeUpdate(connection, "INSERT INTO ContentTags(contents_id, tags_id) VALUES(?, ?)", content.getId(), tag.getId());
+		}
+
 		return true;
 	}
 
@@ -70,15 +127,18 @@ public class ContentDaoImpl implements ContentDao
 		Connection connection = daoFactory.getConnection();
 		
 		DaoUtil.executeUpdate(connection, 
-							  "UPDATE Contents SET title = ?, actors = ?, director = ?, year = ?, length = ?, types_id = ?, fileId = ? WHERE id = ?",
+							  "UPDATE Contents SET title = ?, actors = ?, director = ?, year = ?, length = ?, description = ? WHERE id = ?",
 							  content.getTitle(),
 							  content.getActors(),
 							  content.getDirector(),
 							  content.getYear(),
 							  content.getLength(),
-							  content.getType().getId(),
-							  content.getFileId(),
+							  content.getDescription(),
 							  content.getId());
+		
+		for(Tag tag : content.getTags()) {
+			DaoUtil.executeUpdate(connection, "INSERT INTO ContentTags(contents_id, tags_id) VALUES(?, ?)", content.getId(), tag.getId());
+		}
 		
 		return true;
 	}
@@ -91,6 +151,18 @@ public class ContentDaoImpl implements ContentDao
 		DaoUtil.executeUpdate(connection, "DELETE FROM Contents WHERE id = ?", content.getId());
 		
 		return true;
+	}
+
+	@Override
+	public List<Content> findInTheaters(int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT c.* FROM Contents c, (SELECT * FROM Projections GROUP BY contents_id) p WHERE p.contents_id = c.id ORDER BY p.time DESC LIMIT ?, ?",
+									offset,
+									limit);
 	}
 	
 }

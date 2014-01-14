@@ -5,11 +5,13 @@ import java.util.Date;
 
 public class UserAction 
 {
-	int id;
-	User user;
-	UserActionType userActionType;
-	Date time;
-	Date updatedAt, createdAt;
+	private int id;
+	
+	private User user;
+	private UserActionType userActionType;
+	private Date time;
+	
+	private Date updatedAt, createdAt;
 	
 	
 	public UserAction() {

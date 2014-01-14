@@ -3,15 +3,21 @@ package ba.etf.tim11.eCinema.models;
 import java.math.BigDecimal;
 import java.util.Date;
 
+
 public class Receipt 
 {
-	int id;
-	BigDecimal totalPrice;
-	BigDecimal discount;
-	Date updatedAt;
-	Date cretedAt;
+	private int id;
 	
-		public Receipt() {}
+	private BigDecimal totalPrice;
+	private BigDecimal discount;
+	private Reservation reservation;
+	
+	private Date updatedAt, createdAt;
+	
+	
+	public Receipt() {
+		
+	}
 
 	public int getId() {
 		return id;
@@ -37,6 +43,14 @@ public class Receipt
 		this.discount = discount;
 	}
 	
+	public Reservation getReservation() {
+		return reservation;
+	}
+	
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+	
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
@@ -45,11 +59,12 @@ public class Receipt
 		this.updatedAt = updatedAt;
 	}
 	
-	public Date getCretedAt() {
-		return cretedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 	
-	public void setCretedAt(Date cretedAt) {
-		this.cretedAt = cretedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+	
 }

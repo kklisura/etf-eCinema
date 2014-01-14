@@ -5,8 +5,10 @@ import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.models.Role;
 
+
 public class RoleRowMapper implements RowMapper
 {
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
@@ -18,5 +20,5 @@ public class RoleRowMapper implements RowMapper
 		
 		return role;
 	}
-
+	
 }

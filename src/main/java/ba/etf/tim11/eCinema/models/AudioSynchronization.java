@@ -5,32 +5,19 @@ import java.util.Date;
 
 public class AudioSynchronization
 {
-	int id;
-	Content content;
-	Language language;
-	String fileId;
-	Date updatedAt, createdAt;
+	private int id;
+	
+	private Content content;
+	private Language language;
+	
+	private Date updatedAt, createdAt;
 	
 	
 	public AudioSynchronization() {
 		
 	}
 	
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+	
 
 	public int getId() {
 		return id;
@@ -55,13 +42,21 @@ public class AudioSynchronization
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
-
-	public String getFileId() {
-		return fileId;
+	
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setFileId(String fileId) {
-		this.fileId = fileId;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

@@ -9,6 +9,8 @@ public interface ProjectionDao
 {
 	public List<Projection> findAll(int offset, int limit) throws DaoException;
 	
+	public List<Projection> findAllByContent(int contentId, int offset, int limit) throws DaoException;
+	
 	public Projection find (int id) throws DaoException;
 	
 	public boolean insert (Projection projection) throws DaoException;

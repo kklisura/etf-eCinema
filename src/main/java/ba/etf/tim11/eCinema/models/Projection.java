@@ -3,35 +3,24 @@ package ba.etf.tim11.eCinema.models;
 import java.math.BigDecimal;
 import java.util.Date;
 
+
 public class Projection
 {
-	int id;
-	Date time;
-	BigDecimal pricePerSeat;
-	Content content;
-	CinemaHall cinemaHall;
-	ProjectionType projectionType;
-	Date updatedAt;
-	Date createdAt;
+	private int id;
 	
-	public Projection(int id, Date time, BigDecimal pricePerSeat, Content content,
-			CinemaHall cinemaHall, ProjectionType projectionType,
-			Date updatedAt, Date createdAt)
-	{
-		this.id = id;
-		this.time = time;
-		this.pricePerSeat = pricePerSeat;
-		this.content = content;
-		this.cinemaHall = cinemaHall;
-		this.projectionType = projectionType;
-		this.updatedAt = updatedAt;
-		this.createdAt = createdAt;
-	}
+	private Date time;
+	private BigDecimal pricePerSeat;
+	private Content content;
+	private CinemaHall cinemaHall;
+	private ProjectionType projectionType;
+	
+	private Date updatedAt, createdAt;
+	
 	
 	public Projection() {
-		// TODO Auto-generated constructor stub
+		
 	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -91,6 +80,7 @@ public class Projection
 	public Date getCreatedAt() {
 		return createdAt;
 	}
+	
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}

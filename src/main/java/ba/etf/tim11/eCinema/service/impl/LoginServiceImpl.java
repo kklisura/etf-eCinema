@@ -10,29 +10,16 @@ import ba.etf.tim11.eCinema.service.LoginService;
 
 
 public class LoginServiceImpl implements LoginService 
-{
-	private static LoginServiceImpl instance = null;
-	
-	
-	private LoginServiceImpl()
-	{
+{	
+	public LoginServiceImpl() {
 		
 	}
-	
-	public static LoginService getInstance() 
-	{
-		if (instance == null) {
-			instance = new LoginServiceImpl();
-		}
-		return instance;
-	}
-	
 	
 	@Override
 	public boolean validateSession(String username, String key) 
 	{
 		// TODO(kklisura): Need to implement this.
-		return false;
+		return true;
 	}
 
 	// http://stackoverflow.com/questions/4895523/java-string-to-sha1

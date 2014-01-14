@@ -5,13 +5,17 @@ import java.util.Date;
 
 public class UserActionComment 
 {
-	int id;
-	Comment comment;
-	UserAction userAction;
-	Date updatedAt, createdAt;
+	private int id;
+	
+	private Comment comment;
+	private UserAction userAction;
+	
+	private Date updatedAt, createdAt;
 
 	
-	public UserActionComment() {}
+	public UserActionComment() {
+		
+	}
 	
 	public int getId() {
 		return id;

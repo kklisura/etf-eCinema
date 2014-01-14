@@ -9,6 +9,7 @@ import ba.etf.tim11.eCinema.dao.CinemaDao;
 import ba.etf.tim11.eCinema.dao.CinemaHallDao;
 import ba.etf.tim11.eCinema.dao.CommentDao;
 import ba.etf.tim11.eCinema.dao.ContentDao;
+import ba.etf.tim11.eCinema.dao.ContentMarkDao;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.GroupDao;
@@ -22,10 +23,10 @@ import ba.etf.tim11.eCinema.dao.ReservationDao;
 import ba.etf.tim11.eCinema.dao.ResourceDao;
 import ba.etf.tim11.eCinema.dao.RoleDao;
 import ba.etf.tim11.eCinema.dao.SeatDao;
-import ba.etf.tim11.eCinema.dao.SessionDao;
 import ba.etf.tim11.eCinema.dao.StateDao;
 import ba.etf.tim11.eCinema.dao.SubtitleDao;
-import ba.etf.tim11.eCinema.dao.TypeDao;
+import ba.etf.tim11.eCinema.dao.TagDao;
+import ba.etf.tim11.eCinema.dao.TopContentDao;
 import ba.etf.tim11.eCinema.dao.UserActionCommentDao;
 import ba.etf.tim11.eCinema.dao.UserActionContentDao;
 import ba.etf.tim11.eCinema.dao.UserActionDao;
@@ -44,7 +45,7 @@ public class JDBCDaoFactory implements DaoFactory
 	
 	private JDBCDaoFactory()
 	{
-		DaoConfiguration cfg = DaoConfiguration.getInstance();
+		DaoConfiguration configuration = DaoConfiguration.getInstance();
 		
 		String url = null, 
 			   user = null, 
@@ -52,9 +53,9 @@ public class JDBCDaoFactory implements DaoFactory
 		
 		try 
 		{
-			url = cfg.getEntry("db.url", true);
-	        user = cfg.getEntry("db.username", true);
-	        password = cfg.getEntry("db.password", true);
+			url = configuration.getEntry("db.url", true);
+	        user = configuration.getEntry("db.username", true);
+	        password = configuration.getEntry("db.password", true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -161,14 +162,13 @@ public class JDBCDaoFactory implements DaoFactory
 	}
 
 	@Override
-	public TypeDao getTypeDao() {
-		return new TypeDaoImpl(this);
+	public TagDao getTagDao() {
+		return new TagDaoImpl(this);
 	}
 	
-	
 	@Override
-	public SessionDao getSessionDao() {
-		return new SessionDaoImpl(this);
+	public TopContentDao getTopContentDao() {
+		return new TopContentDaoImpl(this);
 	}
 
 	@Override
@@ -204,6 +204,11 @@ public class JDBCDaoFactory implements DaoFactory
 	@Override
 	public CinemaHallDao getCinemaHallDao() {
 		return new CinemaHallDaoImpl(this);
+	}
+
+	@Override
+	public ContentMarkDao getContentMarkDao() {
+		return new ContentMarkDaoImpl(this);
 	}
 	
 }

@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,29 +36,29 @@ public class ProjectionTypeResource extends BaseResource
 	
 	@GET
 	@Privilege("List")
-	public List<ProjectionType> getAllProjectionTypes() 
+	public Object getAllProjectionTypes() 
 	{ 
-		return projectionTypeDao.findAll(offset, limit);
+		return Response.entity(projectionTypeDao.findAll(offset, limit));
 	}
 	
 	@GET
 	@Path("{type}")
 	@Privilege("Read")
-	public ProjectionType getProjectionType(@PathParam("type") String type) 
+	public Object getProjectionType(@PathParam("type") String type) 
 	{
 		ProjectionType projectionType = projectionTypeDao.find(type);
 		
 		if (projectionType == null) {
-			throw new ResourceNotFoundException("Prrojection type not found.");
+			throw new ResourceNotFoundException("Projection type not found.");
 		}
 		
-		return projectionType;
+		return Response.entity(projectionType);
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public ProjectionType createNewProjectionType(MultivaluedMap<String, String> formParams) 
+	public Object createNewProjectionType(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "type")) 
 		{
@@ -71,19 +69,17 @@ public class ProjectionTypeResource extends BaseResource
 		ProjectionType projectionType = new ProjectionType();
 		
 		projectionType.setType(formParams.getFirst("type"));
-	
 		
 		projectionTypeDao.insert(projectionType);
 		
-		
-		return projectionType;
+		return Response.redirect(this, projectionType.getId());
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateProjectionType(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	public Object updateProjectionType(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
 		ProjectionType projectionType = projectionTypeDao.find(id);
 		
@@ -93,13 +89,14 @@ public class ProjectionTypeResource extends BaseResource
 		
 		if (formParams.getFirst("type") != null)
 			projectionType.setType(formParams.getFirst("type"));
+		
 		return Response.success();
 	}
 	
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response projectionType(@PathParam("id") int id) 
+	public Object projectionType(@PathParam("id") int id) 
 	{
 		ProjectionType projectionType = projectionTypeDao.find(id);
 		

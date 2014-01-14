@@ -48,7 +48,7 @@ public class UserActionTypeDaoImpl implements UserActionTypeDao
 	{
 		Connection connection = daoFactory.getConnection();
 		
-		int rowId = DaoUtil.executeUpdate(connection, "INSERT INTO UserActionType (type) VALUES (?)", userActionType.getType());
+		int rowId = DaoUtil.executeUpdate(connection, "INSERT INTO UserActionTypes (type) VALUES (?)", userActionType.getType());
 		
 		userActionType.setId(rowId);
 		

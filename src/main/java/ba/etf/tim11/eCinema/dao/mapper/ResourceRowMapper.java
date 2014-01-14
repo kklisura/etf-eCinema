@@ -5,8 +5,10 @@ import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.models.Resource;
 
-public class ResourceRowMapper implements RowMapper {
 
+public class ResourceRowMapper implements RowMapper 
+{
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{
@@ -14,9 +16,8 @@ public class ResourceRowMapper implements RowMapper {
 		
 		resource.setId(rs.getInt(1));
 		resource.setName(rs.getString(2));
-		resource.setDescription(rs.getString(3));
 		
 		return resource;
 	}
-
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.CinemaHall;
 
+
 public interface CinemaHallDao
 {
 	public List<CinemaHall> findAll(int offset, int limit) throws DaoException;
@@ -17,4 +18,5 @@ public interface CinemaHallDao
 	public boolean update(CinemaHall cinemaHall) throws DaoException;
 	
 	public boolean delete(CinemaHall cinemaHall) throws DaoException;
+
 }

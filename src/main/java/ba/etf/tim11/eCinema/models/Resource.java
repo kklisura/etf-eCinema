@@ -1,9 +1,11 @@
 package ba.etf.tim11.eCinema.models;
 
+
 public class Resource
 {
-	int id;
-	String name, description;
+	private int id;
+	
+	private String name;
 
 	
 	public Resource() {
@@ -24,14 +26,6 @@ public class Resource
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	
 }

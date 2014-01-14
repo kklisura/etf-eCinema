@@ -15,8 +15,6 @@ import ba.etf.tim11.eCinema.service.SecurityService;
 
 public class SecurityServiceImpl implements SecurityService 
 {
-	private static SecurityServiceImpl instance = null;
-	
 	private DaoFactory daoFactory;
 	private PrivilegeTypeDao privilegeTypeDao;
 	private PrivilegeDao privilegeDao;
@@ -25,7 +23,7 @@ public class SecurityServiceImpl implements SecurityService
 	private Dictionary<String, PrivilegeType> privilegeTypes;
 	
 	
-	private SecurityServiceImpl()
+	public SecurityServiceImpl()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.privilegeTypeDao = daoFactory.getPrivilegeTypeDao();
@@ -35,14 +33,6 @@ public class SecurityServiceImpl implements SecurityService
 		this.privilegeTypes = new Hashtable<>();
 		
 		retrievePrivilegeTypes();
-	}
-	
-	public static SecurityService getInstance() 
-	{
-		if (instance == null) {
-			instance = new SecurityServiceImpl();
-		}
-		return instance;
 	}
 	
 	@Override

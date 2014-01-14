@@ -20,4 +20,5 @@ public interface StateDao
 	public boolean update(State state) throws DaoException;
 	
 	public boolean delete(State state) throws DaoException;
+
 }

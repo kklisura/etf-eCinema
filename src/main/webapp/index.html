@@ -16,89 +16,95 @@
     <!-- ========================================== -->
 
     <script type="text/x-handlebars">
+      <div id="wrap">
+        <!-- Fixed navigation bar -->
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              {{#link-to "index" classNames="navbar-brand"}}eCinema</a>{{/link-to}}
+            </div> <!-- /.navbar-header -->
 
-      <!-- Fixed navigation bar -->
-      <div class="navbar navbar-default navbar-fixed-top">
-
-        <div class="container">
-
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            {{#link-to "index" classNames="navbar-brand"}}
-              <span class="glyphicon glyphicon-film"></span> eCinema
-            {{/link-to}}
-
-          </div>
-
-          <div class="navbar-collapse collapse">
-
-            <ul class="nav navbar-nav">
+            <div class="navbar-collapse collapse">
 
               <!-- Left nav items -->
-
-              {{#link-to 'newest' tagName='li'}}{{#link-to 'newest'}} Newest {{/link-to}}{{/link-to}}
-              {{#link-to 'top' tagName='li'}}{{#link-to 'top'}} Top {{/link-to}}{{/link-to}}
-              {{#link-to 'now' tagName='li'}}{{#link-to 'now'}} Watch Now {{/link-to}}{{/link-to}}
-              {{#link-to 'theaters' tagName='li'}}{{#link-to 'theaters'}} In Theaters {{/link-to}}{{/link-to}}
-
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
+              <ul class="nav navbar-nav">
+                {{#link-to 'newest' tagName='li'}}<a href="#">Newest</a>{{/link-to}}
+                {{#link-to 'top' tagName='li'}}<a href="#">Top</a>{{/link-to}}
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Tags <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    {{#each tag in App.tags}}
+                      <li>{{#link-to 'tags' tag.name}}{{tag.name}}{{/link-to}}</li>
+                    {{/each}}
+                  </ul>
+                </li>
+                {{#link-to 'theaters' tagName='li'}}<a href="#">In Theaters</a>{{/link-to}}
+              </ul> <!-- /.nav navbar-nav -->
 
               <!-- Right nav items -->
+              <ul class="nav navbar-nav navbar-right">
+                {{#unless App.user}}
+                  <li>{{#link-to "register"}} No account? Sign up! {{/link-to}}</li>
+                  <li><a href="#" {{action do_modal 'login_modal'}}> Login </a></li>
+                {{else}}
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      {{App.user.firstName}} {{App.user.lastName}}
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      {{#link-to 'user.settings' tagName='li'}}<a href="#">Settings</a>{{/link-to}}
+                      {{#link-to 'admin' tagName='li'}}<a href="#">Administration</a>{{/link-to}}
+                      <li class="divider"></li>
+                      <li><a href="#" {{action 'logout'}}>Log Out</a></li>
+                    </ul>
+                  </li>
+                {{/unless}}
+              </ul> <!-- /.nav navbar-nav navbar-right -->
 
-              <li>{{#link-to "register"}} No account? Sign up! {{/link-to}}</li>
-              <li><a href="#" {{action login_modal}}> Login </a></li>
-
-            </ul>
-
+            </div>
           </div>
-        </div>
-      </div>
+        </div> <!-- /.navbar navbar-default navbar-fixed-top -->
 
-      <div id="wrap">
         <div class="container">
           {{outlet modal}}
-
           <!-- Main content -->
           {{outlet}}
-
         </div>
       </div>
 
       <!-- Footer -->
-      <div class="container">
-
-        <div id="footer">
+      <div id="footer">
+        <div class="container">
           <div class="navbar-collapse collapse">
+            
+            <!-- Left footer items -->
             <ul class="nav navbar-nav">
-
-              <!-- Left footer items -->
               <li id="copyright">© 2013 eCinema</li>
               <li><a href="#">Blog</a></li>
               <li><a href="#">Help</a></li>
               <li><a href="#">About us</a></li>
-
             </ul>
-            <ul class="nav navbar-nav navbar-right">
 
-              <!-- Right footer items -->
+            <!-- Right footer items -->
+            <ul class="nav navbar-nav navbar-right">
               <li><a href="#">Terms of Use</a></li>
               <li><a href="#">Privacy</a></li>
               <li><a href="#">Policy</a></li>
-
             </ul>
+
           </div>
         </div>
-      </div>
+      </div> <!-- /.footer -->
     </script>
-
 
 
 
@@ -108,204 +114,32 @@
     <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="index">
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="images/thumb/1.jpg" alt="First slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Example headline.</h1>
-              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="images/thumb/2.jpg" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="images/thumb/3.jpg" alt="Third slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>One more for good measure.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div><!-- /.carousel -->
-        
 
-      <!-- Newest content -->
-
+      <!-- Newest content items -->
       <div class="row">
         <div class="col-lg-4">
           <h3>{{#link-to 'newest' classNames="index-subnav"}} Newest {{/link-to}}</h3>
         </div>
       </div>
-
-      <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Source code (2011){{/link-to}}</h3>
-          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
+      <!-- Content item -->
+      <div class="row custom-row">
+        {{#each content in newest_content}}
+          {{view App.SingleContentView}}
+        {{/each}}
       </div>
 
-
-      <!-- Top rated -->
-
+      <!-- Top content items -->
       <div class="row">
         <div class="col-lg-4">
           <h3>{{#link-to 'top' classNames="index-subnav"}}Top rated{{/link-to}}</h3>
         </div>
       </div>
-
       <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' id}}Test{{/link-to}}</h3>
-          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
+        {{#each content in rated_content}}
+          {{view App.SingleContentView}}
+        {{/each}}
       </div>
-
-
-
-      <!-- Latest comments -->
-
-      <div class="row">
-        <div class="col-lg-4">
-          <h3>Latest comments</h3>
-        </div>
-      </div>
-
-      <div class="row">
-
-
-      </div>
-
-    </script>
-
-
-
-
-    <!-- ========================================== -->
-    <!--  Login modal template -->
-    <!-- ========================================== -->
-
-    <script type="text/x-handlebars" data-template-name="login_modal">
-
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action close target="view"}}>×</button>
-          <h4 class="modal-title">Login</h4>
-      </div>
-
-      <div class="modal-body">
-          <div class="form-group">
-            <label>Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password">
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" id="remember"> Remebmer me
-            </label>
-          </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"  {{action close target="view"}}>Close</button>
-        <button type="button" class="btn btn-primary" {{action login}}>Login</button>
-      </div>
+      
     </script>
 
 
@@ -316,407 +150,139 @@
     <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="top">
-
       <div class="row">
         <div class="col-lg-4">
           <h3>Top rated content</h3>
         </div>
       </div>
+      {{#each row in model.rows}}
+        <div class="row">
+          {{#each content in row}}
+            {{view App.SingleContentView}}
+          {{/each}}
+        </div>
+      {{/each}}
 
       <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Source code (2011){{/link-to}}</h3>
-          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-      </div>
-
-
-
-      <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-      </div>
-
-
-      <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
+        <div class="col-xs-offset-5 col-xs-2">
+          <button type="button" class="btn btn-default" style="min-width: 100%" {{action 'load_more'}}>Load more..</button>
         </div>
       </div>
-
     </script>
 
 
 
 
     <!-- ========================================== -->
-    <!--  Top template -->
+    <!--  Newest template -->
     <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="newest">
-
       <div class="row">
         <div class="col-lg-4">
           <h3>Newest content</h3>
         </div>
       </div>
+      {{#each row in model.rows}}
+        <div class="row">
+          {{#each content in row}}
+            {{view App.SingleContentView}}            
+          {{/each}}
+        </div>
+      {{/each}}
 
       <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Source code (2011){{/link-to}}</h3>
-          <p>An action thriller centered on a soldier who wakes up in the body of an unknown man and discovers he's part of a mission to find the bomber of a Chicago commuter train.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-      </div>
-
-
-
-      <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-      </div>
-
-
-      <div class="row">
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
-        </div>
-
-
-        <!-- Content item -->
-
-        <div class="col-lg-4">
-          <img class="img-rounded" alt="360x200" style="width: 360px; height: 200px;" src="images/thumb/example.png">
-          <h3>{{#link-to 'content' 1}}Heading{{/link-to}}</h3>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">Watch now »</a>
-            <a class="btn btn-default pull-right" href="#" role="button">In theaters »</a>
-          </p>
+        <div class="col-xs-offset-5 col-xs-2">
+          <button type="button" class="btn btn-default" style="min-width: 100%" {{action 'load_more'}}>Load more..</button>
         </div>
       </div>
-      
-    </script>
-
-
-
-    <!-- ========================================== -->
-    <!--  Now template -->
-    <!-- ========================================== -->
-
-    <script type="text/x-handlebars" data-template-name="now">
-
-    </script>
-
-
-
-    <!-- ========================================== -->
-    <!--  Now template -->
-    <!-- ========================================== -->
-
-    <script type="text/x-handlebars" data-template-name="thaters">
-
     </script>
 
 
 
 
     <!-- ========================================== -->
-    <!--  Content template -->
+    <!--  Tags template -->
     <!-- ========================================== -->
-    
-    <script type="text/x-handlebars" data-template-name="content">
 
-      <div class="container">
-        <div class="col-lg-offset-1">
-          <h3>Source code (2011)</h3>
+    <script type="text/x-handlebars" data-template-name="tags">
+      <div class="row">
+        <div class="col-lg-4">
+          <h3>Tag: {{tag}}</h3>
         </div>
+      </div>
+
+      {{#if has_content}}
+        {{#each row in model.rows}}
+          <div class="row">
+            {{#each content in row}}
+              {{view App.SingleContentView}}            
+            {{/each}}
+          </div>
+        {{/each}}
 
         <div class="row">
-          <div class="col-lg-5 col-lg-offset-1">
-          <embed width="420" height="345" src="http://www.youtube.com/v/WatVodRARsU" type="application/x-shockwave-flash"></embed>
-          </div>
-
-          <div class="col-lg-5 "> 
-            <h4>Movie info</h4>        
-            <p>When decorated soldier Captain Colter Stevens (Jake Gyllenhaal) wakes up in the body of an unknown man, he discovers he's part of a mission to find the bomber of a Chicago commuter train. In an assignment unlike any he's ever known, he learns he's part of a government experiment called the Source Code, a program that enables him to cross over into another man's identity in the last 8 minutes of his life. With a second, much larger target threatening to kill millions in downtown Chicago, Colter re-lives the incident over and over again, gathering clues each time, until he can solve the mystery of who is behind the bombs and prevent the next attack.
-            </p>
-
-            <p><h4>Director</h4> Christopher Nolan</p>
-
-            <p><h4>Actors</h4> Jake Gyllenhaal, Nicole Kidman, Chuck Norris</p>
-
-
-            <p><h4>Length</h4> 150 minutes</p>
-
-            <p><h4>Rating (5.4/10)</h4></p>
-            <div class="rating">
-              <span class="glyphicon glyphicon-star"></span>
-              <span class="glyphicon glyphicon-star"></span>
-              <span class="glyphicon glyphicon-star-empty"></span>
-              <span class="glyphicon glyphicon-star-empty"></span>
-              <span class="glyphicon glyphicon-star-empty"></span>
-            </rating>
-
+          <div class="col-xs-offset-5 col-xs-2">
+            <button type="button" class="btn btn-default" style="min-width: 100%" {{action 'load_more'}}>Load more..</button>
           </div>
         </div>
-
-        </div>
-
-        <br>
+      {{else}}
         <div class="row">
-          <div class="col-lg-10 col-lg-offset-1">
-            <div class="panel panel-default">
-              
-              <div class="panel-heading">
-                <h3 class="panel-title">Add your comment</h3>
-              </div>
-              
-              <div class="panel-body">
+          <div class="col-lg-offset-4">
+          <br><br><br><br><br><br><br>          
+          <h4>URGH! There is no content you are looking for :/</h4>
+          </div>
+        </div>
+      {{/if}}
+    </script>
 
-                <div class="form-group">
-                  <textarea class="form-control" rows="3" placeholder="Comment text"></textarea>
-                </div>
-                <button class="pull-right btn btn-primary">Comment</button>
 
+
+
+    <!-- ========================================== -->
+    <!--  Login Modal template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="login_modal">
+
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action close target="view"}}>×</button>
+          <h4 class="modal-title">Login</h4>
+      </div>
+
+      <div class="modal-body">
+
+          <div {{bind-attr class="error:alert error:alert-danger"}}>{{error}}</div>
+
+          <div class="row">
+            <div class="col-lg-12">
+
+              <div class="form-group">
+                <label>Username or email</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter username or email">
               </div>
+
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+              </div>
+
+              <div class="checkbox">
+                <input type="checkbox" id="remember"> Remebmer me
+              </div>
+
             </div>
           </div>
-        </div>
-
-        <br>
-        <div class="row">
-          <div class="col-lg-10 col-lg-offset-1">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Comments</h3>
-              </div>
-              <div class="panel-body">
-                <span><b>Naida</b> says:</span><br>
-                <span>Bezze film, majke m'.</span>
-              </div>
-              <hr>
-              <div class="panel-body">
-                Panel content
-              </div>
-              <hr>
-              <div class="panel-body">
-                Panel content
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" {{action close target="view"}}>Close</button>
+        <button type="button" class="btn btn-primary" {{action login}}>Login</button>
+      </div>
     </script>
 
 
-    <!-- ========================================== -->
-    <!--  NESTO_NOVO template -->
-    <!-- ========================================== -->
 
-    <script type="text/x-handlebars" data-template-name="naziv_nesto_novo">
-
-    </script>
 
     <!-- ========================================== -->
     <!--  Register template -->
@@ -724,124 +290,62 @@
 
     <script type="text/x-handlebars" data-template-name="register">
 
-    <div class="col-sm-offset-0 col-sm-12 col-lg-offset-2 col-lg-8">
-      <div class="panel panel-default">
+      <div class="col-xs-offset-2 col-xs-8">
+        <div class="panel panel-default">
 
-        <div class="panel-heading">Enter your information</div>
-      
-        <div class="panel-body">
+          <div class="panel-heading">Enter your information</div>
         
-          <div class="form-group">
-            <label for="exampleInputLastName">Last name</label>
-            <input type="lastName" class="form-control" id="exampleInputLastName" placeholder="Last name">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputFirstName">First name</label>
-            <input type="firstName" class="form-control" id="exampleInputFirstName" placeholder="First name">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPhone">Phone</label>
-            <input type="phone" class="form-control" id="exampleInputPhone" placeholder="Phone">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputAdress">Adress</label>
-            <input type="adress" class="form-control" id="exampleInputAdress" placeholder="Adress">
-          </div>    
-          <div class="form-group">
-            <label for="exampleInputDateOfBirth">Date of Birth</label>
-            <div>
-              <div class="form-inline">
-                <select class="form-control"> 
-                  <option>Month</option>
-                  <option>Jan</option>
-                  <option>Feb</option>
-                  <option>Mar</option>
-                  <option>Apr</option>
-                  <option>May</option>
-                  <option>Jun</option>
-                  <option>Jul</option>
-                  <option>Aug</option>
-                  <option>Sep</option>
-                  <option>Oct</option>
-                  <option>Nov</option>
-                  <option>Dec</option>
-                </select>
-                <select class="form-control"> 
-                  <option>Day</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
-                  <option>13</option>
-                  <option>14</option>
-                  <option>15</option>
-                  <option>16</option>
-                  <option>17</option>
-                  <option>18</option>
-                  <option>19</option>
-                  <option>20</option>
-                  <option>21</option>
-                  <option>22</option>
-                  <option>23</option>
-                  <option>24</option>
-                  <option>25</option>
-                  <option>26</option>
-                  <option>27</option>
-                  <option>28</option>
-                  <option>29</option>
-                  <option>30</option>
-                  <option>31</option>
-                </select>
-                <select class="form-control"> 
-                  <option>Year</option>
-                  <option>1989</option>
-                  <option>1990</option>
-                  <option>1991</option>
-                  <option>1992</option>
-                </select>       
+          <div class="panel-body">
+
+            {{render 'error-box'}}
+
+            <div class="form-group">
+              <label>Last name</label>
+              {{input type='text' classNames='form-control' value=lastName placeholder='Last name'}}
+            </div>
+            <div class="form-group">
+              <label>First name</label>
+              {{input type='text' classNames='form-control' value=firstName placeholder='First name'}}
+            </div>
+            <div class="form-group">
+              <label>Username</label>
+              {{input type='text' classNames='form-control' value=username placeholder='Username'}}
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              {{input type='text' classNames='form-control' value=email placeholder='Email'}}
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              {{input type='text' classNames='form-control' value=phone placeholder='Phone number'}}
+            </div>
+            <div class="form-group">
+              <label>Date of birth</label>
+              {{input type='date' classNames='form-control' value=dateOfBirth}}
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              {{view Ember.Select
+                     content=App.states
+                     optionLabelPath='content.name'
+                     value=state
+                     classNames='form-control'}}
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              {{input type='password' classNames='form-control' value=password placeholder='Password'}}
+            </div>
+            <div class="form-group">
+              <label>Repeat Password</label>
+              {{input type='password' classNames='form-control' value=password placeholder='Password'}}
+            </div>
+
+            <div class="form-inline">
+              <div class="pull-right">
+                <button type="submit" class="btn btn-primary" {{action 'sign_up' model}}>Sign up</button>
+                <button type="submit" class="btn btn-default" {{action 'go_back'}}>Cancel</button>
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPlaceOfBirth">Place of Birth</label>
-            <input type="placeOfBirth" class="form-control" id="exampleInputPlaceOfBirth" placeholder="Place of Birth">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputState">State</label>
-            <select class="form-control" placeholder="Pick a state">       
-
-              {{#each state in model}}
-                <option value="{{state.id}}">{{state.name}}</option>
-              {{/each}}
-
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputReEnterPassword1">Re-enter password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Re-enter password">
-          </div>
-          <div class="form-inline">
-            <div class="btn pull-right">
-              <button type="submit" class="btn btn-default" {{action go_back}}>Cancel</button>
-              <button type="submit" class="btn btn-primary" {{action sign_up}}>Sign up</button>
-            </div>
-          </div>
 
           </div>
         </div>
@@ -860,26 +364,16 @@
     <script type="text/x-handlebars" data-template-name="user">
 
       <div class="row">
-        <div class="col-lg-2">
+        <div class="col-xs-2 col-xs-offset-1">
 
           <div class="list-group">
             {{#link-to 'user.history' classNames="list-group-item"}}User history{{/link-to}}
             {{#link-to 'user.settings' classNames="list-group-item"}}Account settings{{/link-to}}
-            {{#link-to 'user.billing' classNames="list-group-item"}}Billing settings{{/link-to}}
-          </div>
-
-          <div class="list-group">
-            <span class="list-group-item"><b>Administration</b></span>
-
-            {{#link-to 'admin.users' classNames="list-group-item"}}All Users{{/link-to}}
-            <a href="#" class="list-group-item">States</a>
-            <a href="#" class="list-group-item">Comments</a>
-            <a href="#" class="list-group-item">Contents</a>
           </div>
 
         </div>
 
-        <div class="col-lg-10">
+        <div class="col-xs-8">
           {{outlet}}
         </div>
 
@@ -893,7 +387,7 @@
 
 
     <!-- ========================================== -->
-    <!--  User Action template -->
+    <!--  User History template -->
     <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="user/history">
@@ -902,9 +396,13 @@
         <div class="panel-heading">History of Your actions</div>
     
         <div class="panel-body">
-          Heres some body
+          {{#each action in model}}
+            <label> {{App.user.firstName}} {{App.user.lastName}} </label> {{action.what}} 
+            
+            <span class="pull-right">{{action.when}}</span>
+            <hr>
+          {{/each}}      
         </div>
-
       </div>
 
     </script>
@@ -924,55 +422,38 @@
       
         <div class="panel-body">
 
-            <div class="col-lg-6">
+            {{render 'error-box'}}
+
+            <div class="col-lg-8">
 
             <div class="form-group">
-              <label for="exampleInputLastName">Last name</label>
-              <input type="lastName" class="form-control" id="exampleInputLastName" placeholder="Last name">
+              <label>Last name</label>
+              {{input type="text" value=lastName classNames="form-control" name="lastName"}}
             </div>
             <div class="form-group">
-              <label for="exampleInputFirstName">First name</label>
-              <input type="firstName" class="form-control" id="exampleInputFirstName" placeholder="First name">
+              <label>First name</label>
+              {{input type="text" value=firstName classNames="form-control"}}
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              <label>Email address</label>
+              {{input type="text" value=email classNames="form-control"}}
             </div>
             <div class="form-group">
-              <label for="exampleInputPhone">Phone</label>
-              <input type="phone" class="form-control" id="exampleInputPhone" placeholder="Phone">
+              <label>Phone</label>
+              {{input type="text" value=phone classNames="form-control"}}
             </div>
             <div class="form-group">
-              <label for="exampleInputAdress">Adress</label>
-              <input type="adress" class="form-control" id="exampleInputAdress" placeholder="Adress">
-            </div>    
-            <div class="form-group">
-              <label for="exampleInputDateOfBirth">Date of Birth</label>
-              <div class="">
-                <div class="form-inline">
-                  <select class="form-control"> 
-                    <option>Month</option><option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option>Jun</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option></select>
-                  <select class="form-control"> 
-                    <option>Day</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>
-                  <select class="form-control"> 
-                    <option>Year</option><option>1989</option><option>1990</option><option>1991</option><option>1992</option></select>       
-                </div>
-              </div>
+              <label>Date of Birth</label>
+              {{input type="date" value=dateOfBirth classNames="form-control"}}              
             </div>
             <div class="form-group">
-              <label for="exampleInputPlaceOfBirth">Place of Birth</label>
-              <input type="placeOfBirth" class="form-control" id="exampleInputPlaceOfBirth" placeholder="Place of Birth">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputState">State</label>
-              <select class="form-control"> 
-                <option>State</option>
-                <option>Bosna i Hercegovina</option>
-                <option>Hrvatska</option>
-                <option>Srbija</option>
-                <option>Makedonija</option>
-                <option>Slovenija</option>
-              </select>
+              <label>State</label>
+              {{view Ember.Select
+                     content=App.states
+                     optionValuePath='content.id'
+                     optionLabelPath='content.name'
+                     value=state.id
+                     classNames='form-control'}}
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
@@ -984,7 +465,7 @@
             </div>
             <div class="form-inline">
               <div class="btn pull-right">
-                <button type="submit" class="btn btn-primary"> Save </button>
+                <button type="submit" class="btn btn-primary" {{action 'save' model}}> Save </button>
               </div>
             </div>
 
@@ -998,9 +479,9 @@
 
 
 
+
     <!-- ========================================== -->
     <!--  User Billing template -->
-    <!--  TODO -->
     <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="user/billing">
@@ -1008,11 +489,127 @@
       <div class="panel panel-default">
         <div class="panel-heading">Billing settings</div>
       
-        <div class="panel-body">
-          
+          <div class="panel-body">
+            <div class="radio">     
+              <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+              pojedinacno placanje
+            </div>
+            
+            <i>mjesecno clanstvo</i> 
+            
+            <div class="radio">     
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+              paket1
+            </div>
+            
+            <div class="radio">     
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+              paket2      
+            </div>
+            
+            <div class="radio">     
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+              paket3      
+            </div>  
+            <hr>
+            <label>Add  credit card: </label>
+            <br>
+            <div class="col-xs-7">
+              <input type="firstName" class="form-control" id="exampleInputFirstName" placeholder="First Name">
+              <input type="lastName" class="form-control" id="exampleInputLastName" placeholder="Last Name">
+              <input type="cardNumber" class="form-control" id="exampleInputcardNumber" placeholder="Credit Card Number">
+              <div class="form-inline">
+                <button type="button" class="btn btn-link">
+                  <img src="credit card/1.jpg" class="img-rounded" alt="" style="max-width:85px;">
+                </button>
+                <button type="button" class="btn btn-link">
+                  <img src="credit card/2.jpg" class="img-rounded" alt="" style="max-width:85px;">
+                </button>
+                <button type="button" class="btn btn-link">
+                  <img src="credit card/3.jpg" class="img-rounded" alt="" style="max-width:85px;">
+                </button>
+                <button type="button" class="btn btn-link">
+                  <img src="credit card/4.jpg" class="img-rounded" alt="" style="max-width:85px;">
+                </button>
+              </div>
+              <div class="form-inline">
+                Expiration date: 
+                <select class="form-control"> 
+                  <option>Month</option>
+                  <option>Jan</option>
+                  <option>Feb</option>
+                  <option>Mar</option>
+                  <option>Apr</option>
+                  <option>May</option>
+                  <option>Jun</option>
+                  <option>Jul</option>
+                  <option>Aug</option>
+                  <option>Sep</option>
+                  <option>Oct</option>
+                  <option>Nov</option>
+                  <option>Dec</option>
+                </select>
+                <select class="form-control"> 
+                  <option>Year</option>
+                  <option>2013</option>
+                  <option>2014</option>
+                  <option>2015</option>
+                  <option>2016</option>
+                </select>       
+              </div>
+              <div class="form-inline">
+                Security code (csc):    
+                <input type="csc" class="col-xs-2" id="exampleInputcsc" placeholder="csc">            
+              </div>
+              <input type="billingAddress" class="form-control" id="exampleInputbillingAddress" placeholder="Billing Address">
+              <input type="billingAddress2" class="form-control" id="exampleInputbillingAddress2" placeholder="Billing Address2">
+              <input type="cityTown" class="form-control" id="exampleInputCityTown" placeholder="City/Town">
+              <input type="state" class="form-control" id="exampleInputState" placeholder="State/Province/Region">
+              <input type="postalCode" class="form-control" id="exampleInputPostalCode" placeholder="Zip/Postal Code">
+              <div class="form-inline">
+              State:
+                <select class="form-control"> 
+                  <option>State</option>
+                  <option>Bosna i Hercegovina</option>
+                  <option>Hrvatska</option>
+                  <option>Srbija</option>
+                  <option>Makedonija</option>
+                  <option>Slovenija</option>
+                </select>
+              </div>
+              <div class="btn pull-right">
+                <button type="submit" class="btn btn-primary"> Add </button>
+              </div>
+            </div>          
+            
+          </div>
+      
         </div>
       </div>
     
+    </script>
+
+
+
+
+    <!-- ========================================== -->
+    <!--  Admin template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="admin">
+      <ul class="nav nav-tabs">
+        {{#link-to 'admin.users' tagName='li'}}<a href="#">User management</a>{{/link-to}}
+        {{#link-to 'admin.groups' tagName='li'}}<a href="#">Group management</a>{{/link-to}}
+        {{#link-to 'admin.access' tagName='li'}}<a href="#">Access management</a>{{/link-to}}
+        {{#link-to 'admin.contents' tagName='li'}}<a href="#">Content management</a>{{/link-to}}
+      </ul>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          {{outlet}}
+        </div>
+      </div>
+
     </script>
 
 
@@ -1023,48 +620,1514 @@
     <!-- ========================================== -->
 
     <script type="text/x-handlebars" data-template-name="admin/users">
+      {{outlet}}
+    </script>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">User administration</div>
-      
-        <div class="panel-body">
+
+    <script type="text/x-handlebars" data-template-name="admin-user-list">
+      <table class="table table-condensed table-hover">
         
-          <table class="table table-condensed table-hover">
-            
-            <thead>
-              <tr><th>#</th><th>Last Name</th><th>First Name</th><th>Email</th><th>Groups</th><th>Action</th></tr>
-            </thead>
-            
-            {{#each model}}
-              <tr>
-                <td>1</td>
-                <td>{{lastName}}</td>
-                <td>{{firstName}}</td>
-                <td>{{email}}</td>
-                <td>TODO</td>
-                <td>
-                  <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></button>
-                  <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-remove"></button>
-                </td>
-              </tr>
-            {{/each}}
+        <thead>
+        <tr><th>#</th><th>Last Name</th><th>First Name</th><th>Username</th><th>Email</th><th>Registered at</th><th>Action</th></tr>
+        </thead>
+        {{#each user in model.entity}} 
+          <tr>
+            <td>{{user.id}} </td>
+            <td>{{user.lastName}} </td>
+            <td>{{user.firstName}} </td>
+            <td>{{user.username}} </td>
+            <td>{{user.email}} </td>
+            <td>{{user.createdAt}} </td>
+            <td>
+              <button type="button" class="btn btn-link" {{action edit_user user}}>
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+               <button type="button" class="btn btn-link" {{action delete_user user}}>
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
+      </table>
 
-            </table>
+      <div class="text-center">
+        <ul class="pagination">
+          <li><a href="#">&laquo;</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+      </div>
+
+      <button type="button" class="btn btn-primary" {{action 'show_add_user'}}>Add new user</button>
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-user-edit">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to user list </a> 
+
+      <div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+          <div class="form-group">
+            <label>Last name</label>
+            {{input type='text' classNames='form-control' value=user.lastName}}
+          </div>
+          <div class="form-group">
+            <label>First name</label>
+            {{input type='text' classNames='form-control' value=user.firstName}}
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            {{input type='text' classNames='form-control' value=user.username}}
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            {{input type='text' classNames='form-control' value=user.email}}
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            {{input type='text' classNames='form-control' value=user.phone}}
+          </div>
+          <div class="form-group">
+            <label>Date of birth</label>
+            {{input type='date' classNames='form-control' value=user.dateOfBirth}}
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            {{view Ember.Select
+                   content=App.states
+                   optionValuePath='content.id'
+                   optionLabelPath='content.name'
+                   value=user.state.id
+                   classNames='form-control'}}
+          </div>
+          <div class="form-group">
+            <label>Roles</label>
+            {{auto-suggest tags=roles selectedTags=user_roles placeholder="Pick some roles"}}
+          </div>
+          <div class="form-group">
+            <label>Groups</label>
+            {{auto-suggest tags=groups selectedTags=user_groups placeholder="Pick some groups"}}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'save_user' user}}>Save</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="admin-user-add">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to user list </a> 
+
+      <div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+          <div class="form-group">
+            <label>Last name</label>
+            {{input type='text' classNames='form-control' value=user.lastName placeholder='Last name'}}
+          </div>
+          <div class="form-group">
+            <label>First name</label>
+            {{input type='text' classNames='form-control' value=user.firstName placeholder='First name'}}
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            {{input type='text' classNames='form-control' value=user.username placeholder='Username'}}
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            {{input type='text' classNames='form-control' value=user.email placeholder='Email'}}
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            {{input type='text' classNames='form-control' value=user.phone placeholder='Phone number'}}
+          </div>
+          <div class="form-group">
+            <label>Date of birth</label>
+            {{input type='date' classNames='form-control' value=user.dateOfBirth}}
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            {{view Ember.Select
+                   content=App.states
+                   optionValuePath='content.id'
+                   optionLabelPath='content.name'
+                   value=user.state
+                   classNames='form-control'}}
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            {{input type='password' classNames='form-control' value=user.password placeholder='Password'}}
+          </div>
+          <div class="form-group">
+            <label>Repeat Password</label>
+            {{input type='password' classNames='form-control' value=user.password placeholder='Password'}}
+          </div>
+          <div class="form-group">
+            <label>Roles</label>
+            {{auto-suggest tags=roles selectedTags=user_roles placeholder="Pick some roles"}}
+          </div>
+          <div class="form-group">
+            <label>Groups</label>
+            {{auto-suggest tags=groups selectedTags=user_groups placeholder="Pick some groups"}}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'add_user' user}}>Add</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+
+
+    <!-- ========================================== -->
+    <!--  Admin Groups template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="admin/groups">
+      {{outlet}}
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-group-list">
+      <table class="table table-condensed table-hover">
+        
+        <thead>
+          <tr><th>#</th><th>Group Name</th><th>Description</th><th>Created at</th><th>Action</th></tr>
+        </thead>
+
+        {{#each group in model.entity}} 
+          <tr>
+            <td>{{group.id}} </td>
+            <td>{{group.name}} </td>
+            <td>{{group.description}} </td>
+            <td>{{group.createdAt}} </td>
+            <td>
+              <button type="button" class="btn btn-link" {{action 'edit_group' group}}>
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+               <button type="button" class="btn btn-link" {{action 'delete_group' group}}>
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
+      </table>
+
+      <div class="text-center">
+        <ul class="pagination">
+          <li><a href="#">&laquo;</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+      </div>
+
+      <button type="button" class="btn btn-primary" {{action 'show_add_group'}}>Add new group</button>
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-group-edit">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to group list </a> 
+
+      <div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+          <div class="form-group">
+            <label>Group name</label>
+            {{input type='text' classNames='form-control' value=group.name}}
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            {{textarea type='text' classNames='form-control' value=group.description}}
+          </div>
+          <div class="form-group">
+            <label>Roles</label>
+            {{auto-suggest tags=roles selectedTags=group_roles placeholder="Pick some roles"}}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'save_group' group}}>Save</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-group-add">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to group list </a> 
+
+      <div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+          <div class="form-group">
+            <label>Group name</label>
+            {{input type='text' classNames='form-control' value=group.name placeholder='Group name'}}
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            {{textarea type='text' classNames='form-control' value=group.description placeholder='Short group description.'}}
+          </div>
+          <div class="form-group">
+            <label>Roles</label>
+            {{auto-suggest tags=roles selectedTags=group_roles placeholder="Pick some roles"}}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'add_group' group}}>Add</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+
+
+
+    <!-- ========================================== -->
+    <!--  Admin Access template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="admin/access">
+      {{outlet}}
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-access-list">
+      <table class="table table-condensed table-hover">
+        
+        <thead>
+        <tr><th>#</th><th>Role</th><th>Role desc.</th><th>Privilege type</th><th>Allowed</th><th>Resource</th><th>Action</th></tr>
+        </thead>
+        {{#each role in model}} 
+          {{#each privilege in role.privileges}}
+
+            <tr>
+              <td>{{role.id}} </td>
+              <td>{{role.name}} </td>
+              <td>{{role.description}} </td>
+              <td>{{privilege.privilegeType.name}} </td>
+              <td>{{privilege.allowed}} </td>
+              <td>{{privilege.resource.name}} </td>
+
+              <td>
+                 <button type="button" class="btn btn-link" {{action 'delete_priv' privilege}}>
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </td>
+            </tr>
+
+          {{/each}}
+        {{/each}}
+      </table>
+
+      <div class="text-center">
+        <ul class="pagination">
+          <li><a href="#">&laquo;</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+      </div>
+
+      <button type="button" class="btn btn-primary" {{action 'show_add_privilege'}}>Add new privilege</button>
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-access-add">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to privilege list </a> 
+
+      <div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+          <div class="form-group">
+            <label>Last name</label>
+            {{input type='text' classNames='form-control' value=user.lastName placeholder='Last name'}}
+          </div>
+          <div class="form-group">
+            <label>First name</label>
+            {{input type='text' classNames='form-control' value=user.firstName placeholder='First name'}}
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            {{input type='text' classNames='form-control' value=user.username placeholder='Username'}}
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            {{input type='text' classNames='form-control' value=user.email placeholder='Email'}}
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            {{input type='text' classNames='form-control' value=user.phone placeholder='Phone number'}}
+          </div>
+          <div class="form-group">
+            <label>Date of birth</label>
+            {{input type='date' classNames='form-control' value=user.dateOfBirth}}
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            {{view Ember.Select
+                   content=App.states
+                   optionValuePath='content.id'
+                   optionLabelPath='content.name'
+                   value=user.state
+                   classNames='form-control'}}
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            {{input type='password' classNames='form-control' value=user.password placeholder='Password'}}
+          </div>
+          <div class="form-group">
+            <label>Repeat Password</label>
+            {{input type='password' classNames='form-control' value=user.password placeholder='Password'}}
+          </div>
+          <div class="form-group">
+            <label>Roles</label>
+            {{auto-suggest tags=roles selectedTags=user_roles placeholder="Pick some roles"}}
+          </div>
+          <div class="form-group">
+            <label>Groups</label>
+            {{auto-suggest tags=groups selectedTags=user_groups placeholder="Pick some groups"}}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'add_user' user}}>Add</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+
+
+
+    <!-- ========================================== -->
+    <!--  Admin Contents template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="admin/contents">
+      {{outlet}}
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-contents-list">
+      <table class="table table-condensed table-hover">
+        
+        <thead>
+        <tr><th>#</th><th>Title</th><th>Year</th><th>Length</th><th>Created at</th><th>Action</th></tr>
+        </thead>
+        {{#each content in model.entity}} 
+          <tr>
+            <td>{{content.id}} </td>
+            <td>{{content.title}} </td>
+            <td>{{content.year}} </td>
+            <td>{{content.length}}</td>
+            <td>{{content.createdAt}} </td>
+            <td>
+              <button type="button" class="btn btn-link" {{action edit_content content}}>
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+               <button type="button" class="btn btn-link" {{action delete_content content}}>
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
+      </table>
+
+      <div class="text-center">
+        <ul class="pagination">
+          <li><a href="#">&laquo;</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+      </div>
+
+      <button type="button" class="btn btn-primary" {{action 'show_add_content'}}>Add new content</button>
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="admin-content-edit">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to content list </a> 
+      
+      <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+
+              <div class="form-group">
+                <label>Title</label>
+                {{input type="text" classNames="form-control" placeholder="Title" value=content1.title}}
+              </div>
+
+              <div class="form-group">
+                <label>Description</label>
+                {{textarea type="text" rows="8" classNames="form-control" placeholder="Description" value=content1.description}}
+              </div>
+
+              <div class="form-group">
+                <label>Director</label>
+                {{input type="text" classNames="form-control" placeholder="Director" value=content1.director}}
+              </div>
+
+              <div class="form-group">
+                <label>Actors</label>
+                {{input type="text" classNames="form-control" placeholder="Actors" value=content1.actors}}
+              </div>
+
+              <div class="form-group">
+                <label>Year</label>
+                {{input type="text" classNames="form-control" placeholder="YYYY" value=content1.year}}
+              </div>
+
+              <div class="form-group">
+                <label>Length (in minutes)</label>
+                {{input type="text" classNames="form-control" placeholder="Length" value=content1.length}}
+              </div>
+              
+              <div class="form-group">
+                <label>Tags</label>
+                {{auto-suggest tags=tags selectedTags=content_tags placeholder="Pick some tags"}}
+              </div>
+
+            </div>
+          </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'save_content' content1}}>Save</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="admin-content-add">
+      {{render 'error-box'}}
+      
+      <a href='#' {{action 'show_list'}}> < Back to content list </a> 
+      
+      <br>
+      <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+
+             <div class="form-group">
+                <label>Title</label>
+                {{input type="text" classNames="form-control" placeholder="Title" value=content1.title}}
+              </div>
+
+              <div class="form-group">
+                <label>Description</label>
+                {{textarea type="text" rows="8" classNames="form-control" placeholder="Description" value=content1.description}}
+              </div>
+
+              <div class="form-group">
+                <label>Director</label>
+                {{input type="text" classNames="form-control" placeholder="Director" value=content1.director}}
+              </div>
+
+              <div class="form-group">
+                <label>Actors</label>
+                {{input type="text" classNames="form-control" placeholder="Actors" value=content1.actors}}
+              </div>
+
+              <div class="form-group">
+                <label>Year</label>
+                {{input type="text" classNames="form-control" placeholder="YYYY" value=content1.year}}
+              </div>
+
+              <div class="form-group">
+                <label>Length (in minutes)</label>
+                {{input type="text" classNames="form-control" placeholder="Length" value=content1.length}}
+              </div>
+              
+              <div class="form-group">
+                <label>Tags</label>
+                {{auto-suggest tags=tags selectedTags=content_tags placeholder="Pick some tags"}}
+              </div>
+            </div>
+          </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" {{action 'add_content' content1}}>Add</button>
+        <button type="button" class="btn btn-default" {{action 'show_list'}}>Cancel</button>
+      </div>
+    </script>
+
+
+
+  
+
+
+
+    <!-- ========================================== -->
+    <!--  Content template -->
+    <!-- ========================================== -->
+    
+    <script type="text/x-handlebars" data-template-name="content">
+      <div class="container col-xs-offset-1">
+        <h3>{{title}} ({{year}})</h3>
+
+        <div class="row">
+          <div class="col-xs-10"> 
+            {{outlet}}
+
+            {{render 'comments'}}
+
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="content/index">
+      {{#each tag in tags}}
+        {{#link-to 'tags' tag.name}}
+          <span class="label label-default tag">{{tag.name}}</span>
+        {{/link-to}}
+      {{/each}}
+
+      <h4>Movie info</h4>        
+      <p>{{description}}</p>
+
+
+      <p><h4>Director</h4> {{director}}</p>
+
+      <p><h4>Actors</h4> {{actors}}</p>
+
+      <p><h4>Length</h4> {{length}} minutes</p>
+
+      <p><h4>Rating ({{score}}/5)</h4></p>
+
+      {{#if App.isLoggedIn}}
+        <div class="rating" {{bind-attr data-score=score data-content=id}}>
+        </div>
+      {{/if}}
+
+      {{#if App.isLoggedIn}}
+        <div class="pull-right">
+            {{#link-to 'content.watch' content classNames='btn btn-default' tagName="button"}}
+              <span class="glyphicon glyphicon-eye-open"></span> &nbsp;Watch now
+            {{/link-to}}
+            
+            {{#link-to 'content.theater' content classNames='btn btn-default' tagName="button"}}
+              <span class="glyphicon glyphicon-facetime-video"></span> &nbsp;Watch in theater
+            {{/link-to}}
+            
+            <button class="btn btn-default">
+              <span class="glyphicon glyphicon-bookmark"></span> &nbsp;Share
+            </button>
+        </div>
+      {{/if}}
+
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="content/watch">
+      Length: {{length}} minutes
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div id="hasvideo">
+            <video id="video" controls width="100%">
+              <source id='mp4' {{bind-attr src=movieSource}} type='video/mp4; codecs="avc1, mp4a"'>
+              <p>Your user agent does not support the HTML5 Video element.</p>
+            </video>
+            <div id="footnote-container"></div>
+            <div id="map-container"></div>
+            <div id="iframe-container"></div>
+          </div>
 
         </div>
       </div>
-    
+
     </script>
+
+    <script type="text/x-handlebars" data-template-name="content/theater">
+
+      <h4>Projections in {{App.cinema.name}}</h4>
+
+      <div class="row">
+
+        <div class="col-xs-6">
+        {{view Ember.Select
+               content=projections
+               optionLabelPath='content.inSelect'
+               value=selectedProjection
+               classNames='form-control'}}
+        </div>
+        <div class="pull-right">
+          <button type="button" class="btn btn-default" {{action 'make_reservation'}}>Make reservation</button>
+        </div>
+      </div>
+      <br>
+
+      <div class="theater">
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">G</div></div>
+
+          <a href="#" class="seat seat-12 G1" {{action 'take_seat' 'G1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 G2" {{action 'take_seat' 'G2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 G3" {{action 'take_seat' 'G3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 G4" {{action 'take_seat' 'G4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 G5" {{action 'take_seat' 'G5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 G6" {{action 'take_seat' 'G6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 G7" {{action 'take_seat' 'G7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 G8" {{action 'take_seat' 'G8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 G9" {{action 'take_seat' 'G9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 G10" {{action 'take_seat' 'G10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">G</div></div>
+        </div>
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">F</div></div>
+
+          <a href="#" class="seat seat-12 F1" {{action 'take_seat' 'F1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 F2" {{action 'take_seat' 'F2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 F3" {{action 'take_seat' 'F3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 F4" {{action 'take_seat' 'F4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 F5" {{action 'take_seat' 'F5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 F6" {{action 'take_seat' 'F6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 F7" {{action 'take_seat' 'F7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 F8" {{action 'take_seat' 'F8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 F9" {{action 'take_seat' 'F9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 F10" {{action 'take_seat' 'F10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">F</div></div>
+        </div>
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">E</div></div>
+
+          <a href="#" class="seat seat-12 E1" {{action 'take_seat' 'E1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 E2" {{action 'take_seat' 'E2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 E3" {{action 'take_seat' 'E3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 E4" {{action 'take_seat' 'E4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 E5" {{action 'take_seat' 'E5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 E6" {{action 'take_seat' 'E6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 E7" {{action 'take_seat' 'E7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 E8" {{action 'take_seat' 'E8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 E9" {{action 'take_seat' 'E9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 E10" {{action 'take_seat' 'E10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">E</div></div>
+        </div>
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">D</div></div>
+
+          <a href="#" class="seat seat-12 D1" {{action 'take_seat' 'D1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 D2" {{action 'take_seat' 'D2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 D3" {{action 'take_seat' 'D3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 D4" {{action 'take_seat' 'D4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 D5" {{action 'take_seat' 'D5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 D6" {{action 'take_seat' 'D6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 D7" {{action 'take_seat' 'D7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 D8" {{action 'take_seat' 'D8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 D9" {{action 'take_seat' 'D9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 D10" {{action 'take_seat' 'D10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">D</div></div>
+        </div>
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">C</div></div>
+
+          <a href="#" class="seat seat-12 C1" {{action 'take_seat' 'C1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 C2" {{action 'take_seat' 'C2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 C3" {{action 'take_seat' 'C3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 C4" {{action 'take_seat' 'C4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 C5" {{action 'take_seat' 'C5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 C6" {{action 'take_seat' 'C6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 C7" {{action 'take_seat' 'C7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 C8" {{action 'take_seat' 'C8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 C9" {{action 'take_seat' 'C9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 C10" {{action 'take_seat' 'C10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">C</div></div>
+        </div>
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">B</div></div>
+
+          <a href="#" class="seat seat-12 B1" {{action 'take_seat' 'B1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 B2" {{action 'take_seat' 'B2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 B3" {{action 'take_seat' 'B3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 B4" {{action 'take_seat' 'B4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 B5" {{action 'take_seat' 'B5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 B6" {{action 'take_seat' 'B6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 B7" {{action 'take_seat' 'B7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 B8" {{action 'take_seat' 'B8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 B9" {{action 'take_seat' 'B9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 B10" {{action 'take_seat' 'B10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">B</div></div>
+        </div>
+        <div class="row">
+          <div class="seat seat-12"><div class="innerlabel">A</div></div>
+
+          <a href="#" class="seat seat-12 A1" {{action 'take_seat' 'A1'}}><div class="inner">1</div></a>
+          <a href="#" class="seat seat-12 A2" {{action 'take_seat' 'A2'}}><div class="inner">2</div></a>
+          <a href="#" class="seat seat-12 A3" {{action 'take_seat' 'A3'}}><div class="inner">3</div></a>
+          <a href="#" class="seat seat-12 A4" {{action 'take_seat' 'A4'}}><div class="inner">4</div></a>
+          <a href="#" class="seat seat-12 A5" {{action 'take_seat' 'A5'}}><div class="inner">5</div></a>
+          <a href="#" class="seat seat-12 A6" {{action 'take_seat' 'A6'}}><div class="inner">6</div></a>
+          <a href="#" class="seat seat-12 A7" {{action 'take_seat' 'A7'}}><div class="inner">7</div></a>
+          <a href="#" class="seat seat-12 A8" {{action 'take_seat' 'A8'}}><div class="inner">8</div></a>
+          <a href="#" class="seat seat-12 A9" {{action 'take_seat' 'A9'}}><div class="inner">9</div></a>
+          <a href="#" class="seat seat-12 A10" {{action 'take_seat' 'A10'}}><div class="inner">10</div></a>
+
+          <div class="seat seat-12"><div class="innerlabel">A</div></div>
+        </div>
+
+        <div class="row" style="margin-top: 20px; margin-left: 20%; width: 60%; height: 10px; background-color: gray">
+        </div>
+      </div>
+
+    </script>
+
+
+
+
+
+    <!-- ========================================== -->
+    <!--  Comments template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="comments">
+
+      {{#if App.isLoggedIn}}
+        <h3>Leave a comment</h3>
+
+      <div class="form-group">
+        <textarea class="form-control" placeholder="Comment" rows="3" id="comment"></textarea>
+      </div>
+      <div class="form-group col-xs-offset-10">
+        <button type="button" class="btn btn-primary" style="width: 100%" {{action 'comment'}}>Post</button>
+      </div>
+      {{else}}
+        <h3>Comments</h3>
+      {{/if}}
+
+      {{#each comment in reverseComments}}
+        <div class="media">
+          <img class="pull-left media-object" src="images/user-icon.png" alt="User Icon">
+
+          <div class="media-body">
+            <h4 class="media-heading">{{comment.user.firstName}} {{comment.user.lastName}}</h4>
+            {{comment.text}}
+          </div>
+        </div>
+      {{/each}}
+
+      <br>
+      <div class="form-group col-xs-offset-5 col-xs-2">
+        <button type="button" class="btn btn-default" style="min-width: 100%" {{action 'load_more'}} {{bind-attr disabled='noMoreComments'}}>
+          {{#unless noMoreComments}}Load more..
+          {{else}}No more comments.
+          {{/unless}}
+        </button>
+      </div>
+    </script>
+
+
+    <!-- ========================================== -->
+    <!--  Add contents modal template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="addContents_modal">
+
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action close target="view"}}>×</button>
+          <h4 class="modal-title">Add content</h4>
+      </div>
+    
+      <div class="modal-body">
+
+        <table border="0">
+         
+          <tr>
+            <td align="right"><label>Title:</label></td>
+            <td align="right">
+              <div class="col-xs-10">
+                <input type="title" class="form-control" id="title" placeholder="Enter title">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><label>Actors:</label></td>
+            <td align="left">
+              <div class="col-xs-10">
+                <input type="actors" class="form-control" id="actors" placeholder="Enter actors">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><label>Director:</label></td>
+            <td align="left">
+              <div class="col-xs-10">
+                <input type="director" class="form-control" id="director" placeholder="Enter director">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><label>Year:</label></td>
+            <td align="left">
+              <div class="col-xs-10">
+                <input type="year" class="form-control" id="year" placeholder="Enter year">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><label>Length:</label></td>
+            <td align="left">
+              <div class="col-xs-10">
+                <input type="length" class="form-control" id="length" placeholder="min">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><label>Type:</label></td>
+            <td align="left"><div class="col-xs-10"><select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+              </div></td></tr>
+          <tr>
+            <td>
+              <label for="exampleInputFile">File input</label>
+              <input type="file" id="exampleInputFile">
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td align="right">
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" {{action close target="view"}}>Close</button>
+                <button type="button" class="btn btn-primary" {{action login}}>Save</button>
+              </div>
+            </td>
+          </tr>
+              
+        </table>
+      </div>
+    </script>
+
+
+
+  <!-- Admin reservation template -->
+  
+  <script type="text/x-handlebars" data-template-name="admin/reservations">
+    <div class="panel panel-default">
+    <div class="panel-heading">All Reservation</div>
+    
+      <table class="table table-striped">
+        <tr>
+          <th> # </th>
+          <th> Reservation</th>
+          <th> Action</th>
+        </tr>
+        {{#each reservation in model}}
+        <tr>
+          <td> reservation.id</td>
+          <!-- projection?? - sta ovdje ispisivati -->
+          <td> reservation.projection</td>
+          <td> <button type="button" class="btn btn-link">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </td>
+        </tr>
+        {{/each}}
+
+      </table>
+      
+    </div>
+    </div>
+ 
+    
+  </script>
+  
+  
+  
+  
+  
+  <!-- ========================================== -->
+  <!--  Theaters template -->
+  <!-- ========================================== -->
+
+  <script type="text/x-handlebars" data-template-name="theaters">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <h3>Playing next</h3>
+      </div>
+    </div>
+    <!-- This week item -->
+    <div class="row custom-row">
+      {{#each content in this_week_content}}
+        {{view App.SingleContentView}}
+      {{/each}}
+    </div>
+
+    <!--  items -->
+    <div class="row">
+      <div class="col-lg-4">
+        <h3>Playing in theaters</h3>
+      </div>
+    </div>
+    <div class="row">
+      {{#each content in playing_content}}
+        {{view App.SingleContentView}}
+      {{/each}}
+    </div>
+
+  </script>
+  
+  
+  <!-- SALA A -->
+  
+  <script type="text/x-handlebars" data-template-name="theaters/salaA">
+    <div class="panel panel-default">
+    <div class="panel-heading">SALA A</div>
+      <table class="table table-borderless table-condensed table-hover">
+        <tr>
+          <td><button type="button" class="btn btn-success">A1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A8  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A9  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A10 &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">B1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B8  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B9  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B10 &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">C1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C8  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C9  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C10 &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">D1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D8  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D9  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D10 &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+        <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+        <td>
+          <button type="button" class="btn btn-default">Cancel</button>
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary">Reserve</button>
+        </td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </script>
+  
+  <!-- SALA B -->
+  
+  <script type="text/x-handlebars" data-template-name="theaters/salaB">
+    <div class="panel panel-default">
+    <div class="panel-heading">SALA B</div>
+      <table class="table table-borderless table-condensed table-hover">
+        <tr>
+          <td><button type="button" class="btn btn-success">A1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">B1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">C1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">D1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">E1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">E2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">E3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+        <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> 
+        <td>
+          <button type="button" class="btn btn-default">Cancel</button>
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary">Reserve</button>
+        </td>
+        </tr>
+      </table>
+    </div>
+  </script>
+  
+  
+  
+  <!-- SALA C -->
+  
+  
+  
+  <script type="text/x-handlebars" data-template-name="theaters/salaC">
+    <div class="panel panel-default">
+    <div class="panel-heading">SALA C</div>
+      <table class="table table-borderless table-condensed table-hover">
+        <tr>
+          <td><button type="button" class="btn btn-success">A1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">B1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">C1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">D1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">E1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">E2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">E3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">F1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">F2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">F3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">G1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">G2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">G3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G5  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+        <td></td> <td></td> <td></td> 
+        <td>
+          <button type="button" class="btn btn-default">Cancel</button>
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary">Reserve</button>
+        </td>
+        </tr>
+      </table>
+    </div>
+  </script>
+  
+  
+  
+  <!-- SALA D -->
+  
+  <script type="text/x-handlebars" data-template-name="theaters/salaD">
+    <div class="panel panel-default">
+    <div class="panel-heading">SALA D</div>
+      <table class="table table-borderless table-condensed table-hover">
+        <tr>
+          <td><button type="button" class="btn btn-success">A1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">A3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">A8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">B1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">B3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">B8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">C1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">C3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">C8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">D1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">D3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">D8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">E1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">E2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">E3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">E8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">F1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">F2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">F3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">F8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">G1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">G2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">G3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">G8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-success">H1  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">H2  &nbsp; &nbsp; </button> </td>
+          <td><button type="button" class="btn btn-success">H3  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">H4  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">H5  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">H6  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">H7  &nbsp; &nbsp;</button> </td>
+          <td><button type="button" class="btn btn-success">H8  &nbsp; &nbsp;</button> </td>
+        </tr>
+        <tr>
+        <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> 
+        <td>
+          <button type="button" class="btn btn-default">Cancel</button>
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary">Reserve</button>
+        </td>
+        </tr>
+      </table>
+    </div>
+
+  </script>
+    
+
+    <!-- Receipt -->
+      
+    <script type="text/x-handlebars" data-template-name="user/receipts">
+
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            User administration
+          </div>
+
+          <div class="panel-body">
+            <div class="col-lg-8">
+              <h3><b>Purchase information</b></h3><br />
+
+              <table class="table table-hover">
+                <tr>
+                  <td><b>Purchase by</b></td>
+
+                  <td>name</td>
+                </tr>
+
+                <tr>
+                  <td><b>Transaction date</b></td>
+
+                  <td>date</td>
+                </tr>
+
+                <tr>
+                  <td><b>Payment method</b></td>
+
+                  <td>method</td>
+                </tr>
+
+                <tr>
+                  <td><b>Content</b></td>
+
+                  <td>content</td>
+                </tr>
+
+                <tr>
+                  <td><b>Number of seat</b></td>
+
+                  <td>number</td>
+                </tr>
+
+                <tr>
+                  <td><b>Discount</b></td>
+
+                  <td>discount</td>
+                </tr>
+
+                <tr>
+                  <td><b>Amount</b></td>
+
+                  <td><b>amount</b></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+    </script>
+
+
+
+    <!-- ========================================== -->
+    <!--  New Content Modal template -->
+    <!-- ========================================== -->
+
+    <script type="text/x-handlebars" data-template-name="new_content_modal">
+
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action close target="view"}}>×</button>
+          <h4 class="modal-title">New Content</h4>
+      </div>
+
+      <div class="modal-body">
+
+          <div {{bind-attr class="error:alert error:alert-danger"}}>{{error}}</div>
+
+          <div class="row">
+            <div class="col-lg-12">
+
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title" placeholder="Title">
+              </div>
+
+              <div class="form-group">
+                <label>Director</label>
+                <input type="text" class="form-control" name="director" placeholder="Director; Director; Director">
+              </div>
+
+              <div class="form-group">
+                <label>Actors</label>
+                <input type="text" class="form-control" name="actors" placeholder="Actor; Actor; Actor">
+              </div>
+
+              <div class="form-group">
+                <label>Year</label>
+                <input type="text" class="form-control" name="year" placeholder="YYYY">
+              </div>
+
+              <div class="form-group">
+                <label>Length (in minutes)</label>
+                <input type="text" class="form-control" name="length" placeholder="mmm">
+              </div>
+              
+              <div class="form-group">
+                <label>Tags</label>
+                {{auto-suggest tags=App.tags placeholder="Pick some tags"}}
+              </div>
+
+            </div>
+          </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" {{action close target="view"}}>Close</button>
+        <button type="button" class="btn btn-primary">Add</button>
+      </div>
+    </script>
+
+
+
+
+
+
+
+    <script type="text/x-handlebars" data-template-name="test">
+
+    </script>
+
 
 
     <!-- ========================================== -->
     <!--  Heler templates template -->
     <!-- ========================================== -->
 
+
+    <!-- Error box template -->
+    <script type="text/x-handlebars" data-template-name="error-box">
+      <div {{bind-attr class="message:alert isErrorMessage:alert-danger isSuccessMessage:alert-success"}}>
+        {{message}}
+      </div>
+    </script>
+
+
+    <!-- Content template -->
+    <script type="text/x-handlebars" data-template-name="single_content">
+      <div class="col-xs-4 content">
+        {{#link-to 'content' content}}
+          {{view App.CatImageView source=content.image}}
+        {{/link-to}}
+
+        <h3 class="title">{{#link-to 'content' content}}{{content.title}} ({{content.year}}){{/link-to}}</h3>
+
+        {{#each tag in content.tags}}
+          {{#link-to 'tags' tag.name}}
+            <span class="label label-default tag">{{tag.name}}</span>
+          {{/link-to}}
+        {{/each}}
+
+        <p class="description">{{content.description}}</p>
+
+        {{#if App.isLoggedIn}}
+          <div class="content-footer">
+            <p>
+              {{#link-to 'content.watch' content classNames='btn btn-default btn-sm'}}
+                <span class="glyphicon glyphicon-eye-open"></span> &nbsp;Watch now
+              {{/link-to}}
+              
+              {{#link-to 'content.theater' content classNames='btn btn-default btn-sm'}}
+                <span class="glyphicon glyphicon-facetime-video"></span> &nbsp;Watch in theater
+              {{/link-to}}
+              
+              <button class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-bookmark"></span> &nbsp;Share
+              </button>
+            </p>
+          </div>
+        {{/if}}
+
+      </div>
+    </script>
+
+
+    <!-- Auto suggest component template -->
+    <script type="text/x-handlebars" data-template-name="components/auto-suggest">
+      <div class="input-group">
+        <div class="input-group-btn dropup">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> {{placeholder}}&nbsp; <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            {{#if has_tags_to_select}}
+              {{#each tag in availableTags}}
+                <li><a href="#" {{action 'add_tag' tag}}>{{tag.name}}</a></li>
+              {{/each}}
+            {{else}}
+              <li class="dropdown-header">No more.</li>
+            {{/if}}
+          </ul>
+        </div>
+        <span class="form-control">
+          {{log selectedTags}}
+          {{#each tag in selectedTags}}
+            <a href="#" {{action 'remove_tag' tag}}><span class="badge">{{tag.name}} &times; </span></a>
+          {{/each}}
+        </span>
+
+      </div>
+    </script>
+
+
+    <!-- Carousel template -->
+    <script type="text/x-handlebars" data-template-name="carousel">
+        {{view view.indicatorsView}}
+        {{view view.itemsView}}
+        <a class="left carousel-control" {{action previousSlide target="view"}}>‹</a>
+        <a class="right carousel-control" {{action nextSlide target="view"}}>›</a>   
+    </script>
+
+
     <!-- Bootstrap modal layout -->
     <script type="text/x-handlebars" data-template-name="modal_layout">
-      <div class="modal-backdrop fade">&nbsp;</div>  
-      <div class="modal fade show" style="overflow-y: hidden">
+      <div class="modal-backdrop fade in">&nbsp;</div>  
+      <div class="modal fade show" style="overflow-y: hidden" role="dialog" aria-labelledby="myModalLabel" style="display: block;" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             {{yield}}
@@ -1077,8 +2140,13 @@
     <script src="js/libs/jquery-1.10.2.js"></script>
     <script src="js/libs/bootstrap.min.js"></script>    
     <script src="js/libs/handlebars-1.1.2.js"></script>
-    <script src="js/libs/ember-1.2.0.js"></script>
-    <script src="js/libs/ember-model-0.0.10.js"></script>
+    <script src="js/libs/ember-1.2.0.prod.js"></script>
+    <script src="js/libs/popcorn-complete.min.js"></script>
+    <script src="js/libs/parsley.js"></script>
+    <script src="js/libs/jquery.dotdotdot.min.js"></script>
+    <script src="js/libs/moment.min.js"></script>
+    <script src="js/libs/jquery.raty.js"></script>
+
 
     <script src="js/app.js"></script>
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import ba.etf.tim11.eCinema.models.Subtitle;
 
+
 public interface SubtitleDao
 {
 	public List<Subtitle> findAll(int offset, int limit) throws DaoException;
@@ -16,5 +17,4 @@ public interface SubtitleDao
 	
 	public boolean delete (Subtitle subtitle) throws DaoException;	
 	
-
 }

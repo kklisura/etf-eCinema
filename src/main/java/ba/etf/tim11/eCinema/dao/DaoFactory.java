@@ -7,7 +7,6 @@ public interface DaoFactory
 {
 	public abstract Connection getConnection();
 	
-	
 	public abstract CommentDao getCommentDao();
 	
 	public abstract ContentDao getContentDao();
@@ -34,15 +33,15 @@ public interface DaoFactory
     
     public abstract UserDao getUserDao();
 
-    public abstract SessionDao getSessionDao();
-
     public AudioSynchronizationDao getAudioSynchronizationDao();
     
     public abstract LanguageDao getLanguageDao();
     
     public abstract SubtitleDao getSubtitleDao();
     
-    public abstract TypeDao getTypeDao();
+    public abstract TagDao getTagDao();
+    
+    public abstract TopContentDao getTopContentDao();
 
 	public abstract ProjectionTypeDao getProjectionTypeDao();
 
@@ -57,4 +56,7 @@ public interface DaoFactory
 	public abstract CinemaDao getCinemaDao();
 
 	public abstract CinemaHallDao getCinemaHallDao();
+	
+	public abstract ContentMarkDao getContentMarkDao();
+	
 }

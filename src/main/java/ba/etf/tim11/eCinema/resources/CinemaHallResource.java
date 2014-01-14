@@ -1,6 +1,8 @@
 package ba.etf.tim11.eCinema.resources;
 
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -30,10 +32,31 @@ public class CinemaHallResource
 	}
 	
 	
+	@GET
+	@Path("{id}")
+	@Privilege("Read")
+	public Object getCinemHall(@PathParam("id") int id) 
+	{
+		CinemaHall cinemaHall = cinemaHallDao.find(id);
+		if (cinemaHall == null) {
+			throw new ResourceNotFoundException("Cinema hall not found");
+		}
+		
+		return Response.entity(cinemaHall);
+	}
+	
+	@POST
+	@Privilege("Create")
+	public Object createNewCinemaHall(@PathParam("id") int id) 
+	{
+		// TODO(kklisura): grgr
+		return null;
+	}
+	
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteCinemaHall(@PathParam("id") Integer id) 
+	public Object deleteCinemaHall(@PathParam("id") Integer id) 
 	{
 		CinemaHall cinemaHall = cinemaHallDao.find(id);
 		if (cinemaHall == null) {

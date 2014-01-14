@@ -3,34 +3,20 @@ package ba.etf.tim11.eCinema.models;
 import java.util.Date;
 
 
-
 public class Subtitle
 {
-	int id;
-	Language language;
-	Content content;
-	String fileId;
-	Date updatedAt, createdAt;
+	private int id;
 	
-	public Subtitle() {}
+	private Language language;
+	private Content content;
 	
-	public Date getUpdatedAt() {
-		return updatedAt;
+	private Date updatedAt, createdAt;
+	
+	
+	public Subtitle() {
+		
 	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-
+	
 	public int getId() {
 		return id;
 	}
@@ -54,14 +40,21 @@ public class Subtitle
 	public void setContent(Content content) {
 		this.content = content;
 	}
-
-	public String getFileId() {
-		return fileId;
+	
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setFileId(String fileId) {
-		this.fileId = fileId;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
 }

@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,23 +28,25 @@ public class ReservationTypeResource extends BaseResource
 	private DaoFactory daoFactory;
 	private ReservationTypeDao reservationTypeDao;
 	
+	
 	public ReservationTypeResource()
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.reservationTypeDao = (ReservationTypeDao) daoFactory.getReservationDao();
 	}
 	
+
 	@GET
 	@Privilege("List")
-	public List<ReservationType> getAllReservationTypes() 
+	public Object getAllReservationTypes() 
 	{ 
-		return reservationTypeDao.findAll(offset, limit);
+		return Response.entity(reservationTypeDao.findAll(offset, limit));
 	}
 	
 	@GET
 	@Path("{type}")
 	@Privilege("Read")
-	public ReservationType getReservationType(@PathParam("type") String type) 
+	public Object getReservationType(@PathParam("type") String type) 
 	{
 		ReservationType reservationType = reservationTypeDao.find(type);
 		
@@ -54,13 +54,13 @@ public class ReservationTypeResource extends BaseResource
 			throw new ResourceNotFoundException("Reservation type not found.");
 		}
 		
-		return reservationType;
+		return Response.entity(reservationType);
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public ReservationType createNewReservationType(MultivaluedMap<String, String> formParams) 
+	public Object createNewReservationType(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "type")) 
 		{
@@ -73,14 +73,14 @@ public class ReservationTypeResource extends BaseResource
 		
 		reservationTypeDao.insert(reservationType);
 		
-		return reservationType;
+		return Response.redirect(this, reservationType.getId());
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateReservationType(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
+	public Object updateReservationType(@PathParam("id") Integer id, MultivaluedMap<String, String> formParams) 
 	{
 		ReservationType reservationType = reservationTypeDao.find(id);
 		if (reservationType == null) {
@@ -98,7 +98,7 @@ public class ReservationTypeResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteReservationType(@PathParam("id") Integer id) 
+	public Object deleteReservationType(@PathParam("id") Integer id) 
 	{
 		ReservationType reservationType = reservationTypeDao.find(id);
 		if (reservationType == null) {
@@ -109,5 +109,5 @@ public class ReservationTypeResource extends BaseResource
 		
 		return Response.success();
 	}
-
+	
 }

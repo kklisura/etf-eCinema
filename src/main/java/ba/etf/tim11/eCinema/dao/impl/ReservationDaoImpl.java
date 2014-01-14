@@ -6,15 +6,16 @@ import java.util.List;
 import ba.etf.tim11.eCinema.dao.DaoException;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ReservationDao;
+import ba.etf.tim11.eCinema.dao.mapper.ReservationRowMapper;
 import ba.etf.tim11.eCinema.dao.mapper.RowMapper;
-import ba.etf.tim11.eCinema.dao.mapper.UserRowMapper;
 import ba.etf.tim11.eCinema.models.Reservation;
 import ba.etf.tim11.eCinema.utils.DaoUtil;
+
 
 public class ReservationDaoImpl implements ReservationDao
 {
 	private DaoFactory daoFactory;
-	private static RowMapper rowMapper = new UserRowMapper();
+	private static RowMapper rowMapper = new ReservationRowMapper();
 	
 	
 	public ReservationDaoImpl(DaoFactory daoFactory) {
@@ -67,8 +68,8 @@ public class ReservationDaoImpl implements ReservationDao
 											"INSERT INTO Reservations (projections_id, users_id, receipts_id, reservationtypes_id) VALUES (?, ?, ?, ?)",
 											reservation.getProjection().getId(),
 											reservation.getUser().getId(),
-											reservation.getReceipt().getId(),
-											reservation.getReservationType().getId());
+											null,
+											null);
 		reservation.setId(rowId);
 		
 		return true;

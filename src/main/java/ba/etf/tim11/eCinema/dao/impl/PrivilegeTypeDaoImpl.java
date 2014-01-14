@@ -85,5 +85,5 @@ public class PrivilegeTypeDaoImpl implements PrivilegeTypeDao
 		
 		return true;
 	}
-
+	
 }

@@ -1,26 +1,33 @@
 package ba.etf.tim11.eCinema.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
-@JsonIgnoreProperties({"salt", "password"})
-public final class User
+@JsonIgnoreProperties({"salt", "password", "roles", "groups"})
+public class User
 {
-	int id;
-	String lastName, firstName;
-	String username, email, password;
-	int salt;
-	String phone;
-	String address;
-	Date dateOfBirth;
-	String placeOfBirth;
-	State state;
-	Date updatedAt, createdAt;
+	private int id;
+	
+	private String lastName, firstName;
+	private String username, email, password;
+	private int salt;
+	private String phone;
+	private Date dateOfBirth;
+	private State state;
+	private List<Role> roles;
+	private List<Group> groups;
+	
+	private Date updatedAt, createdAt;
 	
 	
-	public User() {}
+	public User() {
+		roles = new ArrayList<Role>();
+		groups = new ArrayList<Group>();
+	}
 	
 	public int getId() {
 		return id;
@@ -70,28 +77,12 @@ public final class User
 		this.phone = phone;
 	}
 	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 	
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
-	}
-	
-	public String getPlaceOfBirth() {
-		return placeOfBirth;
-	}
-	
-	public void setPlaceOfBirth(String placeOfBirth) {
-		this.placeOfBirth = placeOfBirth;
 	}
 	
 	public State getState() {
@@ -118,6 +109,22 @@ public final class User
 		this.salt = salt;
 	}
 	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
+	
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
@@ -132,6 +139,15 @@ public final class User
 	
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	
+	public void addToGroup(Group group) {
+		groups.add(group);
+	}
+	
+	public void addRole(Role role) {
+		roles.add(role);
 	}
 	
 }

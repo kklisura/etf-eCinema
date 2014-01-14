@@ -1,13 +1,19 @@
 package ba.etf.tim11.eCinema.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Role 
 {
-	int id;
-	String name, description;
+	private int id;
+	
+	private String name, description;
+	private List<Privilege> privileges;
 	
 	
 	public Role() {
-		
+		privileges = new ArrayList<Privilege>();
 	}
 	
 	public int getId() {
@@ -32,6 +38,19 @@ public class Role
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public List<Privilege> getPrivileges() {
+		return privileges;
+	}
+	
+	public void setPrivileges(List<Privilege> privileges) {
+		this.privileges = privileges;
+	}
+	
+	
+	public void addPrivilege(Privilege privilege) {
+		privileges.add(privilege);
 	}
 	
 }

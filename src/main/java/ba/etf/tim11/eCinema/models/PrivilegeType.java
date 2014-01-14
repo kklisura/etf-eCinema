@@ -1,9 +1,11 @@
 package ba.etf.tim11.eCinema.models;
 
+
 public class PrivilegeType
 {
-	int id;
-	String name;
+	private int id;
+	
+	private String name;
 	
 	
 	public PrivilegeType() {

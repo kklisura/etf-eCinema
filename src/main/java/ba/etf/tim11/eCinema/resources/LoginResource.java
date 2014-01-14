@@ -11,15 +11,19 @@ import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.User;
+import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.service.LoginService;
-import ba.etf.tim11.eCinema.service.impl.ServiceFactory;
+import ba.etf.tim11.eCinema.service.ServiceFactory;
+import ba.etf.tim11.eCinema.service.impl.ServiceFactoryImpl;
+import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 
 @Path("login")
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource 
 {
-	private static LoginService loginService = ServiceFactory.getLoginService();
+	private static ServiceFactory serviceFactory;
+	private static LoginService loginService;
 	
 	private DaoFactory daoFactory;
 	private UserDao userDao;
@@ -29,13 +33,27 @@ public class LoginResource
 	{
 		this.daoFactory = JDBCDaoFactory.getInstance();
 		this.userDao = daoFactory.getUserDao();
+		
+		serviceFactory = ServiceFactoryImpl.getInstance();
+		loginService = serviceFactory.getLoginService();
 	}
-
+	
+	
+	class Auth {
+		public String auth;
+		public User user;
+	};
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
-	public User doLogin(MultivaluedMap<String, String> formParams)
+	public Auth doLogin(MultivaluedMap<String, String> formParams)
 	{
+		if (!ResourceUtil.hasAll(formParams, "username", "password")) {
+			throw new BadRequestException("You are missing username and/or password field.");
+		}
+		
+		Auth auth = new Auth();
+		
 		User user = userDao.find(formParams.getFirst("username"));
 		
 		if (user != null) 
@@ -47,11 +65,14 @@ public class LoginResource
 
 			if (user.getPassword().equals(password)) 
 			{
-				return user;
+				userDao.logActionLogin(user);
+				
+				auth.auth = user.getPassword();
+				auth.user = user;
 			}
 		}
 		
-		return null;
+		return auth;
 	}
 	
 }

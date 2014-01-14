@@ -9,6 +9,8 @@ public interface GroupDao
 {
 	public List<Group> findAll(int offset, int limit) throws DaoException;
 	
+	public List<Group> findAllByUser(int userId) throws DaoException;
+	
 	public Group find(int id) throws DaoException;
 	
 	public Group find(String name) throws DaoException;
@@ -18,4 +20,5 @@ public interface GroupDao
 	public boolean update(Group group) throws DaoException;
 	
 	public boolean delete(Group group) throws DaoException;
+
 }

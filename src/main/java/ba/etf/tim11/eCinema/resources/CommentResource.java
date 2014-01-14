@@ -15,6 +15,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import ba.etf.tim11.eCinema.dao.CommentDao;
 import ba.etf.tim11.eCinema.dao.ContentDao;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
+import ba.etf.tim11.eCinema.dao.UserDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Comment;
 import ba.etf.tim11.eCinema.models.Content;
@@ -24,7 +25,8 @@ import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
 import ba.etf.tim11.eCinema.service.LoginService;
-import ba.etf.tim11.eCinema.service.impl.ServiceFactory;
+import ba.etf.tim11.eCinema.service.ServiceFactory;
+import ba.etf.tim11.eCinema.service.impl.ServiceFactoryImpl;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 
@@ -32,11 +34,13 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 @Produces(MediaType.APPLICATION_JSON)
 public class CommentResource extends BaseResource
 {
-	private static LoginService loginService = ServiceFactory.getLoginService();
+	private static ServiceFactory serviceFactory;
+	private static LoginService loginService;
 	
 	private DaoFactory daoFactory;
 	private ContentDao contentDao;
 	private CommentDao commentDao;
+	private UserDao userDao;
 	
 	
 	public CommentResource()
@@ -45,29 +49,38 @@ public class CommentResource extends BaseResource
 		
 		this.commentDao = daoFactory.getCommentDao();
 		this.contentDao = daoFactory.getContentDao();
+		this.userDao = daoFactory.getUserDao();
+		
+		this.serviceFactory = ServiceFactoryImpl.getInstance();
+		this.loginService = serviceFactory.getLoginService();
 	}
 	
 	
 	@GET
 	@Path("{content_id}")
 	@Privilege("List")
-	public List<Comment> getContentComments(@PathParam("content_id") int contentId) 
+	public Object getContentComments(@PathParam("content_id") int contentId) 
 	{
 		if (contentDao.find(contentId) == null) {
 			throw new ResourceNotFoundException("Content is unknown.");
 		}
 		
-		return commentDao.findAllByContent(contentId, offset, limit);
+		List<Comment> comments = commentDao.findAllByContent(contentId, offset, limit);
+		for(Comment comment : comments) {
+			comment.setUser(userDao.find(comment.getUser().getId()));
+		}
+		
+		return Response.paginated(comments, offset, limit, -1);
 	}
 	
 	@POST
 	@Path("{content_id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Comment createNewComment(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
+	public Object createNewComment(@PathParam("content_id") int contentId, MultivaluedMap<String, String> formParams) 
 	{
-		if (!ResourceUtil.hasAll(formParams, "title", "text")) {
-			throw new BadRequestException("You are missing some fields.");
+		if (!ResourceUtil.hasAll(formParams, "text")) {
+			throw new BadRequestException("You are missing text fields.");
 		}
 		
 		Content content = contentDao.find(contentId);
@@ -75,24 +88,23 @@ public class CommentResource extends BaseResource
 			throw new ResourceNotFoundException("Content is unknown.");
 		}
 		
-		User user = loginService.getCurrentUser();
+		User user = getCurrentUser();
 		
 		Comment comment = new Comment();
 		
-		comment.setTitle(formParams.getFirst("title"));
 		comment.setText(formParams.getFirst("text"));
 		comment.setContent(content);
 		comment.setUser(user);
 
 		commentDao.insert(comment);
 		
-		return comment;
+		return Response.entity(comment);
 	}
 	
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteComment(@PathParam("id") int id) 
+	public Object deleteComment(@PathParam("id") int id) 
 	{
 		Comment comment = commentDao.find(id);
 		if (comment == null) {

@@ -2,16 +2,22 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
+
 public class CinemaHall 
 {
-	int id;
-	String title;
-	Cinema cinema;
-	int numberOfSeat;
-	Date updatedAt;
-	Date cretedAt;
+	private int id;
+	
+	private String title;
+	private int rows, cols;
+	private String seatMatrix;
+	private Cinema cinema;
+	
+	private Date updatedAt, createdAt;
 
-	public CinemaHall() {}
+	
+	public CinemaHall() {
+		
+	}
 
 	public int getId() {
 		return id;
@@ -29,20 +35,36 @@ public class CinemaHall
 		this.title = title;
 	}
 	
+	public int getRows() {
+		return rows;
+	}
+	
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+	
+	public int getCols() {
+		return cols;
+	}
+	
+	public void setCols(int cols) {
+		this.cols = cols;
+	}
+	
+	public String getSeatMatrix() {
+		return seatMatrix;
+	}
+	
+	public void setSeatMatrix(String seatMatrix) {
+		this.seatMatrix = seatMatrix;
+	}
+	
 	public Cinema getCinema() {
 		return cinema;
 	}
 	
 	public void setCinema(Cinema cinema) {
 		this.cinema = cinema;
-	}
-	
-	public int getNumberOfSeat() {
-		return numberOfSeat;
-	}
-	
-	public void setNumberOfSeat(int numberOfSeat) {
-		this.numberOfSeat = numberOfSeat;
 	}
 	
 	public Date getUpdatedAt() {
@@ -53,11 +75,12 @@ public class CinemaHall
 		this.updatedAt = updatedAt;
 	}
 	
-	public Date getCretedAt() {
-		return cretedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 	
-	public void setCretedAt(Date cretedAt) {
-		this.cretedAt = cretedAt;
+	public void setCretedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+	
 }

@@ -8,7 +8,7 @@ import ba.etf.tim11.eCinema.models.Group;
 
 public class GroupRowMapper implements RowMapper
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{
@@ -17,10 +17,10 @@ public class GroupRowMapper implements RowMapper
 		group.setId(rs.getInt(1));
 		group.setName(rs.getString(2));
 		group.setDescription(rs.getString(3));		
-		group.setUpdatedAt(rs.getDate(4));		
-		group.setCreatedAt(rs.getDate(5));
+		group.setUpdatedAt(rs.getTimestamp(4));		
+		group.setCreatedAt(rs.getTimestamp(5));
 		
 		return group;
 	}
-
+	
 }

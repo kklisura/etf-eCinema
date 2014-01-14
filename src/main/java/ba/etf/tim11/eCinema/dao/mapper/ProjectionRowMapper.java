@@ -8,25 +8,28 @@ import ba.etf.tim11.eCinema.models.Content;
 import ba.etf.tim11.eCinema.models.Projection;
 import ba.etf.tim11.eCinema.models.ProjectionType;
 
+
 public class ProjectionRowMapper implements RowMapper 
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException
 	{
 		Projection projection = new Projection();
-		Content content = new Content();
-		CinemaHall cinemaHall = new CinemaHall();
-		ProjectionType projectionType = new ProjectionType();
 		
 		projection.setId(rs.getInt(1));
-		projection.setTime(rs.getDate(2));
+		projection.setTime(rs.getTimestamp(2));
 		projection.setPricePerSeat(rs.getBigDecimal(3));
 		
+		Content content = new Content();
 		content.setId(rs.getInt(4));
 		projection.setContent(content);
+		
+		CinemaHall cinemaHall = new CinemaHall();
 		cinemaHall.setId(rs.getInt(5));
 		projection.setCinemaHall(cinemaHall);
+		
+		ProjectionType projectionType = new ProjectionType();
 		projectionType.setId(rs.getInt(6));
 		projection.setProjectionType(projectionType);
 		
@@ -35,5 +38,5 @@ public class ProjectionRowMapper implements RowMapper
 		
 		return projection;
 	}
-
+	
 }

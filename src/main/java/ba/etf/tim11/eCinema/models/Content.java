@@ -1,48 +1,32 @@
 package ba.etf.tim11.eCinema.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Content {
-	int id;
-	String title, actors, director, fileId;
-	int year, length;
-	Type type;
-	Date updatedAt, createdAt;
+
+public class Content 
+{
+	private int id;
+	
+	private String title, actors, director;
+	private int year, length;
+	private String description;
+	private List<Tag> tags;
+	
+	private Date updatedAt, createdAt;
 	
 	
-	public Content() {}
+	public Content() {
+		tags = new ArrayList<Tag>();
+	}	
 	
-	
-	public Date getUpdatedAt() {
-		return updatedAt;
+	public int getId() {
+		return id;
 	}
 
-
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -69,14 +53,6 @@ public class Content {
 		this.director = director;
 	}
 
-	public String getFileId() {
-		return fileId;
-	}
-
-	public void setFileId(String fileId) {
-		this.fileId = fileId;
-	}
-
 	public int getYear() {
 		return year;
 	}
@@ -92,17 +68,41 @@ public class Content {
 	public void setLength(int length) {
 		this.length = length;
 	}
-
-	public int getId() {
-		return id;
+	
+	public String getDescription() {
+		return description;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public List<Tag> getTags() {
+		return tags;
+	}
+	
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	
-	
-	
-
+	public void addTag(Tag tag) {
+		tags.add(tag);
+	}
 }

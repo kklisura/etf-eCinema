@@ -49,11 +49,9 @@ public class UserActionDaoImpl implements UserActionDao
 		Connection connection = daoFactory.getConnection();
 		
 		int rowId = DaoUtil.executeUpdate(connection, 
-										  "INSERT INTO UserActions (users_id, useractiontypes_id, time) VALUES (?, ?, ?)",
+										  "INSERT INTO UserActions (users_id, useractiontypes_id) VALUES (?, ?)",
 										  userAction.getUser().getId(),
-										  userAction.getUserActionType().getId(),
-										  // TODO(kklisura): Time!?
-										  userAction.getTime());
+										  userAction.getUserActionType().getId());
 		
 		userAction.setId(rowId);
 		
@@ -69,7 +67,6 @@ public class UserActionDaoImpl implements UserActionDao
 							  "UPDATE UserActions SET users_id = ?, useractiontypes_id = ?, time = ? WHERE id = ?",
 							  userAction.getUser().getId(),
 							  userAction.getUserActionType().getId(),
-							  // TODO(kklisura): Time!?
 							  userAction.getTime(),
 							  userAction.getId());
 		
@@ -86,4 +83,15 @@ public class UserActionDaoImpl implements UserActionDao
 		return true;
 	}
 
+	@Override
+	public List<UserAction> findAllByUser(int userId, int offset, int limit) throws DaoException 
+	{
+		Connection connection = daoFactory.getConnection();
+		
+		return DaoUtil.executeQuery(connection, 
+									rowMapper, 
+									"SELECT * FROM UserActions WHERE users_id = ?", 
+									userId);
+	}
+	
 }

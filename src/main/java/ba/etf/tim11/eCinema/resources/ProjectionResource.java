@@ -3,7 +3,6 @@ package ba.etf.tim11.eCinema.resources;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,11 +19,16 @@ import ba.etf.tim11.eCinema.dao.ContentDao;
 import ba.etf.tim11.eCinema.dao.DaoFactory;
 import ba.etf.tim11.eCinema.dao.ProjectionDao;
 import ba.etf.tim11.eCinema.dao.ProjectionTypeDao;
+import ba.etf.tim11.eCinema.dao.ReservationDao;
+import ba.etf.tim11.eCinema.dao.SeatDao;
 import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.CinemaHall;
 import ba.etf.tim11.eCinema.models.Content;
 import ba.etf.tim11.eCinema.models.Projection;
 import ba.etf.tim11.eCinema.models.ProjectionType;
+import ba.etf.tim11.eCinema.models.Reservation;
+import ba.etf.tim11.eCinema.models.Seat;
+import ba.etf.tim11.eCinema.models.Tag;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
@@ -42,6 +46,8 @@ public class ProjectionResource extends BaseResource
 	private ContentDao contentDao;
 	private CinemaHallDao cinemaHallDao;
 	private ProjectionTypeDao projectionTypeDao;
+	private SeatDao seatDao;
+	private ReservationDao reservationDao;
 	
 	
 	public ProjectionResource()
@@ -51,20 +57,23 @@ public class ProjectionResource extends BaseResource
 		this.contentDao = daoFactory.getContentDao();
 		this.cinemaHallDao = daoFactory.getCinemaHallDao();
 		this.projectionTypeDao = daoFactory.getProjectionTypeDao();
+		this.seatDao = daoFactory.getSeatDao();
+		this.reservationDao = daoFactory.getReservationDao();
 	}
 	
 	
 	@GET
+	@Path("{content_id}")
 	@Privilege("List")
-	public List<Projection> getAllProjections() 
+	public Object getProjections(@PathParam("content_id") int id) 
 	{ 
-		return projectionDao.findAll(offset, limit);
+		return Response.entity(projectionDao.findAllByContent(id, 0, 99999));
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public Projection createNewProjection(MultivaluedMap<String, String> formParams) 
+	public Object createNewProjection(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "time", "pricePerSite", "content", "cinemahall", "projectiontype") ||
 			!ResourceUtil.isInt(formParams.getFirst("cinemahall")) ||
@@ -99,7 +108,7 @@ public class ProjectionResource extends BaseResource
 			Date time = DaoUtil.string2Date(formParams.getFirst("time"));
 			projection.setTime(time);
 		} catch (ParseException e) {
-			throw new BadRequestException("Bad date format.", "Date should be in dd-MM-yyyy format.");
+			throw new BadRequestException("Bad date format. Date should be in dd-MM-yyyy format.");
 		}
 		
 		BigDecimal price = new BigDecimal(formParams.getFirst("pricePerSeat"));
@@ -109,14 +118,14 @@ public class ProjectionResource extends BaseResource
 		projection.setCinemaHall(cinemaHall);
 		projection.setProjectionType(projectionType);
 		
-		return projection;	
+		return Response.redirect(this, projection.getId());	
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateProjection(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	public Object updateProjection(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
 		Projection projection = projectionDao.find(id) ;
 		if (projection == null) {
@@ -130,8 +139,8 @@ public class ProjectionResource extends BaseResource
 				Date time = DaoUtil.string2Date(formParams.getFirst("time"));
 				projection.setTime(DaoUtil.utilDate2SqlDatw(time));
 			} catch (ParseException e) {
-				throw new BadRequestException("Bad date format.", "Date should be in dd-MM-yyyy format.");
-			}		
+				throw new BadRequestException("Bad date format. Date should be in dd-MM-yyyy format.");
+			}
 		}
 
 		if(formParams.getFirst("cinemahall") != null)
@@ -164,7 +173,7 @@ public class ProjectionResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteProjection(@PathParam("id") Integer id) 
+	public Object deleteProjection(@PathParam("id") Integer id) 
 	{
 		Projection projection = projectionDao.find(id);
 		if (projection== null) {
@@ -172,6 +181,48 @@ public class ProjectionResource extends BaseResource
 		}
 		
 		projectionDao.delete(projection);
+		
+		return Response.success();
+	}
+	
+	@GET
+	@Path("{id}/takenseats")
+	public Object getTakenSeats(@PathParam("id") int id) 
+	{		
+		return Response.entity(seatDao.findByProjection(id, 0, 99999));
+	}
+	
+	@POST
+	@Path("{id}/takeseats")
+	@Consumes("application/x-www-form-urlencoded")
+	public Object takeSeats(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	{		
+		Projection p = new Projection();
+		p.setId(id);
+		
+		String seatRow = null;
+		int i = 0;
+		while((seatRow = formParams.getFirst("seats[" + i + "][row]")) != null) {
+
+			int row = Integer.parseInt(seatRow);
+			String seatCol = formParams.getFirst("seats[" + i + "][col]");
+			int col = Integer.parseInt(seatCol);
+			
+			Seat s= new Seat();
+			s.setRow(row);
+			s.setCol(col);
+			Reservation r = new Reservation();
+			
+			r.setUser(getCurrentUser());
+			r.setProjection(p);
+			reservationDao.insert(r);
+			
+			s.setReservation(r);
+			
+			seatDao.insert(s);
+			
+			i++;
+		}
 		
 		return Response.success();
 	}

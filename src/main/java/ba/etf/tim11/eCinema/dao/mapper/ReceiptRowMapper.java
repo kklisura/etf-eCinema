@@ -5,9 +5,10 @@ import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.models.Receipt;
 
+
 public class ReceiptRowMapper implements RowMapper 
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{
@@ -17,9 +18,9 @@ public class ReceiptRowMapper implements RowMapper
 		receipt.setTotalPrice(rs.getBigDecimal(2));
 		receipt.setDiscount(rs.getBigDecimal(3));
 		receipt.setUpdatedAt(rs.getDate(4));
-		receipt.setCretedAt(rs.getDate(5));
+		receipt.setCreatedAt(rs.getDate(5));
 		
 		return receipt;
 	}
-
+	
 }

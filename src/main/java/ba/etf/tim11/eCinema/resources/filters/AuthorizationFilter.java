@@ -3,7 +3,8 @@ package ba.etf.tim11.eCinema.resources.filters;
 import ba.etf.tim11.eCinema.resources.responses.UnauthorizedException;
 import ba.etf.tim11.eCinema.service.LoginService;
 import ba.etf.tim11.eCinema.service.SecurityService;
-import ba.etf.tim11.eCinema.service.impl.ServiceFactory;
+import ba.etf.tim11.eCinema.service.ServiceFactory;
+import ba.etf.tim11.eCinema.service.impl.ServiceFactoryImpl;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
@@ -15,14 +16,19 @@ public class AuthorizationFilter implements ContainerRequestFilter, ResourceFilt
 {
 	private static final String DEFAULT_USERNAME = "joe.public";
 	
-	private static SecurityService securityService = ServiceFactory.getSecurityService();
-	private static LoginService loginService = ServiceFactory.getLoginService();
+	private ServiceFactory serviceFactory;
+	private SecurityService securityService;
+	private LoginService loginService;
 	
 	private String resource, privilege;
 	
 	
 	public AuthorizationFilter(String resource, String privilege)
 	{
+		serviceFactory = ServiceFactoryImpl.getInstance();
+		securityService = serviceFactory.getSecurityService();
+		loginService = serviceFactory.getLoginService();
+		
 		this.resource = resource;
 		this.privilege = privilege;
 	}

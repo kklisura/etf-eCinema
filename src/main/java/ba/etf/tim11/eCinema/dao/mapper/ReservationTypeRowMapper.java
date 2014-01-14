@@ -5,9 +5,10 @@ import java.sql.SQLException;
 
 import ba.etf.tim11.eCinema.models.ReservationType;
 
+
 public class ReservationTypeRowMapper implements RowMapper 
 {
-
+	
 	@Override
 	public Object map(ResultSet rs) throws SQLException 
 	{
@@ -16,9 +17,9 @@ public class ReservationTypeRowMapper implements RowMapper
 		reservationType.setId(rs.getInt(1));
 		reservationType.setType(rs.getString(2));
 		reservationType.setUpdatedAt(rs.getDate(3));
-		reservationType.setCretedAt(rs.getDate(4));
+		reservationType.setCreatedAt(rs.getDate(4));
 		
 		return reservationType;
 	}
-
+	
 }

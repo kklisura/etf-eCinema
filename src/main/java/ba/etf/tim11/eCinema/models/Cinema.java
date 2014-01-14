@@ -2,29 +2,42 @@ package ba.etf.tim11.eCinema.models;
 
 import java.util.Date;
 
+
 public class Cinema
 {
-	int id;
-	Date updatedAt;
-	Date cretedAt;
+	private int id;
+	
+	private String name, address;
+	
+	private Date updatedAt, createdAt;
 
-	public Cinema(int id, Date updatedAt, Date cretedAt) 
-	{
-		this.id = id;
-		this.updatedAt = updatedAt;
-		this.cretedAt = cretedAt;
+	
+	public Cinema()  {
+		
 	}
 	
-	public Cinema() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public int getId() {
 		return id;
 	}
 	
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	public Date getUpdatedAt() {
@@ -35,11 +48,12 @@ public class Cinema
 		this.updatedAt = updatedAt;
 	}
 	
-	public Date getCretedAt() {
-		return cretedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 	
-	public void setCretedAt(Date cretedAt) {
-		this.cretedAt = cretedAt;
+	public void setCreatedAt(Date craetedAt) {
+		this.createdAt = craetedAt;
 	}
+	
 }

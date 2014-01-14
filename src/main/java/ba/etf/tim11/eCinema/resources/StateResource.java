@@ -1,7 +1,5 @@
 package ba.etf.tim11.eCinema.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,14 +10,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
-import ba.etf.tim11.eCinema.dao.DaoFactory;
-import ba.etf.tim11.eCinema.dao.StateDao;
-import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.State;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.resources.responses.BadRequestException;
 import ba.etf.tim11.eCinema.resources.responses.ResourceNotFoundException;
 import ba.etf.tim11.eCinema.resources.responses.Response;
+import ba.etf.tim11.eCinema.service.ServiceFactory;
+import ba.etf.tim11.eCinema.service.StateService;
+import ba.etf.tim11.eCinema.service.impl.ServiceFactoryImpl;
 import ba.etf.tim11.eCinema.utils.ResourceUtil;
 
 
@@ -27,42 +25,40 @@ import ba.etf.tim11.eCinema.utils.ResourceUtil;
 @Produces(MediaType.APPLICATION_JSON)
 public class StateResource extends BaseResource
 {
-	private DaoFactory daoFactory;
-	private StateDao stateDao;
+	private ServiceFactory serviceFactory;
+	private StateService stateService;
 	
 	
 	public StateResource()
 	{
-		this.daoFactory = JDBCDaoFactory.getInstance();
-		this.stateDao = daoFactory.getStateDao();
+		serviceFactory = ServiceFactoryImpl.getInstance();
+		stateService = serviceFactory.getStateService();
 	}
 	
 	
 	@GET
 	@Privilege("List")
-	public List<State> getAllStates() 
-	{
-		return stateDao.findAll(offset, limit);
+	public Object getAllStates() {
+		return Response.entity(stateService.findAll(offset, limit));
 	}
 	
 	@GET
 	@Path("{id}")
 	@Privilege("Read")
-	public State getState(@PathParam("id") int id) 
+	public Object getState(@PathParam("id") int id) 
 	{
-		State state = stateDao.find(id);
-		
+		State state = stateService.find(id);
 		if (state == null) {
 			throw new ResourceNotFoundException("State not found.");
 		}
 		
-		return state;
+		return Response.entity(state);
 	}
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Create")
-	public State createNewState(MultivaluedMap<String, String> formParams) 
+	public Object createNewState(MultivaluedMap<String, String> formParams) 
 	{
 		if (!ResourceUtil.hasAll(formParams, "name", "shortName")) {
 			throw new BadRequestException("You are missing name and/or shortName field.");
@@ -73,18 +69,18 @@ public class StateResource extends BaseResource
 		state.setName(formParams.getFirst("name"));
 		state.setShortName(formParams.getFirst("shortName"));
 		
-		stateDao.insert(state);
+		stateService.insert(state);
 		
-		return state;
+		return Response.redirect(this, state.getId());
 	}
 	
 	@POST
 	@Path("{id}")
 	@Consumes("application/x-www-form-urlencoded")
 	@Privilege("Update")
-	public Response updateState(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
+	public Object updateState(@PathParam("id") int id, MultivaluedMap<String, String> formParams) 
 	{
-		State state = stateDao.find(id);
+		State state = stateService.find(id);
 		if (state == null) {
 			throw new ResourceNotFoundException("State not found.");
 		}
@@ -94,7 +90,7 @@ public class StateResource extends BaseResource
 		if (formParams.getFirst("shortName") != null)
 			state.setShortName(formParams.getFirst("shortName"));
 		
-		stateDao.update(state);
+		stateService.update(state);
 		
 		return Response.success();
 	}
@@ -102,15 +98,14 @@ public class StateResource extends BaseResource
 	@DELETE
 	@Path("{id}")
 	@Privilege("Delete")
-	public Response deleteState(@PathParam("id") int id) 
+	public Object deleteState(@PathParam("id") int id) 
 	{
-		State state = stateDao.find(id);
-		
+		State state = stateService.find(id);
 		if (state == null) {
 			throw new ResourceNotFoundException("State not found.");
 		}
 		
-		stateDao.delete(state);
+		stateService.delete(state);
 		
 		return Response.success();
 	}

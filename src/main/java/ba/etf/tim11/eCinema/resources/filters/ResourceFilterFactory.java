@@ -11,7 +11,6 @@ import ba.etf.tim11.eCinema.dao.impl.JDBCDaoFactory;
 import ba.etf.tim11.eCinema.models.Resource;
 import ba.etf.tim11.eCinema.resources.privileges.Privilege;
 import ba.etf.tim11.eCinema.service.SecurityService;
-import ba.etf.tim11.eCinema.service.impl.ServiceFactory;
 
 import com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory;
 import com.sun.jersey.api.model.AbstractMethod;
@@ -21,7 +20,7 @@ import com.sun.jersey.spi.container.ResourceFilter;
 @Provider
 public class ResourceFilterFactory extends RolesAllowedResourceFilterFactory 
 {
-	private static SecurityService securityService = ServiceFactory.getSecurityService();
+	//private static SecurityService securityService = ServiceFactory.getSecurityService();
 	
 	private ResourceDao resourceDao;
 	
@@ -48,7 +47,7 @@ public class ResourceFilterFactory extends RolesAllowedResourceFilterFactory
         	String privilege = am.getAnnotation(Privilege.class).value();
         	
         	registerResource(resource);
-        	securityService.registerPrivilegeType(privilege);
+        	//securityService.registerPrivilegeType(privilege);
         	
         	filters = new ArrayList<ResourceFilter>(filters);
           	filters.add(0, new AuthorizationFilter(resource, privilege));
@@ -65,8 +64,6 @@ public class ResourceFilterFactory extends RolesAllowedResourceFilterFactory
     		Resource resource = new Resource();
     		
     		resource.setName(capitalize(name));
-    		// TODO(kklisura): Add description here.
-    		resource.setDescription("");
     		
     		resourceDao.insert(resource);
     	}
