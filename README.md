@@ -3,6 +3,12 @@ etf-eCinema
 
 Academic project on Faculty of Electrical Engineering, Sarajevo 
 
+Team:
+  - Kenan Klisura https://github.com/kklisura
+  - Naida Huseinovic https://github.com/nhuseinovic
+  - Maida Kapic https://github.com/maidakapic
+  - Tarik Kaldzija https://github.com/ttare
+
 Goal: Develop netflix-like system with the following features:
   - content streaming
   - cinema seat reaservation
@@ -19,6 +25,7 @@ Running:
 
 Frontpage image:
 ![Frontpage image](/images/front.png)
+
 
 LICENSE
 -------
